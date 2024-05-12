@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { VersioningType } from '@nestjs/common';
+import { VersioningType, ValidationPipe } from '@nestjs/common';
 import * as compression from 'compression';
 import { config } from 'dotenv';
 import helmet from 'helmet';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 config();
 
@@ -11,9 +12,29 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const config = new DocumentBuilder()
+    .setTitle('Commerse Galaxy Api')
+    .setDescription('The Commerse Galaxy Api description')
+    .setVersion('1.0')
+    .addTag('planets')
+    .addTag('users')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
   app.enableVersioning({
     type: VersioningType.URI,
   });
+
+  app.useGlobalPipes(new ValidationPipe({
+    enableDebugMessages: true,
+    forbidUnknownValues: true,
+    whitelist: true,
+    validationError: {
+      target: true,
+      value: true,
+    },
+  }));
 
   app.use(compression());
 

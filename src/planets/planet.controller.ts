@@ -9,9 +9,12 @@ import {
   import { InjectRepository } from '@nestjs/typeorm'
   import { MongoRepository } from 'typeorm'
   import { ObjectId } from 'mongodb'
+  import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
   import { Planet } from './planet.entity'
+  import { NewPlanetDto } from './new-planet.dto'
   
+  @ApiTags('planets')
   @Controller('planets')
   export class PlanetController {
     constructor(
@@ -20,17 +23,21 @@ import {
     ) {}
   
     @Get()
+    @ApiOkResponse({ type: [Planet] })
     public async getAllPlanets(): Promise<Planet[]> {
       return this.planetRespository.find();
     }
 
     @Get(':id')
+    @ApiOkResponse({ type: Planet })
     public async getPlanetById(@Param('id') id: string): Promise<Planet> {
         return this.planetRespository.findOneBy({ _id: ObjectId.createFromHexString(id) });
     }
   
     @Post()
-    public async createPlanet(@Body() planet: Partial<Planet>): Promise<Planet> {
+    @ApiOkResponse({ type: Planet })
+    @ApiBadRequestResponse()
+    public async createPlanet(@Body() planet: NewPlanetDto): Promise<Planet> {
       if (!planet) {
         throw new BadRequestException('request invalid');
       }
