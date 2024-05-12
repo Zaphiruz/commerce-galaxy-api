@@ -2,6 +2,7 @@ import {
     BadRequestException,
     Body,
     Controller,
+    Delete,
     Get,
     InternalServerErrorException,
     Param,
@@ -60,6 +61,18 @@ export class UserController {
             return new User(doc.value);
         } else {
             throw new InternalServerErrorException('no user updated')
+        }
+    }
+
+    @Delete(':id')
+    @ApiOkResponse({ type: User })
+    @ApiInternalServerErrorResponse()
+    public async deletePlanet(@Param('id') id: string): Promise<User> {
+        let doc = await this.UserRespository.findOneAndDelete({ _id: ObjectId.createFromHexString(id) });
+        if (doc.value) {
+            return new User(doc.value);
+        } else {
+            throw new InternalServerErrorException('no users deleted')
         }
     }
 }

@@ -2,6 +2,7 @@ import {
     BadRequestException,
     Body,
     Controller,
+    Delete,
     Get,
     InternalServerErrorException,
     Param,
@@ -60,6 +61,18 @@ export class PlanetController {
             return new Planet(doc.value);
         } else {
             throw new InternalServerErrorException('no planet updated')
+        }
+    }
+
+    @Delete(':id')
+    @ApiOkResponse({ type: Planet })
+    @ApiInternalServerErrorResponse()
+    public async deletePlanet(@Param('id') id: string): Promise<Planet> {
+        let doc = await this.planetRespository.findOneAndDelete({ _id: ObjectId.createFromHexString(id) });
+        if (doc.value) {
+            return new Planet(doc.value);
+        } else {
+            throw new InternalServerErrorException('no planet deleted')
         }
     }
 }
