@@ -12,7 +12,7 @@ import {
 
   import { Planet } from './planet.entity'
   
-  @Controller('planet')
+  @Controller('planets')
   export class PlanetController {
     constructor(
       @InjectRepository(Planet)

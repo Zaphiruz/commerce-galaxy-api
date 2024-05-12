@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { AppController } from './app.controller';
 import { PlanetController } from './planets/planet.controller';
 import { Planet } from './planets/planet.entity';
+import { UserController } from './users/user.controller';
+import { User } from './users/user.entity';
 import { AppService } from './app.service';
 
 @Module({
@@ -17,9 +19,9 @@ import { AppService } from './app.service';
       useUnifiedTopology: true,
       useNewUrlParser: true,
     }),
-    TypeOrmModule.forFeature([Planet]),
+    TypeOrmModule.forFeature([Planet, User]),
   ],
-  controllers: [AppController, PlanetController],
+  controllers: [AppController, PlanetController, UserController],
   providers: [AppService],
 })
 export class AppModule { }
