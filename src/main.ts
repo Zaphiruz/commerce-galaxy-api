@@ -40,7 +40,7 @@ async function bootstrap() {
 
   app.enableCors({
     methods: ['GET', 'POST', 'PUT', 'DEL'],
-    origin: ['http://localhost:3000', 'http://localhost:8080']
+    origin: ['https://*.commercegalaxy.online', 'https://commercegalaxy.online', 'http://localhost:3000', 'http://localhost:8080']
   });
 
   await app.listen(8081);
