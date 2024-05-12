@@ -1,6 +1,8 @@
 services:
   server:
     build:
+      tags:
+        - registry.zaphiruz.me/server/commerce-galaxy-api-server:latest
       context: .
     environment:
       NODE_ENV: production
