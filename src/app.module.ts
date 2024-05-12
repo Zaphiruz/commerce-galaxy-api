@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { AppController } from './app.controller';
+import { PlanetController } from './planets/planet.controller';
+import { Planet } from './planets/planet.entity';
 import { AppService } from './app.service';
 
 @Module({
@@ -15,9 +17,9 @@ import { AppService } from './app.service';
       useUnifiedTopology: true,
       useNewUrlParser: true,
     }),
-    TypeOrmModule.forFeature([]),
+    TypeOrmModule.forFeature([Planet]),
   ],
-  controllers: [AppController],
+  controllers: [AppController, PlanetController],
   providers: [AppService],
 })
 export class AppModule { }
