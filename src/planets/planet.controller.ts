@@ -17,6 +17,7 @@ import { ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiOkResponse, A
 import { Planet } from './planet.entity'
 import { NewPlanetDto } from './new-planet.dto'
 import { UpdatePlanetDto } from './update-planet.dto'
+import { ObjectIdDto } from 'src/common/object-id.dto'
 
 @ApiTags('planets')
 @Controller('planets')
@@ -34,8 +35,8 @@ export class PlanetController {
 
     @Get(':id')
     @ApiOkResponse({ type: Planet })
-    public async getPlanetById(@Param('id') id: string): Promise<Planet> {
-        return this.planetRespository.findOneBy({ _id: ObjectId.createFromHexString(id) });
+    public async getPlanetById(@Param() objectIdDto: ObjectIdDto): Promise<Planet> {
+        return this.planetRespository.findOneBy({ _id: ObjectId.createFromHexString(objectIdDto.id) });
     }
 
     @Post()
@@ -52,11 +53,11 @@ export class PlanetController {
     @ApiOkResponse({ type: Planet })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param('id') id: string, @Body() updatePlanetDto: UpdatePlanetDto): Promise<Planet> {
+    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updatePlanetDto: UpdatePlanetDto): Promise<Planet> {
         if (!updatePlanetDto) {
             throw new BadRequestException('request invalid');
         }
-        let doc = await this.planetRespository.findOneAndUpdate({ _id: ObjectId.createFromHexString(id) }, { "$set": updatePlanetDto }, { returnDocument: 'after' });
+        let doc = await this.planetRespository.findOneAndUpdate({ _id: ObjectId.createFromHexString(objectIdDto.id) }, { "$set": updatePlanetDto }, { returnDocument: 'after' });
         if (doc.value) {
             return new Planet(doc.value);
         } else {
@@ -67,8 +68,8 @@ export class PlanetController {
     @Delete(':id')
     @ApiOkResponse({ type: Planet })
     @ApiInternalServerErrorResponse()
-    public async deletePlanet(@Param('id') id: string): Promise<Planet> {
-        let doc = await this.planetRespository.findOneAndDelete({ _id: ObjectId.createFromHexString(id) });
+    public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<Planet> {
+        let doc = await this.planetRespository.findOneAndDelete({ _id: ObjectId.createFromHexString(objectIdDto.id) });
         if (doc.value) {
             return new Planet(doc.value);
         } else {
