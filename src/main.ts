@@ -13,8 +13,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Commerse Galaxy Api')
-    .setDescription('The Commerse Galaxy Api description')
+    .setTitle('Commerce Galaxy Api')
+    .setDescription('The Commerce Galaxy Api description')
     .setVersion('1.0')
     .addTag('planets')
     .addTag('users')
