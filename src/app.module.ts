@@ -8,6 +8,8 @@ import { UserController } from './users/user.controller';
 import { User } from './users/user.entity';
 import { ResourceController } from './resources/resource.controller';
 import { Resource } from './resources/resource.entity';
+import { BaseController } from './bases/base.controller';
+import { Base } from './bases/base.entity';
 import { AppService } from './app.service';
 
 @Module({
@@ -21,9 +23,9 @@ import { AppService } from './app.service';
       useUnifiedTopology: true,
       useNewUrlParser: true,
     }),
-    TypeOrmModule.forFeature([Planet, User, Resource]),
+    TypeOrmModule.forFeature([Planet, User, Resource, Base]),
   ],
-  controllers: [AppController, PlanetController, UserController, ResourceController],
+  controllers: [AppController, PlanetController, UserController, ResourceController, BaseController],
   providers: [AppService],
 })
 export class AppModule { }

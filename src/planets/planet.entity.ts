@@ -1,6 +1,7 @@
-import { ObjectId, Entity, ObjectIdColumn, Column } from 'typeorm'
+import { ObjectId, Entity, ObjectIdColumn, Column, OneToMany } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, Length } from 'class-validator';
+import { Base } from '../bases/base.entity';
 
 @Entity()
 export class Planet {
@@ -13,6 +14,9 @@ export class Planet {
     @IsNotEmpty()
     @Column()
     name: string;
+
+    @OneToMany(type => Base, base => base.planet)
+    bases: Base[];
 
     constructor(planet?: Partial<Planet>) {
         Object.assign(this, planet)
