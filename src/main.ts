@@ -4,9 +4,9 @@ import * as compression from 'compression';
 import { config } from 'dotenv';
 import helmet from 'helmet';
 
-import { AppModule } from './app.module';
-
 config();
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -8,15 +8,10 @@ import { AppService } from './app.service';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: `mongodb://cluster0.pgvfszf.mongodb.net`,
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASS,
+      url: `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASS}@cluster0.pgvfszf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
       database: process.env.DATABASE_NAME,
-      appname: 'Cluster0',
-      w: 'majority',
-      retryWrites: true,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      ssl: false,
+      ssl: true,
       useUnifiedTopology: true,
       useNewUrlParser: true,
     }),
