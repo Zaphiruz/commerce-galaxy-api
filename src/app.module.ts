@@ -6,6 +6,8 @@ import { PlanetController } from './planets/planet.controller';
 import { Planet } from './planets/planet.entity';
 import { UserController } from './users/user.controller';
 import { User } from './users/user.entity';
+import { ResourceController } from './resources/resource.controller';
+import { Resource } from './resources/resource.entity';
 import { AppService } from './app.service';
 
 @Module({
@@ -19,9 +21,9 @@ import { AppService } from './app.service';
       useUnifiedTopology: true,
       useNewUrlParser: true,
     }),
-    TypeOrmModule.forFeature([Planet, User]),
+    TypeOrmModule.forFeature([Planet, User, Resource]),
   ],
-  controllers: [AppController, PlanetController, UserController],
+  controllers: [AppController, PlanetController, UserController, ResourceController],
   providers: [AppService],
 })
 export class AppModule { }
