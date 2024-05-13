@@ -2,9 +2,9 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Base } from './base.entity';
-import { NewBaseDto } from './new-base.dto';
-import { UpdateBaseDto } from './update-base.dto';
+import { Base } from './schemas/base.schema';
+import { NewBaseDto } from './dtos/new-base.dto';
+import { UpdateBaseDto } from './dtos/update-base.dto';
 
 @Injectable()
 export class BaseService {
@@ -20,7 +20,11 @@ export class BaseService {
   }
 
   async findOne(id: string): Promise<Base> {
-    return this.baseModel.findById(id).exec();
+    return this.baseModel
+      .findById(id)
+      .populate('planet')
+      .populate('user')
+      .exec();
   }
 
   async update(id: string, updateBaseDto: UpdateBaseDto): Promise<Base> {

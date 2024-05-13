@@ -1,9 +1,8 @@
-import { IsHexadecimal, IsNotEmpty, Length } from "class-validator";
+import { IsMongoId, IsNotEmpty } from "class-validator";
 
 
 export class ObjectIdDto {
     @IsNotEmpty()
-    @IsHexadecimal()
-    @Length(24, 24)
+    @IsMongoId()
     id: string;
 }

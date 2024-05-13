@@ -3,7 +3,7 @@ import { InferSubjects, AbilityBuilder, MongoAbility, ExtractSubjectType, Abilit
 
 import { ActionEnum } from "./action.enum";
 import { User } from "../users/schemas/user.schema";
-import { Base } from "../bases/base.entity";
+import { Base } from "../bases/schemas/base.schema";
 import { Resource } from "../resources/schemas/resource.schema";
 import { Planet } from "../planets/schemas/planet.schema";
 
@@ -29,7 +29,7 @@ export class CaslAbilityFactory {
     can(ActionEnum.Update, User, { _id: user._id });
 
     // BASE OVERRIDES
-    can(ActionEnum.Update, Base, { user: user._id });
+    can(ActionEnum.Manage, Base, { user: user._id });
     // cannot(ActionEnum.Delete, Base, { isPublished: true }); cannot delete base if it is not empty
 
     return build({
