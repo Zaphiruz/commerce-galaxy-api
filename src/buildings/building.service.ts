@@ -2,9 +2,9 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Building } from './building.entity';
-import { NewBuildingDto } from './new-building.dto';
-import { UpdateBuildingDto } from './update-building.dto';
+import { Building } from './schemas/building.entity';
+import { NewBuildingDto } from './dtos/new-building.dto';
+import { UpdateBuildingDto } from './dtos/update-building.dto';
 
 @Injectable()
 export class BuildingService {
