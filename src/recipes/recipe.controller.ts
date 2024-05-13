@@ -10,7 +10,7 @@ import {
     Put,
     UseGuards,
 } from '@nestjs/common'
-import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger'
+import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
 import { Recipe } from './schemas/recipe.schema'
 import { NewRecipeDto } from './dtos/new-recipe.dto'
@@ -25,6 +25,9 @@ import { AppAbility } from 'src/casl/casl-ability.factory'
 
 @UseGuards(AuthGuard, PoliciesGuard)
 @ApiTags('recipes')
+@ApiBearerAuth()
+@ApiUnauthorizedResponse()
+@ApiForbiddenResponse()
 @Controller('recipes')
 export class RecipeController {
     constructor(

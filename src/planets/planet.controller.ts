@@ -10,7 +10,7 @@ import {
     Put,
     UseGuards,
 } from '@nestjs/common'
-import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger'
+import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
 import { Planet } from './schemas/planet.schema'
 import { NewPlanetDto } from './dtos/new-planet.dto'
@@ -25,6 +25,9 @@ import { AppAbility } from 'src/casl/casl-ability.factory'
 
 @UseGuards(AuthGuard, PoliciesGuard)
 @ApiTags('planets')
+@ApiBearerAuth()
+@ApiUnauthorizedResponse()
+@ApiForbiddenResponse()
 @Controller('planets')
 export class PlanetController {
     constructor(

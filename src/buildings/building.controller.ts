@@ -10,7 +10,7 @@ import {
     Put,
     UseGuards,
 } from '@nestjs/common'
-import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger'
+import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
 import { Building } from './schemas/building.entity'
 import { NewBuildingDto } from './dtos/new-building.dto'
@@ -25,6 +25,9 @@ import { AppAbility } from 'src/casl/casl-ability.factory'
 
 @UseGuards(AuthGuard, PoliciesGuard)
 @ApiTags('buildings')
+@ApiBearerAuth()
+@ApiUnauthorizedResponse()
+@ApiForbiddenResponse()
 @Controller('buildings')
 export class BuildingController {
     constructor(

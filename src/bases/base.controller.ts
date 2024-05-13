@@ -4,13 +4,12 @@ import {
     Controller,
     Delete,
     Get,
-    InternalServerErrorException,
     Param,
     Post,
     Put,
     UseGuards,
 } from '@nestjs/common'
-import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger'
+import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
 import { Base } from './schemas/base.schema'
 import { NewBaseDto } from './dtos/new-base.dto'
@@ -25,6 +24,9 @@ import { AppAbility } from 'src/casl/casl-ability.factory'
 
 @UseGuards(AuthGuard, PoliciesGuard)
 @ApiTags('bases')
+@ApiBearerAuth()
+@ApiUnauthorizedResponse()
+@ApiForbiddenResponse()
 @Controller('bases')
 export class BaseController {
     constructor(

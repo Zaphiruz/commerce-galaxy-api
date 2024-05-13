@@ -10,7 +10,7 @@ import {
     Put,
     UseGuards,
 } from '@nestjs/common'
-import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger'
+import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
 import { Resource } from './schemas/resource.schema'
 import { NewResourceDto } from './dtos/new-resource.dto'
@@ -25,6 +25,9 @@ import { AppAbility } from 'src/casl/casl-ability.factory'
 
 @UseGuards(AuthGuard, PoliciesGuard)
 @ApiTags('resources')
+@ApiBearerAuth()
+@ApiUnauthorizedResponse()
+@ApiForbiddenResponse()
 @Controller('resources')
 export class ResourceController {
     constructor(
