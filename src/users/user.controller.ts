@@ -13,7 +13,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 
 import { User } from './user.entity'
 import { NewUserDto } from './new-user.dto'
-import { UpdaetUserDto } from './update-user.dto'
+import { UpdateUserDto } from './update-user.dto'
 import { ObjectIdDto } from 'src/common/object-id.dto'
 import { UserService } from './user.service'
 
@@ -50,7 +50,7 @@ export class UserController {
     @ApiOkResponse({ type: User })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updateUserDto: UpdaetUserDto): Promise<User> {
+    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updateUserDto: UpdateUserDto): Promise<User> {
         if (!updateUserDto) {
             throw new BadRequestException('request invalid');
         }

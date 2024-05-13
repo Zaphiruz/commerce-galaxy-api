@@ -1,24 +1,19 @@
-// import { ObjectId, Entity, ObjectIdColumn, Column, OneToMany } from 'typeorm'
-// import { ApiProperty } from '@nestjs/swagger';
-// import { IsNotEmpty, Length } from 'class-validator';
-// import { Base } from '../bases/base.entity';
+import { IsNotEmpty } from 'class-validator';
 
-// @Entity()
-// export class Planet {
-//     @ObjectIdColumn()
-//     @IsNotEmpty()
-//     @Length(24, 24)
-//     @ApiProperty({ type: String })
-//     id: ObjectId;
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
-//     @IsNotEmpty()
-//     @Column()
-//     name: string;
+export type PlanetDocument = HydratedDocument<Planet>;
 
-//     @OneToMany(type => Base, base => base.planet)
-//     bases: Base[];
+@Schema()
+export class Planet {
+    @IsNotEmpty()
+    @Prop()
+    name: string;
 
-//     constructor(planet?: Partial<Planet>) {
-//         Object.assign(this, planet)
-//     }
-// }
+    constructor(planet?: Partial<Planet>) {
+        Object.assign(this, planet)
+    }
+}
+
+export const PlanetSchema = SchemaFactory.createForClass(Planet);

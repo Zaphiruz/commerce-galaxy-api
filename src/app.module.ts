@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { AppController } from './app.controller';
-// import { PlanetController } from './planets/planet.controller';
+import { PlanetsModule } from './planets/planet.module';
 import { UsersModule } from './users/user.module';
 // import { ResourceController } from './resources/resource.controller';
 // import { BaseController } from './bases/base.controller';
@@ -14,6 +14,7 @@ import { AppService } from './app.service';
       dbName: process.env.DATABASE_NAME,
     }),
     UsersModule,
+    PlanetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
