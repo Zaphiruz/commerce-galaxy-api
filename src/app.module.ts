@@ -7,6 +7,7 @@ import { UsersModule } from './users/user.module';
 import { ResourcesModule } from './resources/resource.module';
 import { BasesModule } from './bases/base.module';
 import { BuildingsModule } from './buildings/building.module';
+import { RecipeModule } from './recipes/recipe.module';
 import { WorkersModule } from './workers/worker.module';
 import { SystemsModule } from './systems/system.module';
 import { MarketsModule } from './markets/market.module';
@@ -35,8 +36,10 @@ import { NotesModule } from './notes/note.module';
     ShipsModule,
     StoragesModule,
     NotesModule,
+    RecipeModule,
   ],
   controllers: [],
   providers: [],
+  exports: [],
 })
 export class AppModule { }

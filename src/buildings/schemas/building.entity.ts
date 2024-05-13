@@ -1,25 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsMongoId, IsNotEmpty, Length, isNotEmpty } from 'class-validator';
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-//import * as mongoose from 'mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { BuildingTypeEnum } from 'src/enums/building-type.enum';
+import { BuildingTypeEnum } from '../building-type.enum'
+import { Transform } from 'class-transformer';
 
 export type BuildingDocument = HydratedDocument<Building>;
 
 @Schema()
 export class Building {
-    @IsNotEmpty()
-    @Prop()
+    @Transform(({ value }) => value.toHexString())
+    @ApiProperty({ type: String })
+    _id: Types.ObjectId;
+
+    @Prop({ required: true })
     name: string;
 
-    @IsNotEmpty()
-    @Prop()
+    @Prop({ required: true })
     size: number;
 
-    @IsNotEmpty()
-    @Prop()
+    @Prop({ required: true })
     type: BuildingTypeEnum;
 
     constructor(building?: Partial<Building>) {

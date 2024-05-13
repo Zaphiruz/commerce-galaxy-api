@@ -8,16 +8,26 @@ import {
     Param,
     Post,
     Put,
+    UseGuards,
 } from '@nestjs/common'
-import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger'
+import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
-import { Planet } from './planet.entity'
-import { NewPlanetDto } from './new-planet.dto'
-import { UpdatePlanetDto } from './update-planet.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { Planet } from './schemas/planet.schema'
+import { NewPlanetDto } from './dtos/new-planet.dto'
+import { UpdatePlanetDto } from './dtos/update-planet.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { PlanetService } from './planet.service'
+import { AuthGuard } from '../auth/auth.guard'
+import { PoliciesGuard } from '../casl/policies.guard'
+import { CheckPolicies } from 'src/casl/policies.decorator'
+import { ActionEnum } from 'src/casl/action.enum'
+import { AppAbility } from 'src/casl/casl-ability.factory'
 
+@UseGuards(AuthGuard, PoliciesGuard)
 @ApiTags('planets')
+@ApiBearerAuth()
+@ApiUnauthorizedResponse()
+@ApiForbiddenResponse()
 @Controller('planets')
 export class PlanetController {
     constructor(
@@ -25,18 +35,21 @@ export class PlanetController {
     ) { }
 
     @Get()
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Planet))
     @ApiOkResponse({ type: [Planet] })
     public async getAllPlanets(): Promise<Planet[]> {
         return this.planetService.findAll();
     }
 
     @Get(':id')
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Planet))
     @ApiOkResponse({ type: Planet })
     public async getPlanetById(@Param() objectIdDto: ObjectIdDto): Promise<Planet> {
         return this.planetService.findOne(objectIdDto.id);
     }
 
     @Post()
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Create, Planet))
     @ApiOkResponse({ type: Planet })
     @ApiBadRequestResponse()
     public async createPlanet(@Body() newPlanetDto: NewPlanetDto): Promise<Planet> {
@@ -47,6 +60,7 @@ export class PlanetController {
     }
 
     @Put(':id')
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Update, Planet))
     @ApiOkResponse({ type: Planet })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
@@ -58,6 +72,7 @@ export class PlanetController {
     }
 
     @Delete(':id')
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Delete, Planet))
     @ApiOkResponse({ type: Planet })
     @ApiInternalServerErrorResponse()
     public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<Planet> {

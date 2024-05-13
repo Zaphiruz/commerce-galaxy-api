@@ -1,13 +1,16 @@
-import { IsNotEmpty } from 'class-validator';
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import { HydratedDocument, Types } from 'mongoose';
 
 export type PlanetDocument = HydratedDocument<Planet>;
 
 @Schema()
 export class Planet {
-    @IsNotEmpty()
+    @Transform(({ value }) => value.toHexString())
+    @ApiProperty({ type: String })
+    _id: Types.ObjectId;
+
     @Prop()
     name: string;
 

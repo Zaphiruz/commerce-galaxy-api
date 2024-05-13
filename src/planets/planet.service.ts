@@ -2,9 +2,9 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Planet } from './planet.entity';
-import { NewPlanetDto } from './new-planet.dto';
-import { UpdatePlanetDto } from './update-planet.dto';
+import { Planet } from './schemas/planet.schema';
+import { NewPlanetDto } from './dtos/new-planet.dto';
+import { UpdatePlanetDto } from './dtos/update-planet.dto';
 
 @Injectable()
 export class PlanetService {
