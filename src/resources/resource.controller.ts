@@ -15,7 +15,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Resource } from './schemas/resource.schema'
 import { NewResourceDto } from './dtos/new-resource.dto'
 import { UpdateResourceDto } from './dtos/update-resource.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { ResourceService } from './resource.service'
 import { AuthGuard } from '../auth/auth.guard'
 import { PoliciesGuard } from 'src/casl/policies.guard'

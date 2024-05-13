@@ -15,7 +15,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { User } from './schemas/user.schema'
 import { NewUserDto } from './dtos/new-user.dto'
 import { UpdateUserDto } from './dtos/update-user.dto'
-import { ObjectIdDto } from '../common/object-id.dto'
+import { ObjectIdDto } from '../common/dtos/object-id.dto'
 import { UserService } from './user.service'
 import { AuthGuard } from '../auth/auth.guard'
 import { PoliciesGuard } from '../casl/policies.guard'

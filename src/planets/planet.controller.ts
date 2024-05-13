@@ -15,7 +15,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Planet } from './schemas/planet.schema'
 import { NewPlanetDto } from './dtos/new-planet.dto'
 import { UpdatePlanetDto } from './dtos/update-planet.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { PlanetService } from './planet.service'
 import { AuthGuard } from '../auth/auth.guard'
 import { PoliciesGuard } from '../casl/policies.guard'

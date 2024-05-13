@@ -14,7 +14,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Base } from './base.entity'
 import { NewBaseDto } from './new-base.dto'
 import { UpdateBaseDto } from './update-base.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { BaseService } from './base.service'
 
 @ApiTags('bases')

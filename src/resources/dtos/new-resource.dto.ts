@@ -1,6 +1,6 @@
 import { IsEnum, IsNotEmpty, IsOptional } from "class-validator";
 
-import { ResourceTypeEnum } from "src/enums/resource-type.enum";
+import { ResourceTypeEnum } from "src/resources/resource-type.enum";
 
 export class NewResourceDto {
     @IsNotEmpty()
