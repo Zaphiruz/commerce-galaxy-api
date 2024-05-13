@@ -12,7 +12,8 @@ export class UserService {
 
   async create(newUserDto: NewUserDto): Promise<User> {
     const createdCat = new this.userModel(newUserDto);
-    return createdCat.save();
+    let doc = await createdCat.save();
+    return this.findOne(doc._id.toHexString()); // TODO refactor? did this to hide password
   }
 
   async findAll(): Promise<User[]> {
@@ -29,5 +30,9 @@ export class UserService {
 
   async delete(id: string): Promise<User> {
     return this.userModel.findByIdAndDelete(id);
+  }
+
+  async findByUsername(username: string) {
+    return this.userModel.findOne({ username });
   }
 }

@@ -43,6 +43,9 @@ export class UserController {
         if (!newUserDto) {
             throw new BadRequestException('request invalid');
         }
+        if (await this.userService.findByUsername(newUserDto.username)) {
+            throw new BadRequestException('username in use');
+        }
         return this.userService.create(newUserDto);
     }
 
