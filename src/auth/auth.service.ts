@@ -3,14 +3,16 @@ const bcrypt = require('bcrypt');
 import { JwtService } from '@nestjs/jwt';
 
 import { UserService } from 'src/users/user.service';
+import { LoginRequestDto } from './dtos/login.request.dto';
+import { LoginResponseDto } from './dtos/login.response.dto';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
 
-  async signIn(username: string, pass: string): Promise<any> {
-    const user = await this.userService.findByUsername(username);
-    const validPass = !!user && await this.validatePassword(pass, user.password) || false;
+  async login(requestData: LoginRequestDto): Promise<LoginResponseDto> {
+    const user = await this.userService.findByUsername(requestData.username);
+    const validPass = !!user && await this.validatePassword(requestData.password, user.password) || false;
     if (!validPass) {
       throw new UnauthorizedException();
     }
