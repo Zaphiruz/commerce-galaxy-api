@@ -2,9 +2,9 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Resource } from './resource.entity';
-import { NewResourceDto } from './new-resource.dto';
-import { UpdateResourceDto } from './update-resource.dto';
+import { Resource } from './schemas/resource.schema';
+import { NewResourceDto } from './dtos/new-resource.dto';
+import { UpdateResourceDto } from './dtos/update-resource.dto';
 
 @Injectable()
 export class ResourceService {

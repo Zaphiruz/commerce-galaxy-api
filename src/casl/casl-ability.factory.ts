@@ -4,9 +4,10 @@ import { InferSubjects, AbilityBuilder, MongoAbility, ExtractSubjectType, Abilit
 import { ActionEnum } from "./action.enum";
 import { User } from "../users/schemas/user.schema";
 import { Base } from "../bases/base.entity";
+import { Resource } from "../resources/schemas/resource.schema";
 
 
-type Subjects = InferSubjects<typeof Base | typeof User> | 'all';
+type Subjects = InferSubjects<typeof Base | typeof User | typeof Resource> | 'all';
 
 export type AppAbility = MongoAbility<[ActionEnum, Subjects]>;
 
