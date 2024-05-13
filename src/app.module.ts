@@ -5,6 +5,7 @@ import { PlanetsModule } from './planets/planet.module';
 import { UsersModule } from './users/user.module';
 import { ResourcesModule } from './resources/resource.module';
 import { BasesModule } from './bases/base.module';
+import { BuildingsModule } from './buildings/building.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { BasesModule } from './bases/base.module';
     PlanetsModule,
     BasesModule,
     ResourcesModule,
+    BuildingsModule,
   ],
   controllers: [],
   providers: [],
