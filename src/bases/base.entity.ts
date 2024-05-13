@@ -1,42 +1,41 @@
-// import { Column, ObjectId, Entity, ObjectIdColumn, ManyToOne, JoinColumn } from 'typeorm'
-// import { ApiProperty } from '@nestjs/swagger';
-// import { IsNotEmpty, Length, isNotEmpty } from 'class-validator';
-// import { Planet } from '../planets/planet.entity';
-// import { User } from '../users/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsMongoId, IsNotEmpty, Length, isNotEmpty } from 'class-validator';
 
-// @Entity()
-// export class Base {
-//     @ObjectIdColumn()
-//     @IsNotEmpty()
-//     @Length(24, 24)
-//     @ApiProperty({ type: String })
-//     id: ObjectId;
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+//import * as mongoose from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 
-//     @IsNotEmpty()
-//     @Column()
-//     name: string;
+export type BaseDocument = HydratedDocument<Base>;
 
-//     @IsNotEmpty()
-//     @Column()
-//     size: number;
+@Schema()
+export class Base {
+    @IsNotEmpty()
+    @Prop()
+    name: string;
 
-//     @IsNotEmpty()
-//     @Column({name: 'planet_id'})
-//     planet_id: string;
+    @IsNotEmpty()
+    @Prop()
+    size: number;
 
-//     @IsNotEmpty()
-//     @Column({name: 'owner_id'})
-//     owner_id: string;
+    // @IsNotEmpty()
+    // @Prop({name: 'planet_id'})
+    // planet_id: string;
 
-//     @ManyToOne(() => Planet, (planet) => planet.bases)
-//     @JoinColumn({ name: 'planet_id'})
-//     planet: Planet;
+    // @IsNotEmpty()
+    // @Prop({name: 'owner_id'})
+    // owner_id: string;
 
-//     @ManyToOne(() => User, (user) => user.bases)
-//     @JoinColumn({ name: 'owner_id'})
-//     owner: User;
+    @IsMongoId()
+    @Prop({type: Types.ObjectId, ref: 'Planet'})
+    planet: Types.ObjectId;
 
-//     constructor(base?: Partial<Base>) {
-//         Object.assign(this, base)
-//     }
-// }
+    @IsMongoId()
+    @Prop({type: Types.ObjectId, ref: 'User'})
+    user: Types.ObjectId;
+
+    constructor(base?: Partial<Base>) {
+        Object.assign(this, base)
+    }
+}
+
+export const BaseSchema = SchemaFactory.createForClass(Base);

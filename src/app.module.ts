@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { PlanetsModule } from './planets/planet.module';
 import { UsersModule } from './users/user.module';
 // import { ResourceController } from './resources/resource.controller';
-// import { BaseController } from './bases/base.controller';
+import { BasesModule } from './bases/base.module';
 import { AppService } from './app.service';
 
 @Module({
@@ -15,6 +15,7 @@ import { AppService } from './app.service';
     }),
     UsersModule,
     PlanetsModule,
+    BasesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
