@@ -1,6 +1,6 @@
 export enum ResourceTypeEnum {
-    Sold,
-    Liquid,
-    Gas,
-    Plasma
+    Solid = "SOLID",
+    Liquid = "LIQUID",
+    Gas = "GAS",
+    Plasma = "PLASMA",
 }

@@ -4,7 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { PlanetsModule } from './planets/planet.module';
 import { UsersModule } from './users/user.module';
-// import { ResourceController } from './resources/resource.controller';
+import { ResourcesModule } from './resources/resource.module';
 // import { BaseController } from './bases/base.controller';
 import { AppService } from './app.service';
 
@@ -15,6 +15,7 @@ import { AppService } from './app.service';
     }),
     UsersModule,
     PlanetsModule,
+    ResourcesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
