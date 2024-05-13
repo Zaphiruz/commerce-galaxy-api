@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Reflector } from '@nestjs/core';
 
 import { AuthModule } from './auth/auth.module';
-import { CaslModule } from './casl/casl.module';
 import { PlanetsModule } from './planets/planet.module';
 import { UsersModule } from './users/user.module';
 import { ResourcesModule } from './resources/resource.module';
 import { BasesModule } from './bases/base.module';
-import { UserService } from './users/user.service';
+import { BuildingsModule } from './buildings/building.module';
 
 @Module({
   imports: [
@@ -20,6 +18,7 @@ import { UserService } from './users/user.service';
     PlanetsModule,
     BasesModule,
     ResourcesModule,
+    BuildingsModule,
   ],
   controllers: [],
   providers: [],

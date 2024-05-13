@@ -16,15 +16,11 @@ export class BaseService {
   }
 
   async findAll(): Promise<Base[]> {
-    return this.baseModel.find().exec();
+    return this.baseModel.find().populate('user').populate('planet').exec();
   }
 
   async findOne(id: string): Promise<Base> {
-    return this.baseModel
-      .findById(id)
-      .populate('planet')
-      .populate('user')
-      .exec();
+    return this.baseModel.findById(id).populate('user').populate('planet').exec();
   }
 
   async update(id: string, updateBaseDto: UpdateBaseDto): Promise<Base> {
