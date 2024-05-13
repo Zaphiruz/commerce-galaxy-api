@@ -1,29 +1,28 @@
-// import { Column, ObjectId, Entity, ObjectIdColumn } from 'typeorm'
-// import { ApiProperty } from '@nestjs/swagger';
-// import { IsNotEmpty, Length } from 'class-validator';
-// import { ResourceTypeEnum } from '../enums/resource-type.enum';
+import { IsEnum, IsNotEmpty } from 'class-validator';
 
-// @Entity()
-// export class Resource {
-//     @ObjectIdColumn()
-//     @IsNotEmpty()
-//     @Length(24, 24)
-//     @ApiProperty({ type: String })
-//     id: ObjectId;
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+import { ResourceTypeEnum } from 'src/enums/resource-type.enum';
 
-//     @IsNotEmpty()
-//     @Column()
-//     name: string;
+export type ResourceDocument = HydratedDocument<Resource>;
 
-//     @IsNotEmpty()
-//     @Column()
-//     symbol: string;
+@Schema()
+export class Resource {
+    @IsNotEmpty()
+    @Prop()
+    name: string;
 
-//     @IsNotEmpty()
-//     @Column()
-//     type: ResourceTypeEnum;
+    @IsNotEmpty()
+    @Prop()
+    symbol: string;
 
-//     constructor(resource?: Partial<Resource>) {
-//         Object.assign(this, resource)
-//     }
-// }
+    @IsEnum(ResourceTypeEnum)
+    @Prop()
+    type: ResourceTypeEnum;
+
+    constructor(resource?: Partial<Resource>) {
+        Object.assign(this, resource)
+    }
+}
+
+export const ResourceSchema = SchemaFactory.createForClass(Resource);
