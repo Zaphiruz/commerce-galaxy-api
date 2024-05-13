@@ -5,9 +5,10 @@ import { ActionEnum } from "./action.enum";
 import { User } from "../users/schemas/user.schema";
 import { Base } from "../bases/base.entity";
 import { Resource } from "../resources/schemas/resource.schema";
+import { Planet } from "../planets/schemas/planet.schema";
 
 
-type Subjects = InferSubjects<typeof Base | typeof User | typeof Resource> | 'all';
+type Subjects = InferSubjects<typeof Base | typeof User | typeof Resource | typeof Planet> | 'all';
 
 export type AppAbility = MongoAbility<[ActionEnum, Subjects]>;
 
