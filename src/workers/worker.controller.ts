@@ -14,7 +14,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Worker } from './worker.entity'
 import { NewWorkerDto } from './new-worker.dto'
 import { UpdateWorkerDto } from './update-worker.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { WorkerService } from './worker.service'
 
 @ApiTags('workers')

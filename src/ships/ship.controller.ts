@@ -14,7 +14,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Ship } from './ship.entity'
 import { NewShipDto } from './new-ship.dto'
 import { UpdateShipDto } from './update-ship.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { ShipService } from './ship.service'
 
 @ApiTags('ships')

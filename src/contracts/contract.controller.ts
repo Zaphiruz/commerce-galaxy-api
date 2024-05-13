@@ -14,7 +14,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Contract } from './contract.entity'
 import { NewContractDto } from './new-contract.dto'
 import { UpdateContractDto } from './update-contract.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { ContractService } from './contract.service'
 
 @ApiTags('contracts')

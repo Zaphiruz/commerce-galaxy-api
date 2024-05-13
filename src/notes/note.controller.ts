@@ -14,7 +14,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Note } from './note.entity'
 import { NewNoteDto } from './new-note.dto'
 import { UpdateNoteDto } from './update-note.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { NoteService } from './note.service'
 
 @ApiTags('notes')
