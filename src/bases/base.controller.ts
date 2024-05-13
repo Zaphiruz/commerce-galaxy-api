@@ -30,13 +30,24 @@ export class BaseController{
     @Get()
     @ApiOkResponse({ type: [Base] })
     public async getAllBases(): Promise<Base[]> {
-        return this.baseRespository.find();
+        return this.baseRespository.find({
+            relations: {
+                planet: true,
+                owner: true
+            }
+        });
     }
 
     @Get(':id')
     @ApiOkResponse({ type: Base })
     public async getBaseById(@Param() objectIdDto: ObjectIdDto): Promise<Base> {
-        return this.baseRespository.findOneBy({ _id: ObjectId.createFromHexString(objectIdDto.id) });
+        return this.baseRespository.findOneBy({ 
+            _id: ObjectId.createFromHexString(objectIdDto.id),
+            relations: {
+                planet: true,
+                owner: true
+            }
+        });
     }
 
     @Post()

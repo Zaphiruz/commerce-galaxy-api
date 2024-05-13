@@ -1,6 +1,6 @@
 import { Column, ObjectId, Entity, ObjectIdColumn, ManyToOne, JoinColumn } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, Length } from 'class-validator';
+import { IsNotEmpty, Length, isNotEmpty } from 'class-validator';
 import { Planet } from '../planets/planet.entity';
 import { User } from '../users/user.entity';
 
@@ -21,12 +21,19 @@ export class Base {
     size: number;
 
     @IsNotEmpty()
-    @ManyToOne(type => Planet, planet => planet.id)
-    //@JoinColumn({ name: 'id' })
-    planet: Planet;
+    @Column({name: 'planet_id'})
+    planet_id: string;
 
     @IsNotEmpty()
-    @ManyToOne(type => User, user => user.id)
+    @Column({name: 'owner_id'})
+    owner_id: string;
+
+    @ManyToOne(() => Planet, (planet) => planet.bases)
+    @JoinColumn({ name: 'planet_id'})
+    planet: Planet;
+
+    @ManyToOne(() => User, (user) => user.bases)
+    @JoinColumn({ name: 'owner_id'})
     owner: User;
 
     constructor(base?: Partial<Base>) {

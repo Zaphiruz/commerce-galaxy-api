@@ -15,7 +15,7 @@ export class User {
     @Column()
     username: string;
 
-    @OneToMany(type => Base, base => base.id)
+    @OneToMany(type => Base, base => base.owner)
     bases: Base[];
 
     constructor(user?: Partial<User>) {
