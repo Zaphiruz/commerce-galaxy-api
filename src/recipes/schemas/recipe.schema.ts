@@ -1,18 +1,20 @@
-import { IsEnum, IsNotEmpty } from 'class-validator';
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
+import { Transform } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type RecipeDocument = HydratedDocument<Recipe>;
 
 @Schema()
 export class Recipe {
-    @IsNotEmpty()
-    @Prop()
+    @Transform(({ value }) => value.toHexString())
+    @ApiProperty({ type: String })
+    _id: Types.ObjectId;
+
+    @Prop({ required: true })
     name: string;
 
-    @IsNotEmpty()
-    @Prop()
+    @Prop({ required: true })
     symbol: string;
 
     constructor(recipe?: Partial<Recipe>) {

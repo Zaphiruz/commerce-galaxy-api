@@ -8,15 +8,22 @@ import {
     Param,
     Post,
     Put,
+    UseGuards,
 } from '@nestjs/common'
 import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger'
 
-import { Recipe } from './recipe.entity'
-import { NewRecipeDto } from './new-recipe.dto'
-import { UpdateRecipeDto } from './update-recipe.dto'
+import { Recipe } from './schemas/recipe.schema'
+import { NewRecipeDto } from './dtos/new-recipe.dto'
+import { UpdateRecipeDto } from './dtos/update-recipe.dto'
 import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { RecipeService } from './recipe.service'
+import { AuthGuard } from '../auth/auth.guard'
+import { PoliciesGuard } from '../casl/policies.guard'
+import { CheckPolicies } from 'src/casl/policies.decorator'
+import { ActionEnum } from 'src/casl/action.enum'
+import { AppAbility } from 'src/casl/casl-ability.factory'
 
+@UseGuards(AuthGuard, PoliciesGuard)
 @ApiTags('recipes')
 @Controller('recipes')
 export class RecipeController {
@@ -25,18 +32,21 @@ export class RecipeController {
     ) { }
 
     @Get()
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Recipe))
     @ApiOkResponse({ type: [Recipe] })
     public async getAllRecipes(): Promise<Recipe[]> {
         return this.recipeService.findAll();
     }
 
     @Get(':id')
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Recipe))
     @ApiOkResponse({ type: Recipe })
     public async getRecipeById(@Param() objectIdDto: ObjectIdDto): Promise<Recipe> {
         return this.recipeService.findOne(objectIdDto.id);
     }
 
     @Post()
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Create, Recipe))
     @ApiOkResponse({ type: Recipe })
     @ApiBadRequestResponse()
     public async createRecipe(@Body() newRecipeDto: NewRecipeDto): Promise<Recipe> {
@@ -47,6 +57,7 @@ export class RecipeController {
     }
 
     @Put(':id')
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Update, Recipe))
     @ApiOkResponse({ type: Recipe })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
@@ -58,6 +69,7 @@ export class RecipeController {
     }
 
     @Delete(':id')
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Delete, Recipe))
     @ApiOkResponse({ type: Recipe })
     @ApiInternalServerErrorResponse()
     public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<Recipe> {

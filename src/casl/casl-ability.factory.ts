@@ -6,9 +6,10 @@ import { User } from "../users/schemas/user.schema";
 import { Base } from "../bases/schemas/base.schema";
 import { Resource } from "../resources/schemas/resource.schema";
 import { Planet } from "../planets/schemas/planet.schema";
+import { Recipe } from "../recipes/schemas/recipe.schema";
 
 
-type Subjects = InferSubjects<typeof Base | typeof User | typeof Resource | typeof Planet> | 'all';
+type Subjects = InferSubjects<typeof Base | typeof User | typeof Resource | typeof Planet | typeof Recipe> | 'all';
 
 export type AppAbility = MongoAbility<[ActionEnum, Subjects]>;
 

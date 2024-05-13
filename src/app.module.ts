@@ -7,6 +7,7 @@ import { UsersModule } from './users/user.module';
 import { ResourcesModule } from './resources/resource.module';
 import { BasesModule } from './bases/base.module';
 import { BuildingsModule } from './buildings/building.module';
+import { RecipeModule } from './recipes/recipe.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { BuildingsModule } from './buildings/building.module';
     BasesModule,
     ResourcesModule,
     BuildingsModule,
+    RecipeModule,
   ],
   controllers: [],
   providers: [],
