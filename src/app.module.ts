@@ -7,6 +7,14 @@ import { UsersModule } from './users/user.module';
 import { ResourcesModule } from './resources/resource.module';
 import { BasesModule } from './bases/base.module';
 import { BuildingsModule } from './buildings/building.module';
+import { WorkersModule } from './workers/worker.module';
+import { SystemsModule } from './systems/system.module';
+import { MarketsModule } from './markets/market.module';
+import { ContractsModule } from './contracts/contract.module';
+import { FabricatorsModule } from './fabricators/fabricator.module';
+import { ShipsModule } from './ships/ship.module';
+import { StoragesModule } from './storages/storage.module';
+import { NotesModule } from './notes/note.module';
 
 @Module({
   imports: [
@@ -19,6 +27,14 @@ import { BuildingsModule } from './buildings/building.module';
     BasesModule,
     ResourcesModule,
     BuildingsModule,
+    WorkersModule,
+    SystemsModule,
+    MarketsModule,
+    ContractsModule,
+    FabricatorsModule,
+    ShipsModule,
+    StoragesModule,
+    NotesModule,
   ],
   controllers: [],
   providers: [],
