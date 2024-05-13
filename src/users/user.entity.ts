@@ -1,24 +1,20 @@
-import { Column, ObjectId, Entity, ObjectIdColumn, OneToMany } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, Length } from 'class-validator';
-import { Base } from '../bases/base.entity';
 
-@Entity()
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type UserDocument = HydratedDocument<User>;
+
+@Schema()
 export class User {
-    @ObjectIdColumn()
     @IsNotEmpty()
-    @Length(24, 24)
-    @ApiProperty({ type: String })
-    id: ObjectId;
-
-    @IsNotEmpty()
-    @Column()
+    @Prop()
     username: string;
-
-    @OneToMany(type => Base, base => base.owner)
-    bases: Base[];
 
     constructor(user?: Partial<User>) {
         Object.assign(this, user)
     }
 }
+
+export const UserSchema = SchemaFactory.createForClass(User);

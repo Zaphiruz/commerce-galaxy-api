@@ -9,34 +9,31 @@ import {
     Post,
     Put,
 } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { MongoRepository } from 'typeorm'
-import { ObjectId } from 'mongodb'
 import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger'
 
 import { User } from './user.entity'
 import { NewUserDto } from './new-user.dto'
 import { UpdaetUserDto } from './update-user.dto'
 import { ObjectIdDto } from 'src/common/object-id.dto'
+import { UserService } from './user.service'
 
 @ApiTags('users')
 @Controller('users')
 export class UserController {
     constructor(
-        @InjectRepository(User)
-        private readonly UserRespository: MongoRepository<User>,
+        private readonly userService: UserService,
     ) { }
 
     @Get()
     @ApiOkResponse({ type: [User] })
     public async getAllUsers(): Promise<User[]> {
-        return this.UserRespository.find();
+        return this.userService.findAll();
     }
 
     @Get(':id')
     @ApiOkResponse({ type: User })
     public async getUserById(@Param() objectIdDto: ObjectIdDto): Promise<User> {
-        return this.UserRespository.findOneBy({ _id: ObjectId.createFromHexString(objectIdDto.id) });
+        return this.userService.findOne(objectIdDto.id);
     }
 
     @Post()
@@ -46,7 +43,7 @@ export class UserController {
         if (!newUserDto) {
             throw new BadRequestException('request invalid');
         }
-        return this.UserRespository.save(new User(newUserDto));
+        return this.userService.create(newUserDto);
     }
 
     @Put(':id')
@@ -57,23 +54,13 @@ export class UserController {
         if (!updateUserDto) {
             throw new BadRequestException('request invalid');
         }
-        let doc = await this.UserRespository.findOneAndUpdate({ _id: ObjectId.createFromHexString(objectIdDto.id) }, { "$set": updateUserDto }, { returnDocument: 'after' });
-        if (doc.value) {
-            return new User(doc.value);
-        } else {
-            throw new InternalServerErrorException('no user updated')
-        }
+        return this.userService.update(objectIdDto.id, updateUserDto);
     }
 
     @Delete(':id')
     @ApiOkResponse({ type: User })
     @ApiInternalServerErrorResponse()
     public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<User> {
-        let doc = await this.UserRespository.findOneAndDelete({ _id: ObjectId.createFromHexString(objectIdDto.id) });
-        if (doc.value) {
-            return new User(doc.value);
-        } else {
-            throw new InternalServerErrorException('no users deleted')
-        }
+        return this.userService.delete(objectIdDto.id);
     }
 }

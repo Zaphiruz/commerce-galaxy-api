@@ -1,4 +1,4 @@
-import { OmitType } from "@nestjs/swagger";
-import { Planet } from "./planet.entity";
+// import { OmitType } from "@nestjs/swagger";
+// import { Planet } from "./planet.entity";
 
-export class NewPlanetDto extends OmitType(Planet, ['id']) { }
+// export class NewPlanetDto extends OmitType(Planet, ['id']) { }
