@@ -9,26 +9,32 @@ import {
     Post,
     Put,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common'
 import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
 import { Resource } from './schemas/resource.schema'
-import { NewResourceDto } from './dtos/new-resource.dto'
+import { NewResourceDto } from './dtos/create-resource.dto'
 import { UpdateResourceDto } from './dtos/update-resource.dto'
-import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { ResourceService } from './resource.service'
+import { ResourceResponseDto } from './dtos/resource.response.dto'
+
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { AuthGuard } from '../auth/auth.guard'
-import { PoliciesGuard } from 'src/casl/policies.guard'
+import { PoliciesGuard } from '../casl/policies.guard'
 import { CheckPolicies } from 'src/casl/policies.decorator'
 import { ActionEnum } from 'src/casl/action.enum'
 import { AppAbility } from 'src/casl/casl-ability.factory'
+import { plainToInstance } from 'class-transformer'
+import { DtoInterceptor } from '../common/dto-converter.interceptor'
 
-@UseGuards(AuthGuard, PoliciesGuard)
 @ApiTags('resources')
+@Controller('resources')
+@UseGuards(AuthGuard, PoliciesGuard)
+@UseInterceptors(new DtoInterceptor<ResourceResponseDto>(ResourceResponseDto))
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiForbiddenResponse()
-@Controller('resources')
 export class ResourceController {
     constructor(
         private readonly resourceService: ResourceService,

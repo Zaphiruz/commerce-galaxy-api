@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Resource } from './schemas/resource.schema';
-import { NewResourceDto } from './dtos/new-resource.dto';
+import { NewResourceDto } from './dtos/create-resource.dto';
 import { UpdateResourceDto } from './dtos/update-resource.dto';
 
 @Injectable()
