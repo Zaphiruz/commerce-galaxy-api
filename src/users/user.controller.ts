@@ -9,12 +9,13 @@ import {
     Post,
     Put,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common'
 import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
 import { User } from './schemas/user.schema'
-import { NewUserDto } from './dtos/new-user.dto'
-import { UpdateUserDto } from './dtos/update-user.dto'
+import { CreateUserDto } from './dtos/create-user.request.dto'
+import { UpdateUserDto } from './dtos/update-user.request.dto'
 import { ObjectIdDto } from '../common/dtos/object-id.dto'
 import { UserService } from './user.service'
 import { AuthGuard } from '../auth/auth.guard'
@@ -22,8 +23,12 @@ import { PoliciesGuard } from '../casl/policies.guard'
 import { CheckPolicies } from 'src/casl/policies.decorator'
 import { ActionEnum } from 'src/casl/action.enum'
 import { AppAbility } from 'src/casl/casl-ability.factory'
+import { UserResponseDto } from './dtos/user.response.dto';
+import { plainToInstance } from 'class-transformer'
+import { DtoInterceptor } from '../common/dto-converter.interceptor'
 
 @UseGuards(AuthGuard, PoliciesGuard)
+@UseInterceptors(new DtoInterceptor<UserResponseDto>(UserResponseDto))
 @ApiTags('users')
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
@@ -50,24 +55,24 @@ export class UserController {
 
     @Post()
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Create, User))
-    @ApiOkResponse({ type: User })
+    @ApiOkResponse({ type: UserResponseDto })
     @ApiBadRequestResponse()
-    public async createUser(@Body() newUserDto: NewUserDto): Promise<User> {
-        if (!newUserDto) {
+    public async createUser(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
+        if (!createUserDto) {
             throw new BadRequestException('request invalid');
         }
-        if (await this.userService.findByUsername(newUserDto.username)) {
+        if (await this.userService.findByUsername(createUserDto.username)) {
             throw new BadRequestException('username in use');
         }
-        return this.userService.create(newUserDto);
+        return this.userService.create(createUserDto);
     }
 
     @Put(':id')
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Update, User))
-    @ApiOkResponse({ type: User })
+    @ApiOkResponse({ type: UserResponseDto })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+    public async updateUser(@Param() objectIdDto: ObjectIdDto, @Body() updateUserDto: UpdateUserDto): Promise<UserResponseDto> {
         if (!updateUserDto) {
             throw new BadRequestException('request invalid');
         }
@@ -76,9 +81,9 @@ export class UserController {
 
     @Delete(':id')
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Delete, User))
-    @ApiOkResponse({ type: User })
+    @ApiOkResponse({ type: UserResponseDto })
     @ApiInternalServerErrorResponse()
-    public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<User> {
+    public async deleteUser(@Param() objectIdDto: ObjectIdDto): Promise<UserResponseDto> {
         return this.userService.delete(objectIdDto.id);
     }
 }

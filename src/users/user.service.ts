@@ -3,17 +3,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { User, hashPassword } from './schemas/user.schema';
-import { NewUserDto } from './dtos/new-user.dto';
-import { UpdateUserDto } from './dtos/update-user.dto';
+import { CreateUserDto } from './dtos/create-user.request.dto';
+import { UpdateUserDto } from './dtos/update-user.request.dto';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async create(newUserDto: NewUserDto): Promise<User> {
-    const createdCat = new this.userModel({ ...newUserDto, isAdmin: false});
-    let doc = await createdCat.save();
-    return this.findOne(doc._id.toHexString()); // TODO refactor? did this to hide password
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const createdCat = new this.userModel({ ...createUserDto, isAdmin: false});
+    return createdCat.save();
   }
 
   async findAll(): Promise<User[]> {
