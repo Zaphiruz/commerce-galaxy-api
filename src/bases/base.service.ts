@@ -3,15 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Base } from './schemas/base.schema';
-import { NewBaseDto } from './dtos/new-base.dto';
-import { UpdateBaseDto } from './dtos/update-base.dto';
+import { CreateBaseRequestDto } from './dtos/create-base.request';
+import { UpdateBaseRequest } from './dtos/update-base.request.dto';
 
 @Injectable()
 export class BaseService {
   constructor(@InjectModel(Base.name) private baseModel: Model<Base>) {}
 
-  async create(newBaseDto: NewBaseDto): Promise<Base> {
-    const createdCat = new this.baseModel(newBaseDto);
+  async create(createBaseDto: CreateBaseRequestDto): Promise<Base> {
+    const createdCat = new this.baseModel(createBaseDto);
     return createdCat.save();
   }
 
@@ -23,8 +23,8 @@ export class BaseService {
     return this.baseModel.findById(id).populate('user').populate('planet').exec();
   }
 
-  async update(id: string, updateBaseDto: UpdateBaseDto): Promise<Base> {
-    return this.baseModel.findByIdAndUpdate(id, { "$set": updateBaseDto }, { returnDocument: 'after' });
+  async update(id: string, updateBaseRequestDto: UpdateBaseRequest): Promise<Base> {
+    return this.baseModel.findByIdAndUpdate(id, { "$set": updateBaseRequestDto }, { returnDocument: 'after' });
   }
 
   async delete(id: string): Promise<Base> {

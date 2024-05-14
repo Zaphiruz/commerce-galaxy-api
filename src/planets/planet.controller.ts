@@ -9,12 +9,13 @@ import {
     Post,
     Put,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common'
 import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
 import { Planet } from './schemas/planet.schema'
-import { NewPlanetDto } from './dtos/new-planet.dto'
-import { UpdatePlanetDto } from './dtos/update-planet.dto'
+import { CreatePlanetRequestDto } from './dtos/create-planet.request.dto'
+import { UpdatePlanetRequestDto } from './dtos/update-planet.request.dto'
 import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { PlanetService } from './planet.service'
 import { AuthGuard } from '../auth/auth.guard'
@@ -22,8 +23,11 @@ import { PoliciesGuard } from '../casl/policies.guard'
 import { CheckPolicies } from 'src/casl/policies.decorator'
 import { ActionEnum } from 'src/casl/action.enum'
 import { AppAbility } from 'src/casl/casl-ability.factory'
+import { DtoInterceptor } from 'src/common/dto-converter.interceptor'
+import { PlanetResponseDto } from './dtos/planet.response.dto'
 
 @UseGuards(AuthGuard, PoliciesGuard)
+@UseInterceptors(new DtoInterceptor<PlanetResponseDto>(PlanetResponseDto))
 @ApiTags('planets')
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
@@ -52,11 +56,11 @@ export class PlanetController {
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Create, Planet))
     @ApiOkResponse({ type: Planet })
     @ApiBadRequestResponse()
-    public async createPlanet(@Body() newPlanetDto: NewPlanetDto): Promise<Planet> {
-        if (!newPlanetDto) {
+    public async createPlanet(@Body() createPlanetRequestDto: CreatePlanetRequestDto): Promise<Planet> {
+        if (!createPlanetRequestDto) {
             throw new BadRequestException('request invalid');
         }
-        return this.planetService.create(newPlanetDto);
+        return this.planetService.create(createPlanetRequestDto);
     }
 
     @Put(':id')
@@ -64,11 +68,11 @@ export class PlanetController {
     @ApiOkResponse({ type: Planet })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updatePlanetDto: UpdatePlanetDto): Promise<Planet> {
-        if (!updatePlanetDto) {
+    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updatePlanetRequestDto: UpdatePlanetRequestDto): Promise<Planet> {
+        if (!updatePlanetRequestDto) {
             throw new BadRequestException('request invalid');
         }
-        return this.planetService.update(objectIdDto.id, updatePlanetDto);
+        return this.planetService.update(objectIdDto.id, updatePlanetRequestDto);
     }
 
     @Delete(':id')

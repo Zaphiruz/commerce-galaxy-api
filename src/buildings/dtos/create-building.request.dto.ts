@@ -2,7 +2,7 @@ import { IsEnum, IsNotEmpty } from "class-validator";
 
 import { BuildingTypeEnum } from "../building-type.enum";
 
-export class NewBuildingDto {
+export class CreateBuildingRequestDto {
     @IsNotEmpty()
     name: string;
 

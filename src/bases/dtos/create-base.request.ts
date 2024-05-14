@@ -1,7 +1,7 @@
 import { IsMongoId, IsOptional, IsPositive } from "class-validator";
 
 
-export class NewBaseDto {
+export class CreateBaseRequestDto {
     @IsOptional()
     name?: string;
     
