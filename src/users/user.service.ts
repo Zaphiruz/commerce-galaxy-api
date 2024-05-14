@@ -11,7 +11,7 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const createdCat = new this.userModel({ ...createUserDto, isAdmin: false});
+    const createdCat = new this.userModel({ ...createUserDto, roles: []});
     return createdCat.save();
   }
 

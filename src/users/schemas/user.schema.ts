@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { UserRolesEnum } from '../user-roles.enum';
 
 const SALT_WORK_FACTOR = 10;
 
@@ -20,8 +21,8 @@ export class User {
     @Prop({ required: true })
     password: string;
 
-    @Prop({ default: false })
-    isAdmin: Boolean = false;
+    @Prop({ type: [String], enum: UserRolesEnum, default: [] })
+    roles: UserRolesEnum[]
 
     constructor(user?: Partial<User>) {
         Object.assign(this, user)

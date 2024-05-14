@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose, Transform, Type } from "class-transformer";
 import { Types } from "mongoose";
+import { UserRolesEnum } from "../user-roles.enum";
 
 export class UserResponseDto {
     @Expose()
@@ -13,5 +14,7 @@ export class UserResponseDto {
     username: string;
 
     @Expose()
-    isAdmin: Boolean = false;
+    @Transform(({ value }) => value.map(role => role.toString()))
+    @ApiProperty({ type: [String] })
+    roles: UserRolesEnum[];
 }

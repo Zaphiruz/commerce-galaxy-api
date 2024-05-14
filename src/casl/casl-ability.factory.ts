@@ -8,7 +8,7 @@ import { Resource } from "../resources/schemas/resource.schema";
 import { Planet } from "../planets/schemas/planet.schema";
 import { Recipe } from "../recipes/schemas/recipe.schema";
 import { Building } from "../buildings/schemas/building.entity";
-
+import { UserRolesEnum } from "../users/user-roles.enum";
 
 type Subjects = InferSubjects<typeof Base | typeof User | typeof Resource | typeof Planet | typeof Recipe | typeof Building> | 'all';
 
@@ -21,11 +21,16 @@ export class CaslAbilityFactory {
       MongoAbility<[ActionEnum, Subjects]>
     >(createMongoAbility);
 
-    if (user.isAdmin) {
-      can(ActionEnum.Manage, 'all'); // read-write access to everything
+    // Role based general permissions
+    if (user.roles.includes(UserRolesEnum.Admin)) {
+      can(ActionEnum.Manage, 'all'); // admins get full access
+    } else if (user.roles.includes(UserRolesEnum.Moderator)) {
+      can(ActionEnum.Update, 'all') // mods can update anything, but not delete/create
     } else {
       can(ActionEnum.Read, 'all'); // read-only access to everything
     }
+
+    // Collection based overrides
 
     // USER OVERRIDES
     can(ActionEnum.Update, User, { _id: user._id });
