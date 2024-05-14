@@ -2,16 +2,16 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Market } from './market.entity';
-import { NewMarketDto } from './new-market.dto';
-import { UpdateMarketDto } from './update-market.dto';
+import { Market } from './schemas/market.schema';
+import { NewMarketDto } from './dtos/create-market.dto';
+import { UpdateMarketDto } from './dtos/update-market.dto';
 
 @Injectable()
 export class MarketService {
   constructor(@InjectModel(Market.name) private marketModel: Model<Market>) {}
 
   async create(newMarketDto: NewMarketDto): Promise<Market> {
-    const createdCat = new this.marketModel(newMarketDto);
+    const createdCat = new this.marketModel({...newMarketDto,});
     return createdCat.save();
   }
 
