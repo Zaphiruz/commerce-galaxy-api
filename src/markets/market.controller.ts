@@ -14,7 +14,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Market } from './market.entity'
 import { NewMarketDto } from './new-market.dto'
 import { UpdateMarketDto } from './update-market.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { MarketService } from './market.service'
 
 @ApiTags('markets')

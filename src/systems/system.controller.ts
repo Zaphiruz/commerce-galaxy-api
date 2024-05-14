@@ -14,7 +14,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { System } from './system.entity'
 import { NewSystemDto } from './new-system.dto'
 import { UpdateSystemDto } from './update-system.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { SystemService } from './system.service'
 
 @ApiTags('systems')

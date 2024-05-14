@@ -14,7 +14,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Fabricator } from './fabricator.entity'
 import { NewFabricatorDto } from './new-fabricator.dto'
 import { UpdateFabricatorDto } from './update-fabricator.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { FabricatorService } from './fabricator.service'
 
 @ApiTags('fabricators')

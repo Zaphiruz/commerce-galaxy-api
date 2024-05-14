@@ -14,7 +14,7 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Storage } from './storage.entity'
 import { NewStorageDto } from './new-storage.dto'
 import { UpdateStorageDto } from './update-storage.dto'
-import { ObjectIdDto } from 'src/common/object-id.dto'
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { StorageService } from './storage.service'
 
 @ApiTags('storages')
