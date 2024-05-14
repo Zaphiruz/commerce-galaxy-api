@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Worker } from './schemas/worker.schema';
-import { NewWorkerDto } from './dtos/new-worker.dto';
-import { UpdateWorkerDto } from './dtos/update-worker.dto';
+import { NewWorkerDto } from './dtos/create-worker.request.dto';
+import { UpdateWorkerDto } from './dtos/update-worker.request.dto';
 
 @Injectable()
 export class WorkerService {

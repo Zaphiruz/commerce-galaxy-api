@@ -13,8 +13,8 @@ import {
 import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
 import { Worker } from './schemas/worker.schema'
-import { NewWorkerDto } from './dtos/new-worker.dto'
-import { UpdateWorkerDto } from './dtos/update-worker.dto'
+import { NewWorkerDto } from './dtos/create-worker.request.dto'
+import { UpdateWorkerDto } from './dtos/update-worker.request.dto'
 import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { WorkerService } from './worker.service'
 import { AuthGuard } from '../auth/auth.guard'
@@ -22,7 +22,6 @@ import { PoliciesGuard } from '../casl/policies.guard'
 import { CheckPolicies } from 'src/casl/policies.decorator'
 import { ActionEnum } from 'src/casl/action.enum'
 import { AppAbility } from 'src/casl/casl-ability.factory'
-import { UserService } from 'src/users/user.service'
 
 @UseGuards(AuthGuard, PoliciesGuard)
 @ApiTags('workers')
