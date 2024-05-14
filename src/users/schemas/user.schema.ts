@@ -11,7 +11,6 @@ export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
-    @Transform(({ value }) => value.toHexString())
     @ApiProperty({ type: String })
     _id: Types.ObjectId;
 
