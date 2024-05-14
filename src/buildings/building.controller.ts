@@ -49,7 +49,8 @@ export class BuildingController {
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Building))
     @ApiOkResponse({ type: Building })
     public async getBuildingById(@Param() objectIdDto: ObjectIdDto): Promise<Building> {
-        return this.buildingService.findOne(objectIdDto.id);
+        let doc = await this.buildingService.findOne(objectIdDto.id);
+        return doc;
     }
 
     @Post()

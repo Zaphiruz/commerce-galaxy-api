@@ -70,7 +70,7 @@ export class ResourceController {
     @ApiOkResponse({ type: Resource })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updateResourceDto: UpdateResourceDto): Promise<Resource> {
+    public async updateResource(@Param() objectIdDto: ObjectIdDto, @Body() updateResourceDto: UpdateResourceDto): Promise<Resource> {
         if (!updateResourceDto) {
             throw new BadRequestException('request invalid');
         }
@@ -81,7 +81,7 @@ export class ResourceController {
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Delete, Resource))
     @ApiOkResponse({ type: Resource })
     @ApiInternalServerErrorResponse()
-    public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<Resource> {
+    public async deleteResource(@Param() objectIdDto: ObjectIdDto): Promise<Resource> {
         return this.resourceService.delete(objectIdDto.id);
     }
 }

@@ -70,7 +70,7 @@ export class WorkerController {
     @ApiOkResponse({ type: Worker })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updateWorkerDto: UpdateWorkerDto): Promise<Worker> {
+    public async updateWorker(@Param() objectIdDto: ObjectIdDto, @Body() updateWorkerDto: UpdateWorkerDto): Promise<Worker> {
         if (!updateWorkerDto) {
             throw new BadRequestException('request invalid');
         }
@@ -81,7 +81,7 @@ export class WorkerController {
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Worker))
     @ApiOkResponse({ type: Worker })
     @ApiInternalServerErrorResponse()
-    public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<Worker> {
+    public async deleteWorker(@Param() objectIdDto: ObjectIdDto): Promise<Worker> {
         return this.workerService.delete(objectIdDto.id);
     }
 }

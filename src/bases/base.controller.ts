@@ -67,7 +67,7 @@ export class BaseController {
     @ApiOkResponse({ type: Base })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updateBaseRequestDto: UpdateBaseRequest): Promise<Base> {
+    public async updateBuilding(@Param() objectIdDto: ObjectIdDto, @Body() updateBaseRequestDto: UpdateBaseRequest): Promise<Base> {
         if (!updateBaseRequestDto) {
             throw new BadRequestException('request invalid');
         }
@@ -78,7 +78,7 @@ export class BaseController {
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Delete, Base))
     @ApiOkResponse({ type: Base })
     @ApiInternalServerErrorResponse()
-    public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<Base> {
+    public async deleteBuilding(@Param() objectIdDto: ObjectIdDto): Promise<Base> {
         return this.baseService.delete(objectIdDto.id);
     }
 }

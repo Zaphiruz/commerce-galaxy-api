@@ -70,7 +70,7 @@ export class NoteController {
     @ApiOkResponse({ type: Note })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updateNoteDto: UpdateNoteDto): Promise<Note> {
+    public async updateNote(@Param() objectIdDto: ObjectIdDto, @Body() updateNoteDto: UpdateNoteDto): Promise<Note> {
         if (!updateNoteDto) {
             throw new BadRequestException('request invalid');
         }
@@ -81,7 +81,7 @@ export class NoteController {
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Note))
     @ApiOkResponse({ type: Note })
     @ApiInternalServerErrorResponse()
-    public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<Note> {
+    public async deleteNote(@Param() objectIdDto: ObjectIdDto): Promise<Note> {
         return this.noteService.delete(objectIdDto.id);
     }
 }

@@ -70,7 +70,7 @@ export class ShipController {
     @ApiOkResponse({ type: Ship })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updateShipDto: UpdateShipDto): Promise<Ship> {
+    public async updateShip(@Param() objectIdDto: ObjectIdDto, @Body() updateShipDto: UpdateShipDto): Promise<Ship> {
         if (!updateShipDto) {
             throw new BadRequestException('request invalid');
         }
@@ -81,7 +81,7 @@ export class ShipController {
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Ship))
     @ApiOkResponse({ type: Ship })
     @ApiInternalServerErrorResponse()
-    public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<Ship> {
+    public async deleteShip(@Param() objectIdDto: ObjectIdDto): Promise<Ship> {
         return this.shipService.delete(objectIdDto.id);
     }
 }

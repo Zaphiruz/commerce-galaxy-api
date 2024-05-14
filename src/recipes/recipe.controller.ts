@@ -70,7 +70,7 @@ export class RecipeController {
     @ApiOkResponse({ type: Recipe })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updateRecipeDto: UpdateRecipeDto): Promise<Recipe> {
+    public async updateRecipe(@Param() objectIdDto: ObjectIdDto, @Body() updateRecipeDto: UpdateRecipeDto): Promise<Recipe> {
         if (!updateRecipeDto) {
             throw new BadRequestException('request invalid');
         }
@@ -81,7 +81,7 @@ export class RecipeController {
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Delete, Recipe))
     @ApiOkResponse({ type: Recipe })
     @ApiInternalServerErrorResponse()
-    public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<Recipe> {
+    public async deleteRecipe(@Param() objectIdDto: ObjectIdDto): Promise<Recipe> {
         return this.recipeService.delete(objectIdDto.id);
     }
 }
