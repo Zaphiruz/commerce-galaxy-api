@@ -2,18 +2,17 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Note } from './note.entity';
-import { NewNoteDto } from './new-note.dto';
-import { UpdateNoteDto } from './update-note.dto';
+import { Note } from './schemas/note.schema';
+import { NewNoteDto } from './dtos/create-note.dto';
+import { UpdateNoteDto } from './dtos/update-note.dto';
 
 @Injectable()
 export class NoteService {
   constructor(@InjectModel(Note.name) private noteModel: Model<Note>) {}
 
   async create(newNoteDto: NewNoteDto): Promise<Note> {
-    const createdCat = new this.noteModel(newNoteDto);
-    let doc = await createdCat.save();
-    return this.findOne(doc._id.toHexString()); // TODO refactor? did this to hide password
+    const createdCat = new this.noteModel({...newNoteDto,});
+    return createdCat.save();
   }
 
   async findAll(): Promise<Note[]> {
