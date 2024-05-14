@@ -1,13 +1,16 @@
-import { IsNotEmpty } from 'class-validator';
-
+import { IsBoolean, IsNotEmpty } from 'class-validator';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
+import { Transform } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type ContractDocument = HydratedDocument<Contract>;
 
 @Schema()
 export class Contract {
-    @IsNotEmpty()
+    @ApiProperty({ type: String })
+    _id: Types.ObjectId;
+    
     @Prop()
     name: string;
 

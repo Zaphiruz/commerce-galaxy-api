@@ -2,9 +2,9 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Contract } from './contract.entity';
-import { NewContractDto } from './new-contract.dto';
-import { UpdateContractDto } from './update-contract.dto';
+import { Contract } from './schemas/contract.schema';
+import { NewContractDto } from './dtos/create-contract.dto';
+import { UpdateContractDto } from './dtos/update-contract.dto';
 
 @Injectable()
 export class ContractService {
