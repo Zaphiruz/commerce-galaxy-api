@@ -4,13 +4,28 @@ import * as compression from 'compression';
 import { config } from 'dotenv';
 import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import { WinstonModule } from 'nest-winston'
 
 config();
 
 import { AppModule } from './app.module';
+import { LoggingInterceptor } from './common/logging.interceptor';
+import { createLogger } from './logger/winston.logger';
+
+
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const adapter = new ExpressAdapter();
+  adapter.set('trust proxy', 1);
+
+  const app = await NestFactory.create(AppModule, adapter, {
+    bufferLogs: true
+  });
+
+  app.useLogger(WinstonModule.createLogger({
+    instance: createLogger(),
+  }));
 
   const config = new DocumentBuilder()
     .setTitle('Commerce Galaxy Api')
@@ -34,6 +49,10 @@ async function bootstrap() {
       value: true,
     },
   }));
+
+  app.useGlobalInterceptors(
+    new LoggingInterceptor()
+  )
 
   app.use(compression());
 
