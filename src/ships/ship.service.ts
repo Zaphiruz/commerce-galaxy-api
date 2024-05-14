@@ -2,16 +2,16 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Ship } from './ship.entity';
-import { NewShipDto } from './new-ship.dto';
-import { UpdateShipDto } from './update-ship.dto';
+import { Ship } from './schemas/ship.schema';
+import { NewShipDto } from './dtos/create-ship.dto';
+import { UpdateShipDto } from './dtos/update-ship.dto';
 
 @Injectable()
 export class ShipService {
   constructor(@InjectModel(Ship.name) private shipModel: Model<Ship>) {}
 
   async create(newShipDto: NewShipDto): Promise<Ship> {
-    const createdCat = new this.shipModel(newShipDto);
+    const createdCat = new this.shipModel({...newShipDto,});
     let doc = await createdCat.save();
     return this.findOne(doc._id.toHexString()); // TODO refactor? did this to hide password
   }

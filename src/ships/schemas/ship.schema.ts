@@ -1,15 +1,16 @@
-import { IsNotEmpty } from 'class-validator';
-const bcrypt = require('bcrypt');
+import { IsBoolean, IsNotEmpty } from 'class-validator';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-
-const SALT_WORK_FACTOR = 10;
+import { HydratedDocument, Types } from 'mongoose';
+import { Transform } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type ShipDocument = HydratedDocument<Ship>;
 
 @Schema()
 export class Ship {
-    @IsNotEmpty()
+    @ApiProperty({ type: String })
+    _id: Types.ObjectId;
+    
     @Prop({ required: true, unique: true })
     name: string;
 
