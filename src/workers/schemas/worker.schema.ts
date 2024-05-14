@@ -8,11 +8,9 @@ export type WorkerDocument = HydratedDocument<Worker>;
 
 @Schema()
 export class Worker {
-    @Transform(({ value }) => value.toHexString())
     @ApiProperty({ type: String })
     _id: Types.ObjectId;
 
-    @IsNotEmpty()
     @Prop({ required: true, unique: true })
     name: string;
 

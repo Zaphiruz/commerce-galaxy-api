@@ -9,5 +9,5 @@ export class WorkerResponseDto {
     _id: Types.ObjectId;
 
     @Expose()
-    worker: string;
+    name: string;
 }

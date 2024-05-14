@@ -9,6 +9,7 @@ import {
     Post,
     Put,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common'
 import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
@@ -22,8 +23,12 @@ import { PoliciesGuard } from '../casl/policies.guard'
 import { CheckPolicies } from 'src/casl/policies.decorator'
 import { ActionEnum } from 'src/casl/action.enum'
 import { AppAbility } from 'src/casl/casl-ability.factory'
+import { plainToInstance } from 'class-transformer'
+import { DtoInterceptor } from '../common/dto-converter.interceptor'
+import { WorkerResponseDto } from './dtos/worker.response.dto'
 
 @UseGuards(AuthGuard, PoliciesGuard)
+@UseInterceptors(new DtoInterceptor<WorkerResponseDto>(WorkerResponseDto))
 @ApiTags('workers')
 @Controller('workers')
 @ApiBearerAuth()
