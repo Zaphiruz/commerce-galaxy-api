@@ -2,7 +2,7 @@ import { IsEnum, IsOptional } from "class-validator";
 
 import { BuildingTypeEnum } from "../building-type.enum";
 
-export class UpdateBuildingDto {
+export class UpdateBuildingRequestDto {
     @IsOptional()
     name?: string;
 

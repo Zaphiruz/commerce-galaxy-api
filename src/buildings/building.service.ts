@@ -3,15 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Building } from './schemas/building.entity';
-import { NewBuildingDto } from './dtos/new-building.dto';
-import { UpdateBuildingDto } from './dtos/update-building.dto';
+import { CreateBuildingRequestDto } from './dtos/create-building.request.dto';
+import { UpdateBuildingRequestDto } from './dtos/update-building.request.dto';
 
 @Injectable()
 export class BuildingService {
   constructor(@InjectModel(Building.name) private buildingModel: Model<Building>) {}
 
-  async create(newBuildingDto: NewBuildingDto): Promise<Building> {
-    const createdCat = new this.buildingModel(newBuildingDto);
+  async create(createBuildingRequestDto: CreateBuildingRequestDto): Promise<Building> {
+    const createdCat = new this.buildingModel(createBuildingRequestDto);
     return createdCat.save();
   }
 
@@ -23,8 +23,8 @@ export class BuildingService {
     return this.buildingModel.findById(id).exec();
   }
 
-  async update(id: string, updateBuildingDto: UpdateBuildingDto): Promise<Building> {
-    return this.buildingModel.findByIdAndUpdate(id, { "$set": updateBuildingDto }, { returnDocument: 'after' });
+  async update(id: string, updateBuildingRequestDto: UpdateBuildingRequestDto): Promise<Building> {
+    return this.buildingModel.findByIdAndUpdate(id, { "$set": updateBuildingRequestDto }, { returnDocument: 'after' });
   }
 
   async delete(id: string): Promise<Building> {

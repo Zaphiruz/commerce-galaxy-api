@@ -9,12 +9,13 @@ import {
     Post,
     Put,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common'
 import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
 import { Building } from './schemas/building.entity'
-import { NewBuildingDto } from './dtos/new-building.dto'
-import { UpdateBuildingDto } from './dtos/update-building.dto'
+import { CreateBuildingRequestDto } from './dtos/create-building.request.dto'
+import { UpdateBuildingRequestDto } from './dtos/update-building.request.dto'
 import { ObjectIdDto } from '../common/dtos/object-id.dto'
 import { BuildingService } from './building.service'
 import { AuthGuard } from '../auth/auth.guard'
@@ -22,8 +23,11 @@ import { PoliciesGuard } from '../casl/policies.guard'
 import { CheckPolicies } from 'src/casl/policies.decorator'
 import { ActionEnum } from 'src/casl/action.enum'
 import { AppAbility } from 'src/casl/casl-ability.factory'
+import { DtoInterceptor } from 'src/common/dto-converter.interceptor'
+import { BuildingResponseDto } from './dtos/building.response.dto'
 
 @UseGuards(AuthGuard, PoliciesGuard)
+@UseInterceptors(new DtoInterceptor<BuildingResponseDto>(BuildingResponseDto))
 @ApiTags('buildings')
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
@@ -52,11 +56,11 @@ export class BuildingController {
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Create, Building))
     @ApiOkResponse({ type: Building })
     @ApiBadRequestResponse()
-    public async createBuilding(@Body() newBuildingDto: NewBuildingDto): Promise<Building> {
-        if (!newBuildingDto) {
+    public async createBuilding(@Body() createBuildingRequestDto: CreateBuildingRequestDto): Promise<Building> {
+        if (!createBuildingRequestDto) {
             throw new BadRequestException('request invalid');
         }
-        return this.buildingService.create(newBuildingDto);
+        return this.buildingService.create(createBuildingRequestDto);
     }
 
     @Put(':id')
@@ -64,18 +68,18 @@ export class BuildingController {
     @ApiOkResponse({ type: Building })
     @ApiBadRequestResponse()
     @ApiInternalServerErrorResponse()
-    public async updatePlanet(@Param() objectIdDto: ObjectIdDto, @Body() updateBuildingDto: UpdateBuildingDto): Promise<Building> {
-        if (!updateBuildingDto) {
+    public async updateBuilding(@Param() objectIdDto: ObjectIdDto, @Body() updateBuildingRequestDto: UpdateBuildingRequestDto): Promise<Building> {
+        if (!updateBuildingRequestDto) {
             throw new BadRequestException('request invalid');
         }
-        return this.buildingService.update(objectIdDto.id, updateBuildingDto);
+        return this.buildingService.update(objectIdDto.id, updateBuildingRequestDto);
     }
 
     @Delete(':id')
     @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Delete, Building))
     @ApiOkResponse({ type: Building })
     @ApiInternalServerErrorResponse()
-    public async deletePlanet(@Param() objectIdDto: ObjectIdDto): Promise<Building> {
+    public async deleteBuilding(@Param() objectIdDto: ObjectIdDto): Promise<Building> {
         return this.buildingService.delete(objectIdDto.id);
     }
 }

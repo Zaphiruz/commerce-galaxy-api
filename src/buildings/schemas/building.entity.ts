@@ -8,7 +8,6 @@ export type BuildingDocument = HydratedDocument<Building>;
 
 @Schema()
 export class Building {
-    @Transform(({ value }) => value.toHexString())
     @ApiProperty({ type: String })
     _id: Types.ObjectId;
 
