@@ -1,6 +1,6 @@
 import { IsOptional } from "class-validator";
 
-export class NewPlanetDto {
+export class CreatePlanetRequestDto {
     @IsOptional()
     name?: string;
 }

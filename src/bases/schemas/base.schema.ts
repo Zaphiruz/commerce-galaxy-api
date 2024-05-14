@@ -11,7 +11,6 @@ export type BaseDocument = HydratedDocument<Base>;
 
 @Schema()
 export class Base {
-    @Transform(({ value }) => value.toHexString())
     @ApiProperty({ type: String })
     _id: Types.ObjectId;
 
@@ -23,12 +22,10 @@ export class Base {
 
     @Prop({type: Types.ObjectId, ref: 'Planet', required: true})
     @ApiProperty({ type: String })
-    @Transform(({ value }) => value.toHexString())
     planet: Planet;
 
     @Prop({type: Types.ObjectId, ref: 'User', required: true})
     @ApiProperty({ type: String })
-    @Transform(({ value }) => value.toHexString())
     user: User;
 
     constructor(base?: Partial<Base>) {

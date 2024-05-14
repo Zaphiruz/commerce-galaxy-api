@@ -7,7 +7,6 @@ export type PlanetDocument = HydratedDocument<Planet>;
 
 @Schema()
 export class Planet {
-    @Transform(({ value }) => value.toHexString())
     @ApiProperty({ type: String })
     _id: Types.ObjectId;
 

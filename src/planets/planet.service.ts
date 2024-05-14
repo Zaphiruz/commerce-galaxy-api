@@ -3,15 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Planet } from './schemas/planet.schema';
-import { NewPlanetDto } from './dtos/new-planet.dto';
-import { UpdatePlanetDto } from './dtos/update-planet.dto';
+import { CreatePlanetRequestDto } from './dtos/create-planet.request.dto';
+import { UpdatePlanetRequestDto } from './dtos/update-planet.request.dto';
 
 @Injectable()
 export class PlanetService {
   constructor(@InjectModel(Planet.name) private planetModel: Model<Planet>) {}
 
-  async create(newPlanetDto: NewPlanetDto): Promise<Planet> {
-    const createdCat = new this.planetModel(newPlanetDto);
+  async create(createPlanetRequestDto: CreatePlanetRequestDto): Promise<Planet> {
+    const createdCat = new this.planetModel(createPlanetRequestDto);
     return createdCat.save();
   }
 
@@ -23,8 +23,8 @@ export class PlanetService {
     return this.planetModel.findById(id).exec();
   }
 
-  async update(id: string, updatePlanetDto: UpdatePlanetDto): Promise<Planet> {
-    return this.planetModel.findByIdAndUpdate(id, { "$set": updatePlanetDto }, { returnDocument: 'after' });
+  async update(id: string, updatePlanetRequestDto: UpdatePlanetRequestDto): Promise<Planet> {
+    return this.planetModel.findByIdAndUpdate(id, { "$set": updatePlanetRequestDto }, { returnDocument: 'after' });
   }
 
   async delete(id: string): Promise<Planet> {
