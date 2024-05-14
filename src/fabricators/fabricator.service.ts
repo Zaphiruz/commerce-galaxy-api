@@ -2,9 +2,9 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Fabricator } from './fabricator.entity';
-import { NewFabricatorDto } from './new-fabricator.dto';
-import { UpdateFabricatorDto } from './update-fabricator.dto';
+import { Fabricator } from './schemas/fabricator.schema';
+import { NewFabricatorDto } from './dtos/create-fabricator.dto';
+import { UpdateFabricatorDto } from './dtos/update-fabricator.dto';
 
 @Injectable()
 export class FabricatorService {
