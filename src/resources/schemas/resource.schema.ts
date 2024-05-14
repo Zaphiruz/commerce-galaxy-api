@@ -8,7 +8,6 @@ export type ResourceDocument = HydratedDocument<Resource>;
 
 @Schema()
 export class Resource {
-    @Transform(({ value }) => value.toHexString())
     @ApiProperty({ type: String })
     _id: Types.ObjectId;
 

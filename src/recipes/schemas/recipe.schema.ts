@@ -7,7 +7,6 @@ export type RecipeDocument = HydratedDocument<Recipe>;
 
 @Schema()
 export class Recipe {
-    @Transform(({ value }) => value.toHexString())
     @ApiProperty({ type: String })
     _id: Types.ObjectId;
 

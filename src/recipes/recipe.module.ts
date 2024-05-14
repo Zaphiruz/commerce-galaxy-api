@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CaslModule } from 'src/casl/casl.module';
+import { UsersModule } from 'src/users/user.module';
+
 import { RecipeController } from './recipe.controller';
 import { RecipeService } from './recipe.service';
 import { Recipe, RecipeSchema } from './schemas/recipe.schema';
-import { CaslModule } from 'src/casl/casl.module';
-import { UsersModule } from 'src/users/user.module';
 
 @Module({
   imports: [
