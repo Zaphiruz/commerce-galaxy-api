@@ -1,6 +1,6 @@
-import { IsNotEmpty } from "class-validator";
+import { Expose } from "class-transformer";
 
 export class LoginResponseDto {
-    @IsNotEmpty()
+    @Expose()
     access_token: string;
 }
