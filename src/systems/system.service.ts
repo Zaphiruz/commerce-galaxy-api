@@ -2,9 +2,9 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { System } from './system.entity';
-import { NewSystemDto } from './new-system.dto';
-import { UpdateSystemDto } from './update-system.dto';
+import { System } from './schemas/system.schema';
+import { NewSystemDto } from './dtos/create-system.dto';
+import { UpdateSystemDto } from './dtos/update-system.dto';
 
 @Injectable()
 export class SystemService {

@@ -10,10 +10,9 @@ import { UpdateWorkerDto } from './dtos/update-worker.request.dto';
 export class WorkerService {
   constructor(@InjectModel(Worker.name) private workerModel: Model<Worker>) {}
 
-  async create(newWorkerDto: NewWorkerDto): Promise<Worker> {
-    const createdCat = new this.workerModel(newWorkerDto);
-    let doc = await createdCat.save();
-    return this.findOne(doc._id.toHexString()); // TODO refactor? did this to hide password
+  async create(createWorkerDto: NewWorkerDto): Promise<Worker> {
+    const createdCat = new this.workerModel({...createWorkerDto,});
+    return createdCat.save(); 
   }
 
   async findAll(): Promise<Worker[]> {
@@ -32,7 +31,7 @@ export class WorkerService {
     return this.workerModel.findByIdAndDelete(id);
   }
 
-  async findByWorkername(workername: string) {
-    return this.workerModel.findOne({ workername });
+  async findByName(name: string) {
+    return this.workerModel.findOne({ name });
   }
 }

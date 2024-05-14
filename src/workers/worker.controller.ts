@@ -16,8 +16,10 @@ import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorRe
 import { Worker } from './schemas/worker.schema'
 import { NewWorkerDto } from './dtos/create-worker.request.dto'
 import { UpdateWorkerDto } from './dtos/update-worker.request.dto'
-import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { WorkerService } from './worker.service'
+import { WorkerResponseDto } from './dtos/worker.response.dto'
+
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto'
 import { AuthGuard } from '../auth/auth.guard'
 import { PoliciesGuard } from '../casl/policies.guard'
 import { CheckPolicies } from 'src/casl/policies.decorator'
@@ -25,12 +27,11 @@ import { ActionEnum } from 'src/casl/action.enum'
 import { AppAbility } from 'src/casl/casl-ability.factory'
 import { plainToInstance } from 'class-transformer'
 import { DtoInterceptor } from '../common/dto-converter.interceptor'
-import { WorkerResponseDto } from './dtos/worker.response.dto'
 
-@UseGuards(AuthGuard, PoliciesGuard)
-@UseInterceptors(new DtoInterceptor<WorkerResponseDto>(WorkerResponseDto))
 @ApiTags('workers')
 @Controller('workers')
+@UseGuards(AuthGuard, PoliciesGuard)
+@UseInterceptors(new DtoInterceptor<WorkerResponseDto>(WorkerResponseDto))
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiForbiddenResponse()
