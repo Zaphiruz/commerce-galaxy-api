@@ -59,7 +59,7 @@ async function bootstrap() {
   app.use(helmet());
 
   app.enableCors({
-    methods: ['GET', 'POST', 'PUT', 'DEL'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     origin: ['https://*.commercegalaxy.online', 'https://commercegalaxy.online', 'http://localhost:3000', 'http://localhost:8080']
   });
 
