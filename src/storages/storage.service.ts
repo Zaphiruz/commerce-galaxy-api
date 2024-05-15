@@ -15,8 +15,8 @@ export class StorageService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<Storage[]> {
-    return this.storageModel.find().exec();
+  async findAll(query = null): Promise<Storage[]> {
+    return this.storageModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Storage> {

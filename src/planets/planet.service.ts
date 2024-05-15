@@ -15,8 +15,8 @@ export class PlanetService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<Planet[]> {
-    return this.planetModel.find().exec();
+  async findAll(query = null): Promise<Planet[]> {
+    return this.planetModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Planet> {

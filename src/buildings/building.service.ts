@@ -15,8 +15,8 @@ export class BuildingService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<Building[]> {
-    return this.buildingModel.find().exec();
+  async findAll(query = null): Promise<Building[]> {
+    return this.buildingModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Building> {

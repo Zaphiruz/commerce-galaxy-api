@@ -15,8 +15,8 @@ export class NoteService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<Note[]> {
-    return this.noteModel.find().exec();
+  async findAll(query = null): Promise<Note[]> {
+    return this.noteModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Note> {

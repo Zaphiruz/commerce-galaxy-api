@@ -15,8 +15,8 @@ export class ResourceService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<Resource[]> {
-    return this.resourceModel.find().exec();
+  async findAll(query = null): Promise<Resource[]> {
+    return this.resourceModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Resource> {

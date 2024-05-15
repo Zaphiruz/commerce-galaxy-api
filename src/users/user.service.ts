@@ -15,8 +15,8 @@ export class UserService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+  async findAll(query = null): Promise<User[]> {
+    return this.userModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<User> {

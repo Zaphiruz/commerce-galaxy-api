@@ -16,8 +16,8 @@ export class ShipService {
     return this.findOne(doc._id.toHexString()); // TODO refactor? did this to hide password
   }
 
-  async findAll(): Promise<Ship[]> {
-    return this.shipModel.find().exec();
+  async findAll(query = null): Promise<Ship[]> {
+    return this.shipModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Ship> {

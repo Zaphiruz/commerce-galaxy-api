@@ -15,8 +15,8 @@ export class WorkerService {
     return createdCat.save(); 
   }
 
-  async findAll(): Promise<Worker[]> {
-    return this.workerModel.find().exec();
+  async findAll(query = null): Promise<Worker[]> {
+    return this.workerModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Worker> {

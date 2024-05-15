@@ -15,8 +15,8 @@ export class ContractService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<Contract[]> {
-    return this.contractModel.find().exec();
+  async findAll(query = null): Promise<Contract[]> {
+    return this.contractModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Contract> {

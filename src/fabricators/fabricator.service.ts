@@ -15,8 +15,8 @@ export class FabricatorService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<Fabricator[]> {
-    return this.fabricatorModel.find().exec();
+  async findAll(query = null): Promise<Fabricator[]> {
+    return this.fabricatorModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Fabricator> {

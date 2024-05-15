@@ -15,8 +15,8 @@ export class RecipeService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<Recipe[]> {
-    return this.recipeModel.find().exec();
+  async findAll(query = null): Promise<Recipe[]> {
+    return this.recipeModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Recipe> {

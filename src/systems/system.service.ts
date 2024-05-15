@@ -15,8 +15,8 @@ export class SystemService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<System[]> {
-    return this.systemModel.find().exec();
+  async findAll(query = null): Promise<System[]> {
+    return this.systemModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<System> {

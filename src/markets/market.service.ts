@@ -15,8 +15,8 @@ export class MarketService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<Market[]> {
-    return this.marketModel.find().exec();
+  async findAll(query = null): Promise<Market[]> {
+    return this.marketModel.find(query).exec();
   }
 
   async findOne(id: string): Promise<Market> {
