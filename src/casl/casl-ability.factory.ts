@@ -1,23 +1,38 @@
-import { Injectable } from "@nestjs/common";
-import { InferSubjects, AbilityBuilder, MongoAbility, ExtractSubjectType, AbilityClass, createMongoAbility } from "@casl/ability";
+import { Injectable } from '@nestjs/common';
+import {
+  InferSubjects,
+  AbilityBuilder,
+  MongoAbility,
+  ExtractSubjectType,
+  createMongoAbility,
+} from '@casl/ability';
 
-import { ActionEnum } from "./action.enum";
-import { User } from "../users/schemas/user.schema";
-import { Base } from "../bases/schemas/base.schema";
-import { Resource } from "../resources/schemas/resource.schema";
-import { Planet } from "../planets/schemas/planet.schema";
-import { Recipe } from "../recipes/schemas/recipe.schema";
-import { Building } from "../buildings/schemas/building.entity";
-import { UserRolesEnum } from "../users/user-roles.enum";
+import { ActionEnum } from './action.enum';
+import { User } from '../users/schemas/user.schema';
+import { Base } from '../bases/schemas/base.schema';
+import { Resource } from '../resources/schemas/resource.schema';
+import { Planet } from '../planets/schemas/planet.schema';
+import { Recipe } from '../recipes/schemas/recipe.schema';
+import { Building } from '../buildings/schemas/building.entity';
+import { UserRolesEnum } from '../users/user-roles.enum';
 
-type Subjects = InferSubjects<typeof Base | typeof User | typeof Resource | typeof Planet | typeof Recipe | typeof Building> | 'all';
+type Subjects =
+  | InferSubjects<
+      | typeof Base
+      | typeof User
+      | typeof Resource
+      | typeof Planet
+      | typeof Recipe
+      | typeof Building
+    >
+  | 'all';
 
 export type AppAbility = MongoAbility<[ActionEnum, Subjects]>;
 
 @Injectable()
 export class CaslAbilityFactory {
   createForUser(user: User) {
-    const { can, cannot, build } = new AbilityBuilder<
+    const { can, /* cannot, */ build } = new AbilityBuilder<
       MongoAbility<[ActionEnum, Subjects]>
     >(createMongoAbility);
 
@@ -25,7 +40,7 @@ export class CaslAbilityFactory {
     if (user.roles.includes(UserRolesEnum.Admin)) {
       can(ActionEnum.Manage, 'all'); // admins get full access
     } else if (user.roles.includes(UserRolesEnum.Moderator)) {
-      can(ActionEnum.Update, 'all') // mods can update anything, but not delete/create
+      can(ActionEnum.Update, 'all'); // mods can update anything, but not delete/create
     } else {
       can(ActionEnum.Read, 'all'); // read-only access to everything
     }

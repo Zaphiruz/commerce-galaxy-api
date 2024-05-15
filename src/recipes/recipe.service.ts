@@ -24,7 +24,11 @@ export class RecipeService {
   }
 
   async update(id: string, updateRecipeDto: UpdateRecipeDto): Promise<Recipe> {
-    return this.recipeModel.findByIdAndUpdate(id, { "$set": updateRecipeDto }, { returnDocument: 'after' });
+    return this.recipeModel.findByIdAndUpdate(
+      id,
+      { $set: updateRecipeDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Recipe> {

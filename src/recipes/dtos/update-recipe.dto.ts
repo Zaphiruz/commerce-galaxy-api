@@ -1,9 +1,9 @@
-import { IsOptional } from "class-validator";
+import { IsOptional } from 'class-validator';
 
 export class UpdateRecipeDto {
-    @IsOptional()
-    name?: string;
+  @IsOptional()
+  name?: string;
 
-    @IsOptional()
-    symbol?: string;
+  @IsOptional()
+  symbol?: string;
 }

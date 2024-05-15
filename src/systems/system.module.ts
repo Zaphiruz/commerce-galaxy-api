@@ -8,7 +8,8 @@ import { SystemService } from './system.service';
 import { System, SystemSchema } from './schemas/system.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: System.name, schema: SystemSchema }]),
+  imports: [
+    MongooseModule.forFeature([{ name: System.name, schema: SystemSchema }]),
     CaslModule,
     UsersModule,
   ],

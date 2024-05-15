@@ -1,11 +1,10 @@
-import { IsOptional, IsPositive } from "class-validator";
-
+import { IsOptional, IsPositive } from 'class-validator';
 
 export class UpdateBaseRequest {
-    @IsOptional()
-    name?: string;
+  @IsOptional()
+  name?: string;
 
-    @IsOptional()
-    @IsPositive()
-    size?: number;
+  @IsOptional()
+  @IsPositive()
+  size?: number;
 }

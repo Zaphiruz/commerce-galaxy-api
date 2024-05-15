@@ -8,7 +8,8 @@ import { NoteService } from './note.service';
 import { Note, NoteSchema } from './schemas/note.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
+  imports: [
+    MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
     CaslModule,
     UsersModule,
   ],

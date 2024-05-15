@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); // eslint-disable-line @typescript-eslint/no-var-requires
 import { JwtService } from '@nestjs/jwt';
 
 import { UserService } from 'src/users/user.service';
@@ -11,11 +11,17 @@ import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async login(requestData: LoginRequestDto): Promise<LoginResponseDto> {
     const user = await this.userService.findByUsername(requestData.username);
-    const validPass = !!user && await this.validatePassword(requestData.password, user.password) || false;
+    const validPass =
+      (!!user &&
+        (await this.validatePassword(requestData.password, user.password))) ||
+      false;
     if (!validPass) {
       throw new UnauthorizedException();
     }
@@ -28,7 +34,7 @@ export class AuthService {
     };
   }
 
-  async validatePassword(password, hash): Promise<Boolean> {
+  async validatePassword(password, hash): Promise<boolean> {
     return bcrypt.compare(password, hash);
   }
 

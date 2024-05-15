@@ -16,15 +16,30 @@ export class BaseService {
   }
 
   async findAll(query = null): Promise<Base[]> {
-    return this.baseModel.find(query).populate('user').populate('planet').exec();
+    return this.baseModel
+      .find(query)
+      .populate('user')
+      .populate('planet')
+      .exec();
   }
 
   async findOne(id: string): Promise<Base> {
-    return this.baseModel.findById(id).populate('user').populate('planet').exec();
+    return this.baseModel
+      .findById(id)
+      .populate('user')
+      .populate('planet')
+      .exec();
   }
 
-  async update(id: string, updateBaseRequestDto: UpdateBaseRequest): Promise<Base> {
-    return this.baseModel.findByIdAndUpdate(id, { "$set": updateBaseRequestDto }, { returnDocument: 'after' });
+  async update(
+    id: string,
+    updateBaseRequestDto: UpdateBaseRequest,
+  ): Promise<Base> {
+    return this.baseModel.findByIdAndUpdate(
+      id,
+      { $set: updateBaseRequestDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Base> {

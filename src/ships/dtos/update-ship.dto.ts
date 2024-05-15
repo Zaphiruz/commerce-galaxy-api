@@ -1,6 +1,6 @@
-import { IsOptional } from "class-validator";
+import { IsOptional } from 'class-validator';
 
 export class UpdateShipDto {
-    @IsOptional()
-    name?: string;
- }
+  @IsOptional()
+  name?: string;
+}

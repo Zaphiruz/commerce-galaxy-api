@@ -8,7 +8,8 @@ import { ShipService } from './ship.service';
 import { Ship, ShipSchema } from './schemas/ship.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Ship.name, schema: ShipSchema }]),
+  imports: [
+    MongooseModule.forFeature([{ name: Ship.name, schema: ShipSchema }]),
     CaslModule,
     UsersModule,
   ],

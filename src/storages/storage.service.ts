@@ -8,10 +8,12 @@ import { UpdateStorageDto } from './dtos/update-storage.dto';
 
 @Injectable()
 export class StorageService {
-  constructor(@InjectModel(Storage.name) private storageModel: Model<Storage>) {}
+  constructor(
+    @InjectModel(Storage.name) private storageModel: Model<Storage>,
+  ) {}
 
   async create(newStorageDto: NewStorageDto): Promise<Storage> {
-    const createdCat = new this.storageModel({...newStorageDto,});
+    const createdCat = new this.storageModel({ ...newStorageDto });
     return createdCat.save();
   }
 
@@ -23,8 +25,15 @@ export class StorageService {
     return this.storageModel.findById(id).exec();
   }
 
-  async update(id: string, updateStorageDto: UpdateStorageDto): Promise<Storage> {
-    return this.storageModel.findByIdAndUpdate(id, { "$set": updateStorageDto }, { returnDocument: 'after' });
+  async update(
+    id: string,
+    updateStorageDto: UpdateStorageDto,
+  ): Promise<Storage> {
+    return this.storageModel.findByIdAndUpdate(
+      id,
+      { $set: updateStorageDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Storage> {

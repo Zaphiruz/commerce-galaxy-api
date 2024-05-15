@@ -8,7 +8,10 @@ import { ContractService } from './contract.service';
 import { Contract, ContractSchema } from './schemas/contract.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Contract.name, schema: ContractSchema }]),
+  imports: [
+    MongooseModule.forFeature([
+      { name: Contract.name, schema: ContractSchema },
+    ]),
     CaslModule,
     UsersModule,
   ],

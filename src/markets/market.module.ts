@@ -8,7 +8,8 @@ import { MarketService } from './market.service';
 import { Market, MarketSchema } from './schemas/market.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Market.name, schema: MarketSchema }]),
+  imports: [
+    MongooseModule.forFeature([{ name: Market.name, schema: MarketSchema }]),
     CaslModule,
     UsersModule,
   ],

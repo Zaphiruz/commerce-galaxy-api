@@ -8,9 +8,11 @@ import { StorageService } from './storage.service';
 import { Storage, StorageSchema } from './schemas/storage.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Storage.name, schema: StorageSchema }]),
+  imports: [
+    MongooseModule.forFeature([{ name: Storage.name, schema: StorageSchema }]),
     CaslModule,
-    UsersModule,],
+    UsersModule,
+  ],
   controllers: [StorageController],
   providers: [StorageService],
   exports: [StorageService],

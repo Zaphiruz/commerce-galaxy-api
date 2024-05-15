@@ -8,7 +8,9 @@ import { UpdateFabricatorDto } from './dtos/update-fabricator.dto';
 
 @Injectable()
 export class FabricatorService {
-  constructor(@InjectModel(Fabricator.name) private fabricatorModel: Model<Fabricator>) {}
+  constructor(
+    @InjectModel(Fabricator.name) private fabricatorModel: Model<Fabricator>,
+  ) {}
 
   async create(newFabricatorDto: NewFabricatorDto): Promise<Fabricator> {
     const createdCat = new this.fabricatorModel(newFabricatorDto);
@@ -23,8 +25,15 @@ export class FabricatorService {
     return this.fabricatorModel.findById(id).exec();
   }
 
-  async update(id: string, updateFabricatorDto: UpdateFabricatorDto): Promise<Fabricator> {
-    return this.fabricatorModel.findByIdAndUpdate(id, { "$set": updateFabricatorDto }, { returnDocument: 'after' });
+  async update(
+    id: string,
+    updateFabricatorDto: UpdateFabricatorDto,
+  ): Promise<Fabricator> {
+    return this.fabricatorModel.findByIdAndUpdate(
+      id,
+      { $set: updateFabricatorDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Fabricator> {

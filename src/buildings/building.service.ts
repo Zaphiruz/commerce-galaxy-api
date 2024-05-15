@@ -8,9 +8,13 @@ import { UpdateBuildingRequestDto } from './dtos/update-building.request.dto';
 
 @Injectable()
 export class BuildingService {
-  constructor(@InjectModel(Building.name) private buildingModel: Model<Building>) {}
+  constructor(
+    @InjectModel(Building.name) private buildingModel: Model<Building>,
+  ) {}
 
-  async create(createBuildingRequestDto: CreateBuildingRequestDto): Promise<Building> {
+  async create(
+    createBuildingRequestDto: CreateBuildingRequestDto,
+  ): Promise<Building> {
     const createdCat = new this.buildingModel(createBuildingRequestDto);
     return createdCat.save();
   }
@@ -23,8 +27,15 @@ export class BuildingService {
     return this.buildingModel.findById(id).exec();
   }
 
-  async update(id: string, updateBuildingRequestDto: UpdateBuildingRequestDto): Promise<Building> {
-    return this.buildingModel.findByIdAndUpdate(id, { "$set": updateBuildingRequestDto }, { returnDocument: 'after' });
+  async update(
+    id: string,
+    updateBuildingRequestDto: UpdateBuildingRequestDto,
+  ): Promise<Building> {
+    return this.buildingModel.findByIdAndUpdate(
+      id,
+      { $set: updateBuildingRequestDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Building> {

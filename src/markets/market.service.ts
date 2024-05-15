@@ -11,7 +11,7 @@ export class MarketService {
   constructor(@InjectModel(Market.name) private marketModel: Model<Market>) {}
 
   async create(newMarketDto: NewMarketDto): Promise<Market> {
-    const createdCat = new this.marketModel({...newMarketDto,});
+    const createdCat = new this.marketModel({ ...newMarketDto });
     return createdCat.save();
   }
 
@@ -24,7 +24,11 @@ export class MarketService {
   }
 
   async update(id: string, updateMarketDto: UpdateMarketDto): Promise<Market> {
-    return this.marketModel.findByIdAndUpdate(id, { "$set": updateMarketDto }, { returnDocument: 'after' });
+    return this.marketModel.findByIdAndUpdate(
+      id,
+      { $set: updateMarketDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Market> {

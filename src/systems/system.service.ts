@@ -24,7 +24,11 @@ export class SystemService {
   }
 
   async update(id: string, updateSystemDto: UpdateSystemDto): Promise<System> {
-    return this.systemModel.findByIdAndUpdate(id, { "$set": updateSystemDto }, { returnDocument: 'after' });
+    return this.systemModel.findByIdAndUpdate(
+      id,
+      { $set: updateSystemDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<System> {

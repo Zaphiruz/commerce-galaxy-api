@@ -9,7 +9,9 @@ import { UsersModule } from 'src/users/user.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Resource.name, schema: ResourceSchema }]),
+    MongooseModule.forFeature([
+      { name: Resource.name, schema: ResourceSchema },
+    ]),
     CaslModule,
     UsersModule,
   ],

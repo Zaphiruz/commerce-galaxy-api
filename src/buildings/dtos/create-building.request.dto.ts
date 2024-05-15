@@ -1,14 +1,14 @@
-import { IsEnum, IsNotEmpty } from "class-validator";
+import { IsEnum, IsNotEmpty } from 'class-validator';
 
-import { BuildingTypeEnum } from "../building-type.enum";
+import { BuildingTypeEnum } from '../building-type.enum';
 
 export class CreateBuildingRequestDto {
-    @IsNotEmpty()
-    name: string;
+  @IsNotEmpty()
+  name: string;
 
-    @IsNotEmpty()
-    size: number;
+  @IsNotEmpty()
+  size: number;
 
-    @IsEnum(BuildingTypeEnum)
-    type: BuildingTypeEnum;
+  @IsEnum(BuildingTypeEnum)
+  type: BuildingTypeEnum;
 }

@@ -19,9 +19,12 @@ import { NotesModule } from './notes/note.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(`mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASS}@cluster0.pgvfszf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`, {
-      dbName: process.env.DATABASE_NAME,
-    }),
+    MongooseModule.forRoot(
+      `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASS}@cluster0.pgvfszf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
+      {
+        dbName: process.env.DATABASE_NAME,
+      },
+    ),
     AuthModule,
     UsersModule,
     PlanetsModule,
@@ -42,4 +45,4 @@ import { NotesModule } from './notes/note.module';
   providers: [],
   exports: [],
 })
-export class AppModule { }
+export class AppModule {}

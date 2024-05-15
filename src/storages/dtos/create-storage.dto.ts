@@ -1,6 +1,6 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
-export class NewStorageDto { 
-    @IsNotEmpty()
-    name: string;
+export class NewStorageDto {
+  @IsNotEmpty()
+  name: string;
 }

@@ -1,16 +1,15 @@
-import { IsMongoId, IsOptional, IsPositive } from "class-validator";
-
+import { IsMongoId, IsOptional, IsPositive } from 'class-validator';
 
 export class CreateBaseRequestDto {
-    @IsOptional()
-    name?: string;
-    
-    @IsPositive()
-    size: number = 25;
+  @IsOptional()
+  name?: string;
 
-    @IsMongoId()
-    planet: string;
+  @IsPositive()
+  size: number = 25;
 
-    @IsMongoId()
-    user: string;
+  @IsMongoId()
+  planet: string;
+
+  @IsMongoId()
+  user: string;
 }

@@ -8,7 +8,9 @@ import { UpdateContractDto } from './dtos/update-contract.dto';
 
 @Injectable()
 export class ContractService {
-  constructor(@InjectModel(Contract.name) private contractModel: Model<Contract>) {}
+  constructor(
+    @InjectModel(Contract.name) private contractModel: Model<Contract>,
+  ) {}
 
   async create(newContractDto: NewContractDto): Promise<Contract> {
     const createdCat = new this.contractModel(newContractDto);
@@ -23,8 +25,15 @@ export class ContractService {
     return this.contractModel.findById(id).exec();
   }
 
-  async update(id: string, updateContractDto: UpdateContractDto): Promise<Contract> {
-    return this.contractModel.findByIdAndUpdate(id, { "$set": updateContractDto }, { returnDocument: 'after' });
+  async update(
+    id: string,
+    updateContractDto: UpdateContractDto,
+  ): Promise<Contract> {
+    return this.contractModel.findByIdAndUpdate(
+      id,
+      { $set: updateContractDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Contract> {

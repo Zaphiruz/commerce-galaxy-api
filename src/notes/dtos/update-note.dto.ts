@@ -1,12 +1,12 @@
-import { IsOptional } from "class-validator";
+import { IsOptional } from 'class-validator';
 
 export class UpdateNoteDto {
-    @IsOptional()
-    title?: string;
+  @IsOptional()
+  title?: string;
 
-    @IsOptional()
-    content?: string;
+  @IsOptional()
+  content?: string;
 
-    @IsOptional()
-    date?: string;
- }
+  @IsOptional()
+  date?: string;
+}

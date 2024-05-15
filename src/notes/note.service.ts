@@ -11,7 +11,7 @@ export class NoteService {
   constructor(@InjectModel(Note.name) private noteModel: Model<Note>) {}
 
   async create(newNoteDto: NewNoteDto): Promise<Note> {
-    const createdCat = new this.noteModel({...newNoteDto,});
+    const createdCat = new this.noteModel({ ...newNoteDto });
     return createdCat.save();
   }
 
@@ -24,7 +24,11 @@ export class NoteService {
   }
 
   async update(id: string, updateNoteDto: UpdateNoteDto): Promise<Note> {
-    return this.noteModel.findByIdAndUpdate(id, { "$set": updateNoteDto }, { returnDocument: 'after' });
+    return this.noteModel.findByIdAndUpdate(
+      id,
+      { $set: updateNoteDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Note> {

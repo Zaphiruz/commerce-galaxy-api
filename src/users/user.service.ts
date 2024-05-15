@@ -11,7 +11,7 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const createdCat = new this.userModel({ ...createUserDto, roles: []});
+    const createdCat = new this.userModel({ ...createUserDto, roles: [] });
     return createdCat.save();
   }
 
@@ -27,7 +27,11 @@ export class UserService {
     if (updateUserDto.password) {
       updateUserDto.password = await hashPassword(updateUserDto.password);
     }
-    return this.userModel.findByIdAndUpdate(id, { "$set": updateUserDto }, { returnDocument: 'after' });
+    return this.userModel.findByIdAndUpdate(
+      id,
+      { $set: updateUserDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<User> {

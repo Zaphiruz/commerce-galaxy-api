@@ -11,8 +11,8 @@ export class ShipService {
   constructor(@InjectModel(Ship.name) private shipModel: Model<Ship>) {}
 
   async create(newShipDto: NewShipDto): Promise<Ship> {
-    const createdCat = new this.shipModel({...newShipDto,});
-    let doc = await createdCat.save();
+    const createdCat = new this.shipModel({ ...newShipDto });
+    const doc = await createdCat.save();
     return this.findOne(doc._id.toHexString()); // TODO refactor? did this to hide password
   }
 
@@ -25,7 +25,11 @@ export class ShipService {
   }
 
   async update(id: string, updateShipDto: UpdateShipDto): Promise<Ship> {
-    return this.shipModel.findByIdAndUpdate(id, { "$set": updateShipDto }, { returnDocument: 'after' });
+    return this.shipModel.findByIdAndUpdate(
+      id,
+      { $set: updateShipDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Ship> {

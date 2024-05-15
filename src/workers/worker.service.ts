@@ -11,8 +11,8 @@ export class WorkerService {
   constructor(@InjectModel(Worker.name) private workerModel: Model<Worker>) {}
 
   async create(createWorkerDto: NewWorkerDto): Promise<Worker> {
-    const createdCat = new this.workerModel({...createWorkerDto,});
-    return createdCat.save(); 
+    const createdCat = new this.workerModel({ ...createWorkerDto });
+    return createdCat.save();
   }
 
   async findAll(query = null): Promise<Worker[]> {
@@ -24,7 +24,11 @@ export class WorkerService {
   }
 
   async update(id: string, updateWorkerDto: UpdateWorkerDto): Promise<Worker> {
-    return this.workerModel.findByIdAndUpdate(id, { "$set": updateWorkerDto }, { returnDocument: 'after' });
+    return this.workerModel.findByIdAndUpdate(
+      id,
+      { $set: updateWorkerDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Worker> {

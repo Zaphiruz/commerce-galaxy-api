@@ -1,8 +1,6 @@
-import { IsBoolean, IsNotEmpty } from 'class-validator';
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); // eslint-disable-line @typescript-eslint/no-var-requires
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserRolesEnum } from '../user-roles.enum';
 
@@ -12,21 +10,21 @@ export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
-    @ApiProperty({ type: String })
-    _id: Types.ObjectId;
+  @ApiProperty({ type: String })
+  _id: Types.ObjectId;
 
-    @Prop({ required: true, unique: true })
-    username: string;
+  @Prop({ required: true, unique: true })
+  username: string;
 
-    @Prop({ required: true })
-    password: string;
+  @Prop({ required: true })
+  password: string;
 
-    @Prop({ type: [String], enum: UserRolesEnum, default: [] })
-    roles: UserRolesEnum[]
+  @Prop({ type: [String], enum: UserRolesEnum, default: [] })
+  roles: UserRolesEnum[];
 
-    constructor(user?: Partial<User>) {
-        Object.assign(this, user)
-    }
+  constructor(user?: Partial<User>) {
+    Object.assign(this, user);
+  }
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -37,13 +35,12 @@ export async function hashPassword(pass: string): Promise<string> {
 }
 
 UserSchema.pre('save', async function save(next) {
-    if (!this.isModified('password')) return next();
+  if (!this.isModified('password')) return next();
 
-    try {
-        const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-        this.password = await hashPassword(this.password);
-        return next();
-      } catch (err) {
-        return next(err);
-      }
+  try {
+    this.password = await hashPassword(this.password);
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 });

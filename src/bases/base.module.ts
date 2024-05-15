@@ -10,9 +10,10 @@ import { UsersModule } from 'src/users/user.module';
   imports: [
     MongooseModule.forFeature([{ name: Base.name, schema: BaseSchema }]),
     CaslModule,
-    UsersModule],
+    UsersModule,
+  ],
   controllers: [BaseController],
   providers: [BaseService],
   exports: [BaseService],
 })
-export class BasesModule { }
+export class BasesModule {}

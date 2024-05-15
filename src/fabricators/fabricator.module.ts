@@ -8,7 +8,10 @@ import { FabricatorService } from './fabricator.service';
 import { Fabricator, FabricatorSchema } from './schemas/fabricator.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Fabricator.name, schema: FabricatorSchema }]),
+  imports: [
+    MongooseModule.forFeature([
+      { name: Fabricator.name, schema: FabricatorSchema },
+    ]),
     CaslModule,
     UsersModule,
   ],

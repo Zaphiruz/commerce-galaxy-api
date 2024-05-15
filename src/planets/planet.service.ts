@@ -10,7 +10,9 @@ import { UpdatePlanetRequestDto } from './dtos/update-planet.request.dto';
 export class PlanetService {
   constructor(@InjectModel(Planet.name) private planetModel: Model<Planet>) {}
 
-  async create(createPlanetRequestDto: CreatePlanetRequestDto): Promise<Planet> {
+  async create(
+    createPlanetRequestDto: CreatePlanetRequestDto,
+  ): Promise<Planet> {
     const createdCat = new this.planetModel(createPlanetRequestDto);
     return createdCat.save();
   }
@@ -23,8 +25,15 @@ export class PlanetService {
     return this.planetModel.findById(id).exec();
   }
 
-  async update(id: string, updatePlanetRequestDto: UpdatePlanetRequestDto): Promise<Planet> {
-    return this.planetModel.findByIdAndUpdate(id, { "$set": updatePlanetRequestDto }, { returnDocument: 'after' });
+  async update(
+    id: string,
+    updatePlanetRequestDto: UpdatePlanetRequestDto,
+  ): Promise<Planet> {
+    return this.planetModel.findByIdAndUpdate(
+      id,
+      { $set: updatePlanetRequestDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Planet> {

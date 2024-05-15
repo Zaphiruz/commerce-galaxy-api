@@ -1,22 +1,20 @@
-import { IsBoolean, IsNotEmpty } from 'class-validator';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export type MarketDocument = HydratedDocument<Market>;
 
 @Schema()
 export class Market {
-    @ApiProperty({ type: String })
-    _id: Types.ObjectId;
+  @ApiProperty({ type: String })
+  _id: Types.ObjectId;
 
-    @Prop()
-    name: string;
+  @Prop()
+  name: string;
 
-    constructor(market?: Partial<Market>) {
-        Object.assign(this, market)
-    }
+  constructor(market?: Partial<Market>) {
+    Object.assign(this, market);
+  }
 }
 
 export const MarketSchema = SchemaFactory.createForClass(Market);

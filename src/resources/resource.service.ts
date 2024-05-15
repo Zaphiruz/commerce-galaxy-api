@@ -8,7 +8,9 @@ import { UpdateResourceDto } from './dtos/update-resource.dto';
 
 @Injectable()
 export class ResourceService {
-  constructor(@InjectModel(Resource.name) private resourceModel: Model<Resource>) {}
+  constructor(
+    @InjectModel(Resource.name) private resourceModel: Model<Resource>,
+  ) {}
 
   async create(newResourceDto: NewResourceDto): Promise<Resource> {
     const createdCat = new this.resourceModel(newResourceDto);
@@ -23,8 +25,15 @@ export class ResourceService {
     return this.resourceModel.findById(id).exec();
   }
 
-  async update(id: string, updateResourceDto: UpdateResourceDto): Promise<Resource> {
-    return this.resourceModel.findByIdAndUpdate(id, { "$set": updateResourceDto }, { returnDocument: 'after' });
+  async update(
+    id: string,
+    updateResourceDto: UpdateResourceDto,
+  ): Promise<Resource> {
+    return this.resourceModel.findByIdAndUpdate(
+      id,
+      { $set: updateResourceDto },
+      { returnDocument: 'after' },
+    );
   }
 
   async delete(id: string): Promise<Resource> {

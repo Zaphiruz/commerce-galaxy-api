@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseInterceptors, } from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
@@ -8,7 +8,6 @@ import { RegisterRequestDto } from './dtos/register.request.dto';
 import { DtoInterceptor } from 'src/common/dto-converter.interceptor';
 import { User } from '../users/schemas/user.schema';
 import { RegisterResponseDto } from './dtos/register.response.dto';
-
 
 @ApiTags('auth')
 @Controller('auth')

@@ -5,7 +5,7 @@ import { config } from 'dotenv';
 import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import { WinstonModule } from 'nest-winston'
+import { WinstonModule } from 'nest-winston';
 
 config();
 
@@ -13,19 +13,19 @@ import { AppModule } from './app.module';
 import { LoggingInterceptor } from './common/logging.interceptor';
 import { createLogger } from './logger/winston.logger';
 
-
-
 async function bootstrap() {
   const adapter = new ExpressAdapter();
   adapter.set('trust proxy', 1);
 
   const app = await NestFactory.create(AppModule, adapter, {
-    bufferLogs: true
+    bufferLogs: true,
   });
 
-  app.useLogger(WinstonModule.createLogger({
-    instance: createLogger(),
-  }));
+  app.useLogger(
+    WinstonModule.createLogger({
+      instance: createLogger(),
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Commerce Galaxy Api')
@@ -40,19 +40,19 @@ async function bootstrap() {
     type: VersioningType.URI,
   });
 
-  app.useGlobalPipes(new ValidationPipe({
-    enableDebugMessages: true,
-    forbidUnknownValues: true,
-    whitelist: true,
-    validationError: {
-      target: true,
-      value: true,
-    },
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      enableDebugMessages: true,
+      forbidUnknownValues: true,
+      whitelist: true,
+      validationError: {
+        target: true,
+        value: true,
+      },
+    }),
+  );
 
-  app.useGlobalInterceptors(
-    new LoggingInterceptor()
-  )
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
   app.use(compression());
 
@@ -60,7 +60,12 @@ async function bootstrap() {
 
   app.enableCors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    origin: ['https://*.commercegalaxy.online', 'https://commercegalaxy.online', 'http://localhost:3000', 'http://localhost:8080']
+    origin: [
+      'https://*.commercegalaxy.online',
+      'https://commercegalaxy.online',
+      'http://localhost:3000',
+      'http://localhost:8080',
+    ],
   });
 
   await app.listen(8081);
