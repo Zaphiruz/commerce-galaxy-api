@@ -7,6 +7,7 @@ import { LoginRequestDto } from './dtos/login.request.dto';
 import { LoginResponseDto } from './dtos/login.response.dto';
 import { RegisterRequestDto } from './dtos/register.request.dto';
 import { User } from '../users/schemas/user.schema';
+import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +23,7 @@ export class AuthService {
     const payload = { sub: user._id, username: user.username };
     return {
       access_token: await this.jwtService.signAsync(payload),
+      expires: jwtConstants.expires,
       id: user._id.toString(),
     };
   }
