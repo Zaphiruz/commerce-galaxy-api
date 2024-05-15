@@ -10,6 +10,9 @@ import {
     Put,
     UseGuards,
     UseInterceptors,
+    Request,
+    Req,
+    Logger,
 } from '@nestjs/common'
 import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiForbiddenResponse } from '@nestjs/swagger'
 
@@ -24,7 +27,6 @@ import { CheckPolicies } from 'src/casl/policies.decorator'
 import { ActionEnum } from 'src/casl/action.enum'
 import { AppAbility } from 'src/casl/casl-ability.factory'
 import { UserResponseDto } from './dtos/user.response.dto';
-import { plainToInstance } from 'class-transformer'
 import { DtoInterceptor } from '../common/dto-converter.interceptor'
 
 @UseGuards(AuthGuard, PoliciesGuard)
@@ -35,6 +37,8 @@ import { DtoInterceptor } from '../common/dto-converter.interceptor'
 @ApiForbiddenResponse()
 @Controller('users')
 export class UserController {
+    logger = new Logger(UserController.name);
+
     constructor(
         private readonly userService: UserService,
     ) { }
@@ -44,6 +48,13 @@ export class UserController {
     @ApiOkResponse({ type: [User] })
     public async getAllUsers(): Promise<User[]> {
         return this.userService.findAll();
+    }
+
+    @Get('me')
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, User))
+    @ApiOkResponse({ type: User })
+    public async getMe(@Req() request: Request): Promise<User> {
+        return request['user'];
     }
 
     @Get(':id')
