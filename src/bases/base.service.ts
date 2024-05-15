@@ -15,8 +15,8 @@ export class BaseService {
     return createdCat.save();
   }
 
-  async findAll(): Promise<Base[]> {
-    return this.baseModel.find().populate('user').populate('planet').exec();
+  async findAll(query = null): Promise<Base[]> {
+    return this.baseModel.find(query).populate('user').populate('planet').exec();
   }
 
   async findOne(id: string): Promise<Base> {

@@ -7,6 +7,7 @@ import {
     Param,
     Post,
     Put,
+    Req,
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common'
@@ -42,6 +43,13 @@ export class BaseController {
     @ApiOkResponse({ type: [Base] })
     public async getAllBases(): Promise<Base[]> {
         return this.baseService.findAll();
+    }
+
+    @Get('me')
+    @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Base))
+    @ApiOkResponse({ type: [Base] })
+    public async getMe(@Req() request: Request): Promise<Base[]> {
+        return this.baseService.findAll({ user: request['user']._id.toString() })
     }
 
     @Get(':id')
