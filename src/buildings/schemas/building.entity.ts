@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { BuildingTypeEnum } from '../building-type.enum';
+import { Base } from 'src/bases/schemas/base.schema';
 
 export type BuildingDocument = HydratedDocument<Building>;
 
@@ -18,6 +19,10 @@ export class Building {
 
   @Prop({ required: true })
   type: BuildingTypeEnum;
+
+  @Prop({ type: Types.ObjectId, ref: 'Base', required: true })
+  @ApiProperty({ type: String })
+  base: Base;
 
   constructor(building?: Partial<Building>) {
     Object.assign(this, building);
