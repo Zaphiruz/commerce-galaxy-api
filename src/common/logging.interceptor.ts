@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { requestInfoParser } from './request-parcing.util';
 
 const protectedKeys = ['password'];
 
@@ -16,15 +17,12 @@ export class LoggingInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const ctx = context.switchToHttp();
-
     const req = ctx.getRequest();
-    const method = req.method;
-    const url = req.url;
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    const auth = req.headers['authorization']?.slice(7);
+
+    const { method, url, ip, token } = requestInfoParser(req);
 
     this.logger.log(
-      `Req: ${method} ${url} ${ip} ${auth} ${this.parseBody(req.body)}`,
+      `Req: ${method} ${url} ${ip} ${token} ${this.parseBody(req.body)}`,
     );
 
     const now = Date.now();
@@ -32,7 +30,7 @@ export class LoggingInterceptor implements NestInterceptor {
       tap((resBody) => {
         const res = ctx.getResponse();
         this.logger.log(
-          `Res: ${method} ${url} ${ip} ${auth} ${res.statusCode} ${Date.now() - now} \n${this.parseBody(resBody)}`,
+          `Res: ${method} ${url} ${ip} ${token} ${res.statusCode} ${Date.now() - now} \n${this.parseBody(resBody)}`,
         );
       }),
     );
