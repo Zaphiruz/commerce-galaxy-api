@@ -1,4 +1,4 @@
-import { IsEnum, IsMongoId, IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
 
 import { BuildingTypeEnum } from 'src/buildings/building-type.enum';
 
@@ -11,7 +11,4 @@ export class NewCatalogDto {
 
   @IsEnum(BuildingTypeEnum)
   type: BuildingTypeEnum;
-
-  @IsMongoId()
-  base: string;
 }
