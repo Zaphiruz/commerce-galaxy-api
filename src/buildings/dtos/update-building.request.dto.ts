@@ -1,15 +1,6 @@
-import { IsEnum, IsOptional } from 'class-validator';
-
-import { BuildingTypeEnum } from '../building-type.enum';
+import { IsOptional } from 'class-validator';
 
 export class UpdateBuildingRequestDto {
   @IsOptional()
-  name?: string;
-
-  @IsOptional()
-  size?: number;
-
-  @IsOptional()
-  @IsEnum(BuildingTypeEnum)
-  type?: BuildingTypeEnum;
+  catalog: string;
 }

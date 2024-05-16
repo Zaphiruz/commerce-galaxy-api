@@ -24,11 +24,19 @@ export class BuildingService {
   }
 
   async findAll(query = null): Promise<Building[]> {
-    return this.buildingModel.find(query).populate('base').exec();
+    return this.buildingModel
+      .find(query)
+      .populate('base')
+      .populate('catalog')
+      .exec();
   }
 
   async findOne(id: string): Promise<Building> {
-    return this.buildingModel.findById(id).populate('base').exec();
+    return this.buildingModel
+      .findById(id)
+      .populate('base')
+      .populate('catalog')
+      .exec();
   }
 
   async update(

@@ -1,5 +1,5 @@
 import { IsEnum, IsOptional } from 'class-validator';
-import { BuildingTypeEnum } from 'src/buildings/building-type.enum';
+import { BuildingTypeEnum } from 'src/catalogs/building-type.enum';
 
 export class UpdateCatalogDto {
   @IsOptional()
