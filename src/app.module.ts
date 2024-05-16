@@ -16,6 +16,7 @@ import { FabricatorsModule } from './fabricators/fabricator.module';
 import { ShipsModule } from './ships/ship.module';
 import { StoragesModule } from './storages/storage.module';
 import { NotesModule } from './notes/note.module';
+import { CatalogsModule } from './catalogs/catalog.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { NotesModule } from './notes/note.module';
     StoragesModule,
     NotesModule,
     RecipeModule,
+    CatalogsModule,
   ],
   controllers: [],
   providers: [],
