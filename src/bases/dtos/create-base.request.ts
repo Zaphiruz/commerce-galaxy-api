@@ -12,4 +12,7 @@ export class CreateBaseRequestDto {
 
   @IsMongoId()
   user: string;
+
+  @IsOptional()
+  buildings?: string[] = [];
 }

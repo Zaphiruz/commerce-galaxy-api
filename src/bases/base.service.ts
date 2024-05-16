@@ -1,10 +1,11 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Base } from './schemas/base.schema';
+import { Base, BaseDocument } from './schemas/base.schema';
 import { CreateBaseRequestDto } from './dtos/create-base.request';
 import { UpdateBaseRequest } from './dtos/update-base.request.dto';
+import { BuildingDocument } from 'src/buildings/schemas/building.entity';
 
 @Injectable()
 export class BaseService {
@@ -20,6 +21,7 @@ export class BaseService {
       .find(query)
       .populate('user')
       .populate('planet')
+      .populate('buildings')
       .exec();
   }
 
@@ -28,6 +30,7 @@ export class BaseService {
       .findById(id)
       .populate('user')
       .populate('planet')
+      .populate('buildings')
       .exec();
   }
 
@@ -40,6 +43,26 @@ export class BaseService {
       { $set: updateBaseRequestDto },
       { returnDocument: 'after' },
     );
+  }
+
+  async appendbuilding(
+    id: string,
+    building: BuildingDocument,
+  ): Promise<BaseDocument> {
+    const doc = await this.baseModel.findById(id).populate('buildings').exec();
+
+    if (!doc) {
+      throw new NotFoundException();
+    }
+
+    return this.baseModel.findByIdAndUpdate(
+      id,
+      { $set: { buildings: [...doc.buildings, building._id.toHexString()] } },
+      { returnDocument: 'after' },
+    );
+
+    // doc.buildings.push(building);
+    // return doc.save();
   }
 
   async delete(id: string): Promise<Base> {

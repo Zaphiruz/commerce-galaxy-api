@@ -5,6 +5,7 @@ import { HydratedDocument, Types } from 'mongoose';
 
 import { Planet } from 'src/planets/schemas/planet.schema';
 import { User } from 'src/users/schemas/user.schema';
+import { Building } from 'src/buildings/schemas/building.entity';
 
 export type BaseDocument = HydratedDocument<Base>;
 
@@ -19,13 +20,17 @@ export class Base {
   @Prop({ required: true, default: 25 })
   size: number;
 
-  @Prop({ type: Types.ObjectId, ref: 'Planet', required: true })
+  @Prop({ type: Types.ObjectId, ref: Planet.name, required: true })
   @ApiProperty({ type: String })
   planet: Planet;
 
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
   @ApiProperty({ type: String })
   user: User;
+
+  @Prop({ type: [Types.ObjectId], ref: Building.name, default: [] })
+  @ApiProperty({ type: [String] })
+  buildings: Building[];
 
   constructor(base?: Partial<Base>) {
     Object.assign(this, base);
