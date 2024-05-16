@@ -21,7 +21,7 @@ export class BuildingResponseDto {
   size: number;
 
   @Expose()
-  @Transform(({ value }) => value.toString())
+  @Transform(({ value }) => value?.toString())
   type: BuildingTypeEnum;
 
   @Expose()

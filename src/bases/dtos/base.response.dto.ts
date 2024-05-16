@@ -4,6 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { UserResponseDto } from '../../users/dtos/user.response.dto';
 import { PlanetResponseDto } from 'src/planets/dtos/planet.response.dto';
+import { BuildingResponseDto } from 'src/buildings/dtos/building.response.dto';
 
 export class BaseResponseDto {
   @Expose()
@@ -27,4 +28,8 @@ export class BaseResponseDto {
   @Expose()
   @Type(() => UserResponseDto)
   user: UserResponseDto;
+
+  @Expose()
+  @Type(() => BuildingResponseDto)
+  buildings: BuildingResponseDto[];
 }

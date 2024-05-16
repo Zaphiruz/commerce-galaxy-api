@@ -5,18 +5,22 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Building } from './schemas/building.entity';
 import { CreateBuildingRequestDto } from './dtos/create-building.request.dto';
 import { UpdateBuildingRequestDto } from './dtos/update-building.request.dto';
+import { BaseService } from 'src/bases/base.service';
 
 @Injectable()
 export class BuildingService {
   constructor(
     @InjectModel(Building.name) private buildingModel: Model<Building>,
+    private readonly baseService: BaseService,
   ) {}
 
   async create(
     createBuildingRequestDto: CreateBuildingRequestDto,
   ): Promise<Building> {
     const createdCat = new this.buildingModel(createBuildingRequestDto);
-    return createdCat.save();
+    const doc = await createdCat.save();
+    await this.baseService.appendbuilding(createBuildingRequestDto.base, doc);
+    return doc;
   }
 
   async findAll(query = null): Promise<Building[]> {

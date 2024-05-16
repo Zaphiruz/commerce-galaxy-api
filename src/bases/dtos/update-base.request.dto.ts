@@ -7,4 +7,7 @@ export class UpdateBaseRequest {
   @IsOptional()
   @IsPositive()
   size?: number;
+
+  @IsOptional()
+  buildings?: string[];
 }
