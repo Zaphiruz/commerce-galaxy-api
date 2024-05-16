@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { WinstonModule } from 'nest-winston';
+import 'reflect-metadata';
 
 config();
 
