@@ -15,6 +15,7 @@ import { Planet } from '../planets/schemas/planet.schema';
 import { Recipe } from '../recipes/schemas/recipe.schema';
 import { Building } from '../buildings/schemas/building.entity';
 import { UserRolesEnum } from '../users/user-roles.enum';
+import { Note } from '../notes/schemas/note.schema';
 
 type Subjects =
   | InferSubjects<
@@ -24,6 +25,7 @@ type Subjects =
       | typeof Planet
       | typeof Recipe
       | typeof Building
+      | typeof Note
     >
   | 'all';
 

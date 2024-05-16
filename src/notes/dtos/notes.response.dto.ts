@@ -12,5 +12,11 @@ export class NoteResponseDto {
   _id: Types.ObjectId;
 
   @Expose()
-  name: string;
+  title: string;
+
+  @Expose()
+  content: string;
+
+  @Expose()
+  date: string;
 }

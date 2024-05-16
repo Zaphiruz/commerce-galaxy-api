@@ -10,7 +10,7 @@ export class Note {
   _id: Types.ObjectId;
 
   @Prop({ required: true, unique: true })
-  name: string;
+  title: string;
 
   @Prop({ required: true, unique: true })
   content: string;
