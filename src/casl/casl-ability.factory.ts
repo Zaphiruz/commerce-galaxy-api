@@ -22,11 +22,13 @@ import { Worker } from 'src/workers/schemas/worker.schema';
 import { Storage } from 'src/storages/schemas/storage.schema';
 import { Market } from 'src/markets/schemas/market.schema';
 import { Fabricator } from 'src/fabricators/schemas/fabricator.schema';
+import { Contract } from 'src/contracts/schemas/contract.schema';
 
 export type Subjects =
 	| InferSubjects<
 			| typeof Base
 			| typeof Building
+			| typeof Contract
 			| typeof Fabricator
 			| typeof Market
 			| typeof Note
