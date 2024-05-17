@@ -2,14 +2,14 @@ import { IsEnum, IsOptional } from 'class-validator';
 
 import { ResourceTypeEnum } from 'src/resources/resource-type.enum';
 
-export class UpdateResourceDto {
-  @IsOptional()
-  name?: string;
+export class UpdateResourceRequestDto {
+	@IsOptional()
+	name?: string;
 
-  @IsOptional()
-  symbol?: string;
+	@IsOptional()
+	symbol?: string;
 
-  @IsOptional()
-  @IsEnum(ResourceTypeEnum)
-  type?: ResourceTypeEnum;
+	@IsOptional()
+	@IsEnum(ResourceTypeEnum)
+	type?: ResourceTypeEnum;
 }

@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsEnum } from 'class-validator';
 import { ResourceTypeEnum } from '../resource-type.enum';
 
-export class CreateRecipeDto {
+export class CreateRecipeREquestDto {
 	@IsNotEmpty()
 	name: string;
 

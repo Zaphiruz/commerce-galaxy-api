@@ -1,7 +1,7 @@
 import { IsEnum, IsOptional } from 'class-validator';
 import { ResourceTypeEnum } from '../resource-type.enum';
 
-export class UpdateRecipeDto {
+export class UpdateRecipeRequestDto {
 	@IsOptional()
 	name?: string;
 

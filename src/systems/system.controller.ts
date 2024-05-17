@@ -21,8 +21,8 @@ import {
 } from '@nestjs/swagger';
 
 import { System } from './schemas/system.schema';
-import { CreateSystemDto } from './dtos/create-system.request.dto';
-import { UpdateSystemDto } from './dtos/update-system.request.dto';
+import { CreateSystemRequestDto } from './dtos/create-system.request.dto';
+import { UpdateSystemRequestDto } from './dtos/update-system.request.dto';
 import { SystemService } from './system.service';
 import { SystemResponseDto } from './dtos/system.response.dto';
 
@@ -72,7 +72,9 @@ export class SystemController extends CrudBaseController<System> {
 	@CheckPolicies(new CreatePolicyHandler(System))
 	@ApiOkResponse({ type: System })
 	@ApiBadRequestResponse()
-	public async create(@Body() createDto: CreateSystemDto): Promise<System> {
+	public async create(
+		@Body() createDto: CreateSystemRequestDto,
+	): Promise<System> {
 		return super.create.call(this, createDto);
 	}
 
@@ -83,7 +85,7 @@ export class SystemController extends CrudBaseController<System> {
 	@ApiInternalServerErrorResponse()
 	public async update(
 		@Param() objectIdDto: ObjectIdDto,
-		@Body() updateDto: UpdateSystemDto,
+		@Body() updateDto: UpdateSystemRequestDto,
 	): Promise<System> {
 		return super.update.call(this, objectIdDto, updateDto);
 	}

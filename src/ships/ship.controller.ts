@@ -21,8 +21,8 @@ import {
 } from '@nestjs/swagger';
 
 import { Ship } from './schemas/ship.schema';
-import { CreateShipDto } from './dtos/create-ship.request.dto';
-import { UpdateShipDto } from './dtos/update-ship.request.dto';
+import { CreateShipRequestDto } from './dtos/create-ship.request.dto';
+import { UpdateShipRequestDto } from './dtos/update-ship.request.dto';
 import { ShipService } from './ship.service';
 import { ShipResponseDto } from './dtos/ship.response.dto';
 
@@ -72,7 +72,9 @@ export class ShipController extends CrudBaseController<Ship> {
 	@CheckPolicies(new CreatePolicyHandler(Ship))
 	@ApiOkResponse({ type: Ship })
 	@ApiBadRequestResponse()
-	public async create(@Body() createDto: CreateShipDto): Promise<Ship> {
+	public async create(
+		@Body() createDto: CreateShipRequestDto,
+	): Promise<Ship> {
 		return super.create.call(this, createDto);
 	}
 
@@ -83,7 +85,7 @@ export class ShipController extends CrudBaseController<Ship> {
 	@ApiInternalServerErrorResponse()
 	public async update(
 		@Param() objectIdDto: ObjectIdDto,
-		@Body() updateDto: UpdateShipDto,
+		@Body() updateDto: UpdateShipRequestDto,
 	): Promise<Ship> {
 		return super.update.call(this, objectIdDto, updateDto);
 	}

@@ -21,8 +21,8 @@ import {
 } from '@nestjs/swagger';
 
 import { Resource } from './schemas/resource.schema';
-import { CreateResourceDto } from './dtos/create-resource.request.dto';
-import { UpdateResourceDto } from './dtos/update-resource.request.dto';
+import { CreateResourceRequestDto } from './dtos/create-resource.request.dto';
+import { UpdateResourceRequestDto } from './dtos/update-resource.request.dto';
 import { ResourceService } from './resource.service';
 import { ResourceResponseDto } from './dtos/resource.response.dto';
 
@@ -73,7 +73,7 @@ export class ResourceController extends CrudBaseController<Resource> {
 	@ApiOkResponse({ type: Resource })
 	@ApiBadRequestResponse()
 	public async create(
-		@Body() createDto: CreateResourceDto,
+		@Body() createDto: CreateResourceRequestDto,
 	): Promise<Resource> {
 		return super.create.call(this, createDto);
 	}
@@ -85,7 +85,7 @@ export class ResourceController extends CrudBaseController<Resource> {
 	@ApiInternalServerErrorResponse()
 	public async update(
 		@Param() objectIdDto: ObjectIdDto,
-		@Body() updateDto: UpdateResourceDto,
+		@Body() updateDto: UpdateResourceRequestDto,
 	): Promise<Resource> {
 		return super.update.call(this, objectIdDto, updateDto);
 	}

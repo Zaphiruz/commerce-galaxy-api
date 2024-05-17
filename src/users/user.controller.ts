@@ -21,8 +21,8 @@ import {
 } from '@nestjs/swagger';
 
 import { User } from './schemas/user.schema';
-import { CreateUserDto } from './dtos/create-user.request.dto';
-import { UpdateUserDto } from './dtos/update-user.request.dto';
+import { CreateUserRequestDto } from './dtos/create-user.request.dto';
+import { UpdateUserRequestDto } from './dtos/update-user.request.dto';
 import { UserService } from './user.service';
 import { UserResponseDto } from './dtos/user.response.dto';
 
@@ -72,7 +72,9 @@ export class UserController extends CrudBaseController<User> {
 	@CheckPolicies(new CreatePolicyHandler(User))
 	@ApiOkResponse({ type: User })
 	@ApiBadRequestResponse()
-	public async create(@Body() createDto: CreateUserDto): Promise<User> {
+	public async create(
+		@Body() createDto: CreateUserRequestDto,
+	): Promise<User> {
 		return super.create.call(this, createDto);
 	}
 
@@ -83,7 +85,7 @@ export class UserController extends CrudBaseController<User> {
 	@ApiInternalServerErrorResponse()
 	public async update(
 		@Param() objectIdDto: ObjectIdDto,
-		@Body() updateDto: UpdateUserDto,
+		@Body() updateDto: UpdateUserRequestDto,
 	): Promise<User> {
 		return super.update.call(this, objectIdDto, updateDto);
 	}

@@ -21,8 +21,8 @@ import {
 } from '@nestjs/swagger';
 
 import { Recipe } from './schemas/recipe.schema';
-import { CreateRecipeDto } from './dtos/create-recipe.request.dto';
-import { UpdateRecipeDto } from './dtos/update-recipe.request.dto';
+import { CreateRecipeREquestDto } from './dtos/create-recipe.request.dto';
+import { UpdateRecipeRequestDto } from './dtos/update-recipe.request.dto';
 import { RecipeService } from './recipe.service';
 import { RecipeResponseDto } from './dtos/recipe.response.dto';
 
@@ -72,7 +72,9 @@ export class RecipeController extends CrudBaseController<Recipe> {
 	@CheckPolicies(new CreatePolicyHandler(Recipe))
 	@ApiOkResponse({ type: Recipe })
 	@ApiBadRequestResponse()
-	public async create(@Body() createDto: CreateRecipeDto): Promise<Recipe> {
+	public async create(
+		@Body() createDto: CreateRecipeREquestDto,
+	): Promise<Recipe> {
 		return super.create.call(this, createDto);
 	}
 
@@ -83,7 +85,7 @@ export class RecipeController extends CrudBaseController<Recipe> {
 	@ApiInternalServerErrorResponse()
 	public async update(
 		@Param() objectIdDto: ObjectIdDto,
-		@Body() updateDto: UpdateRecipeDto,
+		@Body() updateDto: UpdateRecipeRequestDto,
 	): Promise<Recipe> {
 		return super.update.call(this, objectIdDto, updateDto);
 	}

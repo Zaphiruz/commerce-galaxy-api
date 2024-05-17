@@ -1,6 +1,6 @@
 import { IsOptional } from 'class-validator';
 
-export class UpdateSystemDto {
+export class UpdateSystemRequestDto {
 	@IsOptional()
 	name?: string;
 }

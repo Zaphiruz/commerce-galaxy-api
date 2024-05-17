@@ -21,8 +21,8 @@ import {
 } from '@nestjs/swagger';
 
 import { Storage } from './schemas/storage.schema';
-import { CreateStorageDto } from './dtos/create-storage.request.dto';
-import { UpdateStorageDto } from './dtos/update-storage.request.dto';
+import { CreateStorageRequestDto } from './dtos/create-storage.request.dto';
+import { UpdateStorageRequestDto } from './dtos/update-storage.request.dto';
 import { StorageService } from './storage.service';
 import { StorageResponseDto } from './dtos/storage.response.dto';
 
@@ -72,7 +72,9 @@ export class StorageController extends CrudBaseController<Storage> {
 	@CheckPolicies(new CreatePolicyHandler(Storage))
 	@ApiOkResponse({ type: Storage })
 	@ApiBadRequestResponse()
-	public async create(@Body() createDto: CreateStorageDto): Promise<Storage> {
+	public async create(
+		@Body() createDto: CreateStorageRequestDto,
+	): Promise<Storage> {
 		return super.create.call(this, createDto);
 	}
 
@@ -83,7 +85,7 @@ export class StorageController extends CrudBaseController<Storage> {
 	@ApiInternalServerErrorResponse()
 	public async update(
 		@Param() objectIdDto: ObjectIdDto,
-		@Body() updateDto: UpdateStorageDto,
+		@Body() updateDto: UpdateStorageRequestDto,
 	): Promise<Storage> {
 		return super.update.call(this, objectIdDto, updateDto);
 	}

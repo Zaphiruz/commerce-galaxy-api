@@ -1,6 +1,6 @@
 import { IsOptional } from 'class-validator';
 
-export class UpdateStorageDto {
-  @IsOptional()
-  name?: string;
+export class UpdateStorageRequestDto {
+	@IsOptional()
+	name?: string;
 }

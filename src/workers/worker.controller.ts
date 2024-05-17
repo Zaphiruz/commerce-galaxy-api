@@ -21,8 +21,8 @@ import {
 } from '@nestjs/swagger';
 
 import { Worker } from './schemas/worker.schema';
-import { CreateWorkerDto } from './dtos/create-worker.request.dto';
-import { UpdateWorkerDto } from './dtos/update-worker.request.dto';
+import { CreateWorkerRequestDto } from './dtos/create-worker.request.dto';
+import { UpdateWorkerRequestDto } from './dtos/update-worker.request.dto';
 import { WorkerService } from './worker.service';
 import { WorkerResponseDto } from './dtos/worker.response.dto';
 
@@ -72,7 +72,9 @@ export class WorkerController extends CrudBaseController<Worker> {
 	@CheckPolicies(new CreatePolicyHandler(Worker))
 	@ApiOkResponse({ type: Worker })
 	@ApiBadRequestResponse()
-	public async create(@Body() createDto: CreateWorkerDto): Promise<Worker> {
+	public async create(
+		@Body() createDto: CreateWorkerRequestDto,
+	): Promise<Worker> {
 		return super.create.call(this, createDto);
 	}
 
@@ -83,7 +85,7 @@ export class WorkerController extends CrudBaseController<Worker> {
 	@ApiInternalServerErrorResponse()
 	public async update(
 		@Param() objectIdDto: ObjectIdDto,
-		@Body() updateDto: UpdateWorkerDto,
+		@Body() updateDto: UpdateWorkerRequestDto,
 	): Promise<Worker> {
 		return super.update.call(this, objectIdDto, updateDto);
 	}
