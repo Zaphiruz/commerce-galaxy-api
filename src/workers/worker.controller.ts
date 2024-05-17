@@ -1,27 +1,27 @@
 import {
-  BadRequestException,
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-  UseInterceptors,
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Logger,
+	Param,
+	Post,
+	Put,
+	UseGuards,
+	UseInterceptors,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOkResponse,
-  ApiBadRequestResponse,
-  ApiInternalServerErrorResponse,
-  ApiBearerAuth,
-  ApiUnauthorizedResponse,
-  ApiForbiddenResponse,
+	ApiTags,
+	ApiOkResponse,
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
+	ApiBearerAuth,
+	ApiUnauthorizedResponse,
+	ApiForbiddenResponse,
 } from '@nestjs/swagger';
 
 import { Worker } from './schemas/worker.schema';
-import { NewWorkerDto } from './dtos/create-worker.request.dto';
+import { CreateWorkerDto } from './dtos/create-worker.request.dto';
 import { UpdateWorkerDto } from './dtos/update-worker.request.dto';
 import { WorkerService } from './worker.service';
 import { WorkerResponseDto } from './dtos/worker.response.dto';
@@ -30,9 +30,14 @@ import { ObjectIdDto } from 'src/common/dtos/object-id.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { PoliciesGuard } from '../casl/policies.guard';
 import { CheckPolicies } from 'src/casl/policies.decorator';
-import { ActionEnum } from 'src/casl/action.enum';
-import { AppAbility } from 'src/casl/casl-ability.factory';
 import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor';
+import { CrudBaseController } from 'src/crud-base/crud-base.controller';
+import {
+	CreatePolicyHandler,
+	DeletePolicyHandler,
+	ReadPolicyHandler,
+	UpdatePolicyHandler,
+} from 'src/casl/casl.handler';
 
 @ApiTags('workers')
 @Controller('workers')
@@ -41,60 +46,53 @@ import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiForbiddenResponse()
-export class WorkerController {
-  constructor(private readonly workerService: WorkerService) {}
+export class WorkerController extends CrudBaseController<Worker> {
+	logger = new Logger(WorkerController.name);
 
-  @Get()
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Worker))
-  @ApiOkResponse({ type: [Worker] })
-  public async getAllWorkers(): Promise<Worker[]> {
-    return this.workerService.findAll();
-  }
+	constructor(private readonly modelService: WorkerService) {
+		super(modelService);
+		super.setLogger(this.logger);
+	}
 
-  @Get(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Worker))
-  @ApiOkResponse({ type: Worker })
-  public async getWorkerById(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<Worker> {
-    return this.workerService.findOne(objectIdDto.id);
-  }
+	@Get()
+	@CheckPolicies(new ReadPolicyHandler(Worker))
+	@ApiOkResponse({ type: [Worker] })
+	public async getAll(): Promise<Worker[]> {
+		return super.getAll.call(this);
+	}
 
-  @Post()
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Worker))
-  @ApiOkResponse({ type: Worker })
-  @ApiBadRequestResponse()
-  public async createWorker(
-    @Body() newWorkerDto: NewWorkerDto,
-  ): Promise<Worker> {
-    if (!newWorkerDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.workerService.create(newWorkerDto);
-  }
+	@Get(':id')
+	@CheckPolicies(new ReadPolicyHandler(Worker))
+	@ApiOkResponse({ type: Worker })
+	public async get(@Param() objectIdDto: ObjectIdDto): Promise<Worker> {
+		return super.get.call(this, objectIdDto);
+	}
 
-  @Put(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Worker))
-  @ApiOkResponse({ type: Worker })
-  @ApiBadRequestResponse()
-  @ApiInternalServerErrorResponse()
-  public async updateWorker(
-    @Param() objectIdDto: ObjectIdDto,
-    @Body() updateWorkerDto: UpdateWorkerDto,
-  ): Promise<Worker> {
-    if (!updateWorkerDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.workerService.update(objectIdDto.id, updateWorkerDto);
-  }
+	@Post()
+	@CheckPolicies(new CreatePolicyHandler(Worker))
+	@ApiOkResponse({ type: Worker })
+	@ApiBadRequestResponse()
+	public async create(@Body() createDto: CreateWorkerDto): Promise<Worker> {
+		return super.create.call(this, createDto);
+	}
 
-  @Delete(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Worker))
-  @ApiOkResponse({ type: Worker })
-  @ApiInternalServerErrorResponse()
-  public async deleteWorker(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<Worker> {
-    return this.workerService.delete(objectIdDto.id);
-  }
+	@Put(':id')
+	@CheckPolicies(new UpdatePolicyHandler(Worker))
+	@ApiOkResponse({ type: Worker })
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
+	public async update(
+		@Param() objectIdDto: ObjectIdDto,
+		@Body() updateDto: UpdateWorkerDto,
+	): Promise<Worker> {
+		return super.update.call(this, objectIdDto, updateDto);
+	}
+
+	@Delete(':id')
+	@CheckPolicies(new DeletePolicyHandler(Worker))
+	@ApiOkResponse({ type: Worker })
+	@ApiInternalServerErrorResponse()
+	public async delete(@Param() objectIdDto: ObjectIdDto): Promise<Worker> {
+		return super.delete.call(this, objectIdDto);
+	}
 }

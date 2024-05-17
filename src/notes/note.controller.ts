@@ -49,8 +49,8 @@ import {
 export class NoteController extends CrudBaseController<Note> {
 	logger = new Logger(NoteController.name);
 
-	constructor(private readonly noteService: NoteService) {
-		super(noteService);
+	constructor(private readonly modelService: NoteService) {
+		super(modelService);
 		super.setLogger(this.logger);
 	}
 
