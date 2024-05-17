@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsEnum, IsMongoId } from 'class-validator';
 import { ResourceTypeEnum } from '../resource-type.enum';
 
 export class CreateRecipeREquestDto {
@@ -16,4 +16,10 @@ export class CreateRecipeREquestDto {
 
 	@IsEnum(ResourceTypeEnum)
 	type: ResourceTypeEnum;
+
+	@IsMongoId()
+	resource: string;
+
+	@IsMongoId()
+	catalog: string;
 }

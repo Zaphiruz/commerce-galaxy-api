@@ -12,5 +12,6 @@ export class RecipeService extends CrudBaseService<Recipe> {
 	constructor(@InjectModel(Recipe.name) private model: Model<Recipe>) {
 		super(model);
 		this.setLogger(this.logger);
+		this.setPopulateList('catalog', 'resource');
 	}
 }
