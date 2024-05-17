@@ -1,28 +1,28 @@
 import {
-  BadRequestException,
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-  UseInterceptors,
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Logger,
+	Param,
+	Post,
+	Put,
+	UseGuards,
+	UseInterceptors,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOkResponse,
-  ApiBadRequestResponse,
-  ApiInternalServerErrorResponse,
-  ApiBearerAuth,
-  ApiUnauthorizedResponse,
-  ApiForbiddenResponse,
+	ApiTags,
+	ApiOkResponse,
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
+	ApiBearerAuth,
+	ApiUnauthorizedResponse,
+	ApiForbiddenResponse,
 } from '@nestjs/swagger';
 
 import { Fabricator } from './schemas/fabricator.schema';
-import { NewFabricatorDto } from './dtos/create-fabricator.dto';
-import { UpdateFabricatorDto } from './dtos/update-fabricator.dto';
+import { CreateFabricatorRequestDto } from './dtos/create-fabricator.request.dto';
+import { UpdateFabricatorRequestDto } from './dtos/update-fabricator.request.dto';
 import { FabricatorService } from './fabricator.service';
 import { FabricatorResponseDto } from './dtos/fabricator.response.dto';
 
@@ -30,83 +30,75 @@ import { ObjectIdDto } from 'src/common/dtos/object-id.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { PoliciesGuard } from '../casl/policies.guard';
 import { CheckPolicies } from 'src/casl/policies.decorator';
-import { ActionEnum } from 'src/casl/action.enum';
-import { AppAbility } from 'src/casl/casl-ability.factory';
 import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor';
+import { CrudBaseController } from 'src/crud-base/crud-base.controller';
+import {
+	CreatePolicyHandler,
+	DeletePolicyHandler,
+	ReadPolicyHandler,
+	UpdatePolicyHandler,
+} from 'src/casl/casl.handler';
 
 @ApiTags('fabricators')
 @Controller('fabricators')
 @UseGuards(AuthGuard, PoliciesGuard)
 @UseInterceptors(
-  new DtoInterceptor<FabricatorResponseDto>(FabricatorResponseDto),
+	new DtoInterceptor<FabricatorResponseDto>(FabricatorResponseDto),
 )
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiForbiddenResponse()
-export class FabricatorController {
-  constructor(private readonly fabricatorService: FabricatorService) {}
+export class FabricatorController extends CrudBaseController<Fabricator> {
+	logger = new Logger(FabricatorController.name);
 
-  @Get()
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Read, Fabricator),
-  )
-  @ApiOkResponse({ type: [Fabricator] })
-  public async getAllFabricators(): Promise<Fabricator[]> {
-    return this.fabricatorService.findAll();
-  }
+	constructor(private readonly modelService: FabricatorService) {
+		super(modelService);
+		super.setLogger(this.logger);
+	}
 
-  @Get(':id')
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Read, Fabricator),
-  )
-  @ApiOkResponse({ type: Fabricator })
-  public async getFabricatorById(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<Fabricator> {
-    return this.fabricatorService.findOne(objectIdDto.id);
-  }
+	@Get()
+	@CheckPolicies(new ReadPolicyHandler(Fabricator))
+	@ApiOkResponse({ type: [Fabricator] })
+	public async getAll(): Promise<Fabricator[]> {
+		return super.getAll.call(this);
+	}
 
-  @Post()
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Read, Fabricator),
-  )
-  @ApiOkResponse({ type: Fabricator })
-  @ApiBadRequestResponse()
-  public async createFabricator(
-    @Body() newFabricatorDto: NewFabricatorDto,
-  ): Promise<Fabricator> {
-    if (!newFabricatorDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.fabricatorService.create(newFabricatorDto);
-  }
+	@Get(':id')
+	@CheckPolicies(new ReadPolicyHandler(Fabricator))
+	@ApiOkResponse({ type: Fabricator })
+	public async get(@Param() objectIdDto: ObjectIdDto): Promise<Fabricator> {
+		return super.get.call(this, objectIdDto);
+	}
 
-  @Put(':id')
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Read, Fabricator),
-  )
-  @ApiOkResponse({ type: Fabricator })
-  @ApiBadRequestResponse()
-  @ApiInternalServerErrorResponse()
-  public async updateFabricator(
-    @Param() objectIdDto: ObjectIdDto,
-    @Body() updateFabricatorDto: UpdateFabricatorDto,
-  ): Promise<Fabricator> {
-    if (!updateFabricatorDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.fabricatorService.update(objectIdDto.id, updateFabricatorDto);
-  }
+	@Post()
+	@CheckPolicies(new CreatePolicyHandler(Fabricator))
+	@ApiOkResponse({ type: Fabricator })
+	@ApiBadRequestResponse()
+	public async create(
+		@Body() createDto: CreateFabricatorRequestDto,
+	): Promise<Fabricator> {
+		return super.create.call(this, createDto);
+	}
 
-  @Delete(':id')
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Read, Fabricator),
-  )
-  @ApiOkResponse({ type: Fabricator })
-  @ApiInternalServerErrorResponse()
-  public async deleteFabricator(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<Fabricator> {
-    return this.fabricatorService.delete(objectIdDto.id);
-  }
+	@Put(':id')
+	@CheckPolicies(new UpdatePolicyHandler(Fabricator))
+	@ApiOkResponse({ type: Fabricator })
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
+	public async update(
+		@Param() objectIdDto: ObjectIdDto,
+		@Body() updateDto: UpdateFabricatorRequestDto,
+	): Promise<Fabricator> {
+		return super.update.call(this, objectIdDto, updateDto);
+	}
+
+	@Delete(':id')
+	@CheckPolicies(new DeletePolicyHandler(Fabricator))
+	@ApiOkResponse({ type: Fabricator })
+	@ApiInternalServerErrorResponse()
+	public async delete(
+		@Param() objectIdDto: ObjectIdDto,
+	): Promise<Fabricator> {
+		return super.delete.call(this, objectIdDto);
+	}
 }

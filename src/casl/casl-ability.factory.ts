@@ -21,11 +21,13 @@ import { Ship } from 'src/ships/schemas/ship.schema';
 import { Worker } from 'src/workers/schemas/worker.schema';
 import { Storage } from 'src/storages/schemas/storage.schema';
 import { Market } from 'src/markets/schemas/market.schema';
+import { Fabricator } from 'src/fabricators/schemas/fabricator.schema';
 
 export type Subjects =
 	| InferSubjects<
 			| typeof Base
 			| typeof Building
+			| typeof Fabricator
 			| typeof Market
 			| typeof Note
 			| typeof Planet
