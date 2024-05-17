@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { Request } from 'express';
 import { UserService } from '../users/user.service';
-import { requestInfoParser } from 'src/common/request-parcing.util';
+import { requestInfoParser } from 'src/common/utils/request-parcing.util';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

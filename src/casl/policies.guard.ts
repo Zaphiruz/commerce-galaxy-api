@@ -8,7 +8,7 @@ import { Reflector } from '@nestjs/core';
 
 import { AppAbility, CaslAbilityFactory } from './casl-ability.factory';
 import { CHECK_POLICIES_KEY, PolicyHandler } from './policies.decorator';
-import { requestInfoParser } from 'src/common/request-parcing.util';
+import { requestInfoParser } from 'src/common/utils/request-parcing.util';
 
 @Injectable()
 export class PoliciesGuard implements CanActivate {

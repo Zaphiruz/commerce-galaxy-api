@@ -34,7 +34,7 @@ import { CheckPolicies } from 'src/casl/policies.decorator';
 import { ActionEnum } from 'src/casl/action.enum';
 import { AppAbility } from 'src/casl/casl-ability.factory';
 import { UserResponseDto } from './dtos/user.response.dto';
-import { DtoInterceptor } from '../common/dto-converter.interceptor';
+import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor';
 
 @UseGuards(AuthGuard, PoliciesGuard)
 @UseInterceptors(new DtoInterceptor<UserResponseDto>(UserResponseDto))

@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import { LoginRequestDto } from './dtos/login.request.dto';
 import { LoginResponseDto } from './dtos/login.response.dto';
 import { RegisterRequestDto } from './dtos/register.request.dto';
-import { DtoInterceptor } from 'src/common/dto-converter.interceptor';
+import { DtoInterceptor } from 'src/common/interceptors/dto-converter.interceptor';
 import { User } from '../users/schemas/user.schema';
 import { RegisterResponseDto } from './dtos/register.response.dto';
 

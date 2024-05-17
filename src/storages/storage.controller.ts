@@ -32,7 +32,7 @@ import { PoliciesGuard } from '../casl/policies.guard';
 import { CheckPolicies } from 'src/casl/policies.decorator';
 import { ActionEnum } from 'src/casl/action.enum';
 import { AppAbility } from 'src/casl/casl-ability.factory';
-import { DtoInterceptor } from '../common/dto-converter.interceptor';
+import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor';
 
 @ApiTags('storages')
 @Controller('storages')

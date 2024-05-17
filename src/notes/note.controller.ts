@@ -1,27 +1,27 @@
 import {
-  BadRequestException,
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-  UseInterceptors,
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Logger,
+	Param,
+	Post,
+	Put,
+	UseGuards,
+	UseInterceptors,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOkResponse,
-  ApiBadRequestResponse,
-  ApiInternalServerErrorResponse,
-  ApiBearerAuth,
-  ApiUnauthorizedResponse,
-  ApiForbiddenResponse,
+	ApiTags,
+	ApiOkResponse,
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
+	ApiBearerAuth,
+	ApiUnauthorizedResponse,
+	ApiForbiddenResponse,
 } from '@nestjs/swagger';
 
 import { Note } from './schemas/note.schema';
-import { NewNoteDto } from './dtos/create-note.dto';
+import { CreateNoteDto } from './dtos/create-note.dto';
 import { UpdateNoteDto } from './dtos/update-note.dto';
 import { NoteService } from './note.service';
 import { NoteResponseDto } from './dtos/notes.response.dto';
@@ -30,9 +30,14 @@ import { ObjectIdDto } from 'src/common/dtos/object-id.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { PoliciesGuard } from '../casl/policies.guard';
 import { CheckPolicies } from 'src/casl/policies.decorator';
-import { ActionEnum } from 'src/casl/action.enum';
-import { AppAbility } from 'src/casl/casl-ability.factory';
-import { DtoInterceptor } from '../common/dto-converter.interceptor';
+import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor';
+import { CrudBaseController } from 'src/crud-base/crud-base.controller';
+import {
+	CreatePolicyHandler,
+	DeletePolicyHandler,
+	ReadPolicyHandler,
+	UpdatePolicyHandler,
+} from 'src/casl/casl.handler';
 
 @ApiTags('notes')
 @Controller('notes')
@@ -41,54 +46,53 @@ import { DtoInterceptor } from '../common/dto-converter.interceptor';
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiForbiddenResponse()
-export class NoteController {
-  constructor(private readonly noteService: NoteService) {}
+export class NoteController extends CrudBaseController<Note> {
+	logger = new Logger(NoteController.name);
 
-  @Get()
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Note))
-  @ApiOkResponse({ type: [Note] })
-  public async getAllNotes(): Promise<Note[]> {
-    return this.noteService.findAll();
-  }
+	constructor(private readonly noteService: NoteService) {
+		super(noteService);
+		super.setLogger(this.logger);
+	}
 
-  @Get(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Note))
-  @ApiOkResponse({ type: Note })
-  public async getNoteById(@Param() objectIdDto: ObjectIdDto): Promise<Note> {
-    return this.noteService.findOne(objectIdDto.id);
-  }
+	@Get()
+	@CheckPolicies(new ReadPolicyHandler(Note))
+	@ApiOkResponse({ type: [Note] })
+	public async getAll(): Promise<Note[]> {
+		return super.getAll.call(this);
+	}
 
-  @Post()
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Note))
-  @ApiOkResponse({ type: Note })
-  @ApiBadRequestResponse()
-  public async createNote(@Body() newNoteDto: NewNoteDto): Promise<Note> {
-    if (!newNoteDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.noteService.create(newNoteDto);
-  }
+	@Get(':id')
+	@CheckPolicies(new ReadPolicyHandler(Note))
+	@ApiOkResponse({ type: Note })
+	public async get(@Param() objectIdDto: ObjectIdDto): Promise<Note> {
+		return super.get.call(this, objectIdDto);
+	}
 
-  @Put(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Note))
-  @ApiOkResponse({ type: Note })
-  @ApiBadRequestResponse()
-  @ApiInternalServerErrorResponse()
-  public async updateNote(
-    @Param() objectIdDto: ObjectIdDto,
-    @Body() updateNoteDto: UpdateNoteDto,
-  ): Promise<Note> {
-    if (!updateNoteDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.noteService.update(objectIdDto.id, updateNoteDto);
-  }
+	@Post()
+	@CheckPolicies(new CreatePolicyHandler(Note))
+	@ApiOkResponse({ type: Note })
+	@ApiBadRequestResponse()
+	public async create(@Body() createDto: CreateNoteDto): Promise<Note> {
+		return super.create.call(this, createDto);
+	}
 
-  @Delete(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Note))
-  @ApiOkResponse({ type: Note })
-  @ApiInternalServerErrorResponse()
-  public async deleteNote(@Param() objectIdDto: ObjectIdDto): Promise<Note> {
-    return this.noteService.delete(objectIdDto.id);
-  }
+	@Put(':id')
+	@CheckPolicies(new UpdatePolicyHandler(Note))
+	@ApiOkResponse({ type: Note })
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
+	public async update(
+		@Param() objectIdDto: ObjectIdDto,
+		@Body() updateDto: UpdateNoteDto,
+	): Promise<Note> {
+		return super.update.call(this, objectIdDto, updateDto);
+	}
+
+	@Delete(':id')
+	@CheckPolicies(new DeletePolicyHandler(Note))
+	@ApiOkResponse({ type: Note })
+	@ApiInternalServerErrorResponse()
+	public async delete(@Param() objectIdDto: ObjectIdDto): Promise<Note> {
+		return super.delete.call(this, objectIdDto);
+	}
 }

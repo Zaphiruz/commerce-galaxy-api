@@ -31,7 +31,7 @@ import { PoliciesGuard } from '../casl/policies.guard';
 import { CheckPolicies } from 'src/casl/policies.decorator';
 import { ActionEnum } from 'src/casl/action.enum';
 import { AppAbility } from 'src/casl/casl-ability.factory';
-import { DtoInterceptor } from 'src/common/dto-converter.interceptor';
+import { DtoInterceptor } from 'src/common/interceptors/dto-converter.interceptor';
 import { BaseResponseDto } from './dtos/base.response.dto';
 
 @UseGuards(AuthGuard, PoliciesGuard)
