@@ -1,28 +1,28 @@
 import {
-  BadRequestException,
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-  UseInterceptors,
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Logger,
+	Param,
+	Post,
+	Put,
+	UseGuards,
+	UseInterceptors,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOkResponse,
-  ApiBadRequestResponse,
-  ApiInternalServerErrorResponse,
-  ApiBearerAuth,
-  ApiUnauthorizedResponse,
-  ApiForbiddenResponse,
+	ApiTags,
+	ApiOkResponse,
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
+	ApiBearerAuth,
+	ApiUnauthorizedResponse,
+	ApiForbiddenResponse,
 } from '@nestjs/swagger';
 
 import { System } from './schemas/system.schema';
-import { NewSystemDto } from './dtos/create-system.dto';
-import { UpdateSystemDto } from './dtos/update-system.dto';
+import { CreateSystemDto } from './dtos/create-system.request.dto';
+import { UpdateSystemDto } from './dtos/update-system.request.dto';
 import { SystemService } from './system.service';
 import { SystemResponseDto } from './dtos/system.response.dto';
 
@@ -30,9 +30,14 @@ import { ObjectIdDto } from 'src/common/dtos/object-id.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { PoliciesGuard } from '../casl/policies.guard';
 import { CheckPolicies } from 'src/casl/policies.decorator';
-import { ActionEnum } from 'src/casl/action.enum';
-import { AppAbility } from 'src/casl/casl-ability.factory';
 import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor';
+import { CrudBaseController } from 'src/crud-base/crud-base.controller';
+import {
+	CreatePolicyHandler,
+	DeletePolicyHandler,
+	ReadPolicyHandler,
+	UpdatePolicyHandler,
+} from 'src/casl/casl.handler';
 
 @ApiTags('systems')
 @Controller('systems')
@@ -41,60 +46,53 @@ import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiForbiddenResponse()
-export class SystemController {
-  constructor(private readonly systemService: SystemService) {}
+export class SystemController extends CrudBaseController<System> {
+	logger = new Logger(SystemController.name);
 
-  @Get()
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, System))
-  @ApiOkResponse({ type: [System] })
-  public async getAllSystems(): Promise<System[]> {
-    return this.systemService.findAll();
-  }
+	constructor(private readonly modelService: SystemService) {
+		super(modelService);
+		super.setLogger(this.logger);
+	}
 
-  @Get(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, System))
-  @ApiOkResponse({ type: System })
-  public async getSystemById(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<System> {
-    return this.systemService.findOne(objectIdDto.id);
-  }
+	@Get()
+	@CheckPolicies(new ReadPolicyHandler(System))
+	@ApiOkResponse({ type: [System] })
+	public async getAll(): Promise<System[]> {
+		return super.getAll.call(this);
+	}
 
-  @Post()
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, System))
-  @ApiOkResponse({ type: System })
-  @ApiBadRequestResponse()
-  public async createSystem(
-    @Body() newSystemDto: NewSystemDto,
-  ): Promise<System> {
-    if (!newSystemDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.systemService.create(newSystemDto);
-  }
+	@Get(':id')
+	@CheckPolicies(new ReadPolicyHandler(System))
+	@ApiOkResponse({ type: System })
+	public async get(@Param() objectIdDto: ObjectIdDto): Promise<System> {
+		return super.get.call(this, objectIdDto);
+	}
 
-  @Put(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, System))
-  @ApiOkResponse({ type: System })
-  @ApiBadRequestResponse()
-  @ApiInternalServerErrorResponse()
-  public async updateSystem(
-    @Param() objectIdDto: ObjectIdDto,
-    @Body() updateSystemDto: UpdateSystemDto,
-  ): Promise<System> {
-    if (!updateSystemDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.systemService.update(objectIdDto.id, updateSystemDto);
-  }
+	@Post()
+	@CheckPolicies(new CreatePolicyHandler(System))
+	@ApiOkResponse({ type: System })
+	@ApiBadRequestResponse()
+	public async create(@Body() createDto: CreateSystemDto): Promise<System> {
+		return super.create.call(this, createDto);
+	}
 
-  @Delete(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, System))
-  @ApiOkResponse({ type: System })
-  @ApiInternalServerErrorResponse()
-  public async deleteSystem(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<System> {
-    return this.systemService.delete(objectIdDto.id);
-  }
+	@Put(':id')
+	@CheckPolicies(new UpdatePolicyHandler(System))
+	@ApiOkResponse({ type: System })
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
+	public async update(
+		@Param() objectIdDto: ObjectIdDto,
+		@Body() updateDto: UpdateSystemDto,
+	): Promise<System> {
+		return super.update.call(this, objectIdDto, updateDto);
+	}
+
+	@Delete(':id')
+	@CheckPolicies(new DeletePolicyHandler(System))
+	@ApiOkResponse({ type: System })
+	@ApiInternalServerErrorResponse()
+	public async delete(@Param() objectIdDto: ObjectIdDto): Promise<System> {
+		return super.delete.call(this, objectIdDto);
+	}
 }

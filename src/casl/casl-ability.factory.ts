@@ -16,6 +16,7 @@ import { Recipe } from '../recipes/schemas/recipe.schema';
 import { Building } from '../buildings/schemas/building.schema';
 import { UserRolesEnum } from '../users/user-roles.enum';
 import { Note } from '../notes/schemas/note.schema';
+import { System } from '../systems/schemas/system.schema';
 
 export type Subjects =
 	| InferSubjects<
@@ -26,6 +27,7 @@ export type Subjects =
 			| typeof Recipe
 			| typeof Building
 			| typeof Note
+			| typeof System
 	  >
 	| 'all';
 
