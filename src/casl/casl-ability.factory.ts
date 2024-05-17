@@ -18,18 +18,22 @@ import { UserRolesEnum } from '../users/user-roles.enum';
 import { Note } from '../notes/schemas/note.schema';
 import { System } from '../systems/schemas/system.schema';
 import { Ship } from 'src/ships/schemas/ship.schema';
+import { Worker } from 'src/workers/schemas/worker.schema';
+import { Storage } from 'src/storages/schemas/storage.schema';
 
 export type Subjects =
 	| InferSubjects<
 			| typeof Base
-			| typeof User
-			| typeof Resource
-			| typeof Planet
-			| typeof Recipe
 			| typeof Building
 			| typeof Note
-			| typeof System
+			| typeof Planet
+			| typeof Recipe
+			| typeof Resource
 			| typeof Ship
+			| typeof Storage
+			| typeof System
+			| typeof User
+			| typeof Worker
 	  >
 	| 'all';
 
