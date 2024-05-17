@@ -1,6 +1,6 @@
 import { BadGatewayException, Injectable, Logger } from '@nestjs/common';
 import { CrudServiceInterface } from './crud-base.interface';
-import { HydratedDocument, Model } from 'mongoose';
+import { FilterQuery, HydratedDocument, Model } from 'mongoose';
 
 @Injectable()
 export class CrudBaseService<T> implements CrudServiceInterface<T> {
@@ -12,9 +12,19 @@ export class CrudBaseService<T> implements CrudServiceInterface<T> {
 		this.logger = logger;
 	}
 
-	async findAll(): Promise<HydratedDocument<T>[]> {
+	async findAll(
+		query: FilterQuery<T> = null,
+	): Promise<HydratedDocument<T>[]> {
 		try {
-			return this.basemodule.find().exec();
+			return this.basemodule.find(query).exec();
+		} catch (error) {
+			throw new BadGatewayException(error);
+		}
+	}
+	async findOne(query: FilterQuery<T>): Promise<HydratedDocument<T>> {
+		try {
+			const record = await this.basemodule.findOne(query).exec();
+			return record;
 		} catch (error) {
 			throw new BadGatewayException(error);
 		}
