@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsEnum, IsMongoId } from 'class-validator';
 import { ResourceTypeEnum } from '../resource-type.enum';
 
-export class NewRecipeDto {
+export class CreateRecipeREquestDto {
 	@IsNotEmpty()
 	name: string;
 

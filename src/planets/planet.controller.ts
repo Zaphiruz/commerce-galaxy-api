@@ -1,105 +1,100 @@
 import {
-  BadRequestException,
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-  UseInterceptors,
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Logger,
+	Param,
+	Post,
+	Put,
+	UseGuards,
+	UseInterceptors,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOkResponse,
-  ApiBadRequestResponse,
-  ApiInternalServerErrorResponse,
-  ApiBearerAuth,
-  ApiUnauthorizedResponse,
-  ApiForbiddenResponse,
+	ApiTags,
+	ApiOkResponse,
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
+	ApiBearerAuth,
+	ApiUnauthorizedResponse,
+	ApiForbiddenResponse,
 } from '@nestjs/swagger';
 
 import { Planet } from './schemas/planet.schema';
 import { CreatePlanetRequestDto } from './dtos/create-planet.request.dto';
 import { UpdatePlanetRequestDto } from './dtos/update-planet.request.dto';
-import { ObjectIdDto } from 'src/common/dtos/object-id.dto';
 import { PlanetService } from './planet.service';
+import { PlanetResponseDto } from './dtos/planet.response.dto';
+
+import { ObjectIdDto } from 'src/common/dtos/object-id.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { PoliciesGuard } from '../casl/policies.guard';
 import { CheckPolicies } from 'src/casl/policies.decorator';
-import { ActionEnum } from 'src/casl/action.enum';
-import { AppAbility } from 'src/casl/casl-ability.factory';
-import { DtoInterceptor } from 'src/common/dto-converter.interceptor';
-import { PlanetResponseDto } from './dtos/planet.response.dto';
+import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor';
+import { CrudBaseController } from 'src/crud-base/crud-base.controller';
+import {
+	CreatePolicyHandler,
+	DeletePolicyHandler,
+	ReadPolicyHandler,
+	UpdatePolicyHandler,
+} from 'src/casl/casl.handler';
 
+@ApiTags('planets')
+@Controller('planets')
 @UseGuards(AuthGuard, PoliciesGuard)
 @UseInterceptors(new DtoInterceptor<PlanetResponseDto>(PlanetResponseDto))
-@ApiTags('planets')
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiForbiddenResponse()
-@Controller('planets')
-export class PlanetController {
-  constructor(private readonly planetService: PlanetService) {}
+export class PlanetController extends CrudBaseController<Planet> {
+	logger = new Logger(PlanetController.name);
 
-  @Get()
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Planet))
-  @ApiOkResponse({ type: [Planet] })
-  public async getAllPlanets(): Promise<Planet[]> {
-    return this.planetService.findAll();
-  }
+	constructor(private readonly modelService: PlanetService) {
+		super(modelService);
+		super.setLogger(this.logger);
+	}
 
-  @Get(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Planet))
-  @ApiOkResponse({ type: Planet })
-  public async getPlanetById(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<Planet> {
-    return this.planetService.findOne(objectIdDto.id);
-  }
+	@Get()
+	@CheckPolicies(new ReadPolicyHandler(Planet))
+	@ApiOkResponse({ type: [Planet] })
+	public async getAll(): Promise<Planet[]> {
+		return super.getAll.call(this);
+	}
 
-  @Post()
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Create, Planet),
-  )
-  @ApiOkResponse({ type: Planet })
-  @ApiBadRequestResponse()
-  public async createPlanet(
-    @Body() createPlanetRequestDto: CreatePlanetRequestDto,
-  ): Promise<Planet> {
-    if (!createPlanetRequestDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.planetService.create(createPlanetRequestDto);
-  }
+	@Get(':id')
+	@CheckPolicies(new ReadPolicyHandler(Planet))
+	@ApiOkResponse({ type: Planet })
+	public async get(@Param() objectIdDto: ObjectIdDto): Promise<Planet> {
+		return super.get.call(this, objectIdDto);
+	}
 
-  @Put(':id')
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Update, Planet),
-  )
-  @ApiOkResponse({ type: Planet })
-  @ApiBadRequestResponse()
-  @ApiInternalServerErrorResponse()
-  public async updatePlanet(
-    @Param() objectIdDto: ObjectIdDto,
-    @Body() updatePlanetRequestDto: UpdatePlanetRequestDto,
-  ): Promise<Planet> {
-    if (!updatePlanetRequestDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.planetService.update(objectIdDto.id, updatePlanetRequestDto);
-  }
+	@Post()
+	@CheckPolicies(new CreatePolicyHandler(Planet))
+	@ApiOkResponse({ type: Planet })
+	@ApiBadRequestResponse()
+	public async create(
+		@Body() createDto: CreatePlanetRequestDto,
+	): Promise<Planet> {
+		return super.create.call(this, createDto);
+	}
 
-  @Delete(':id')
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Delete, Planet),
-  )
-  @ApiOkResponse({ type: Planet })
-  @ApiInternalServerErrorResponse()
-  public async deletePlanet(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<Planet> {
-    return this.planetService.delete(objectIdDto.id);
-  }
+	@Put(':id')
+	@CheckPolicies(new UpdatePolicyHandler(Planet))
+	@ApiOkResponse({ type: Planet })
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
+	public async update(
+		@Param() objectIdDto: ObjectIdDto,
+		@Body() updateDto: UpdatePlanetRequestDto,
+	): Promise<Planet> {
+		return super.update.call(this, objectIdDto, updateDto);
+	}
+
+	@Delete(':id')
+	@CheckPolicies(new DeletePolicyHandler(Planet))
+	@ApiOkResponse({ type: Planet })
+	@ApiInternalServerErrorResponse()
+	public async delete(@Param() objectIdDto: ObjectIdDto): Promise<Planet> {
+		return super.delete.call(this, objectIdDto);
+	}
 }

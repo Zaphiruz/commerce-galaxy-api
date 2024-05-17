@@ -1,13 +1,13 @@
 import { IsOptional, IsPositive } from 'class-validator';
 
-export class UpdateBaseRequest {
-  @IsOptional()
-  name?: string;
+export class UpdateBaseRequestDto {
+	@IsOptional()
+	name?: string;
 
-  @IsOptional()
-  @IsPositive()
-  size?: number;
+	@IsOptional()
+	@IsPositive()
+	size?: number;
 
-  @IsOptional()
-  buildings?: string[];
+	@IsOptional()
+	buildings?: string[];
 }

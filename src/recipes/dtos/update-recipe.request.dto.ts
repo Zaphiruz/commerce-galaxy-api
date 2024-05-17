@@ -1,7 +1,7 @@
-import { IsEnum, IsOptional, IsMongoId } from 'class-validator';
+import { IsEnum, IsMongoId, IsOptional } from 'class-validator';
 import { ResourceTypeEnum } from '../resource-type.enum';
 
-export class UpdateRecipeDto {
+export class UpdateRecipeRequestDto {
 	@IsOptional()
 	name?: string;
 
@@ -14,12 +14,15 @@ export class UpdateRecipeDto {
 	@IsOptional()
 	amount?: number;
 
+	@IsOptional()
 	@IsEnum(ResourceTypeEnum)
 	type?: ResourceTypeEnum;
 
+	@IsOptional()
 	@IsMongoId()
-	resource: string;
+	resource?: string;
 
+	@IsOptional()
 	@IsMongoId()
-	catalog: string;
+	catalog?: string;
 }

@@ -1,42 +1,16 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Planet } from './schemas/planet.schema';
-import { CreatePlanetRequestDto } from './dtos/create-planet.request.dto';
-import { UpdatePlanetRequestDto } from './dtos/update-planet.request.dto';
+import { CrudBaseService } from 'src/crud-base/crud-base.service';
 
 @Injectable()
-export class PlanetService {
-  constructor(@InjectModel(Planet.name) private planetModel: Model<Planet>) {}
+export class PlanetService extends CrudBaseService<Planet> {
+	logger = new Logger(Planet.name);
 
-  async create(
-    createPlanetRequestDto: CreatePlanetRequestDto,
-  ): Promise<Planet> {
-    const createdCat = new this.planetModel(createPlanetRequestDto);
-    return createdCat.save();
-  }
-
-  async findAll(query = null): Promise<Planet[]> {
-    return this.planetModel.find(query).exec();
-  }
-
-  async findOne(id: string): Promise<Planet> {
-    return this.planetModel.findById(id).exec();
-  }
-
-  async update(
-    id: string,
-    updatePlanetRequestDto: UpdatePlanetRequestDto,
-  ): Promise<Planet> {
-    return this.planetModel.findByIdAndUpdate(
-      id,
-      { $set: updatePlanetRequestDto },
-      { returnDocument: 'after' },
-    );
-  }
-
-  async delete(id: string): Promise<Planet> {
-    return this.planetModel.findByIdAndDelete(id);
-  }
+	constructor(@InjectModel(Planet.name) private model: Model<Planet>) {
+		super(model);
+		this.setLogger(this.logger);
+	}
 }

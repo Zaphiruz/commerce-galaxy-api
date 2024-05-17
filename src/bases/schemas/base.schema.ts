@@ -11,30 +11,30 @@ export type BaseDocument = HydratedDocument<Base>;
 
 @Schema()
 export class Base {
-  @ApiProperty({ type: String })
-  _id: Types.ObjectId;
+	@ApiProperty({ type: String })
+	_id: Types.ObjectId;
 
-  @Prop()
-  name: string;
+	@Prop()
+	name: string;
 
-  @Prop({ required: true, default: 25 })
-  size: number;
+	@Prop({ required: true, default: 25 })
+	size: number;
 
-  @Prop({ type: Types.ObjectId, ref: Planet.name, required: true })
-  @ApiProperty({ type: String })
-  planet: Planet;
+	@Prop({ type: Types.ObjectId, ref: Planet.name, required: true })
+	@ApiProperty({ type: String })
+	planet: Planet | string;
 
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
-  @ApiProperty({ type: String })
-  user: User;
+	@Prop({ type: Types.ObjectId, ref: User.name, required: true })
+	@ApiProperty({ type: String })
+	user: User | string;
 
-  @Prop({ type: [Types.ObjectId], ref: Building.name, default: [] })
-  @ApiProperty({ type: [String] })
-  buildings: Building[];
+	@Prop({ type: [Types.ObjectId], ref: Building.name, default: [] })
+	@ApiProperty({ type: [String] })
+	buildings: Building[] | string[];
 
-  constructor(base?: Partial<Base>) {
-    Object.assign(this, base);
-  }
+	constructor(base?: Partial<Base>) {
+		Object.assign(this, base);
+	}
 }
 
 export const BaseSchema = SchemaFactory.createForClass(Base);

@@ -1,42 +1,16 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Storage } from './schemas/storage.schema';
-import { NewStorageDto } from './dtos/create-storage.dto';
-import { UpdateStorageDto } from './dtos/update-storage.dto';
+import { CrudBaseService } from 'src/crud-base/crud-base.service';
 
 @Injectable()
-export class StorageService {
-  constructor(
-    @InjectModel(Storage.name) private storageModel: Model<Storage>,
-  ) {}
+export class StorageService extends CrudBaseService<Storage> {
+	logger = new Logger(Storage.name);
 
-  async create(newStorageDto: NewStorageDto): Promise<Storage> {
-    const createdCat = new this.storageModel({ ...newStorageDto });
-    return createdCat.save();
-  }
-
-  async findAll(query = null): Promise<Storage[]> {
-    return this.storageModel.find(query).exec();
-  }
-
-  async findOne(id: string): Promise<Storage> {
-    return this.storageModel.findById(id).exec();
-  }
-
-  async update(
-    id: string,
-    updateStorageDto: UpdateStorageDto,
-  ): Promise<Storage> {
-    return this.storageModel.findByIdAndUpdate(
-      id,
-      { $set: updateStorageDto },
-      { returnDocument: 'after' },
-    );
-  }
-
-  async delete(id: string): Promise<Storage> {
-    return this.storageModel.findByIdAndDelete(id);
-  }
+	constructor(@InjectModel(Storage.name) private model: Model<Storage>) {
+		super(model);
+		this.setLogger(this.logger);
+	}
 }

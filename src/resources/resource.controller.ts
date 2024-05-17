@@ -1,28 +1,28 @@
 import {
-  BadRequestException,
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-  UseInterceptors,
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Logger,
+	Param,
+	Post,
+	Put,
+	UseGuards,
+	UseInterceptors,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOkResponse,
-  ApiBadRequestResponse,
-  ApiInternalServerErrorResponse,
-  ApiBearerAuth,
-  ApiUnauthorizedResponse,
-  ApiForbiddenResponse,
+	ApiTags,
+	ApiOkResponse,
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
+	ApiBearerAuth,
+	ApiUnauthorizedResponse,
+	ApiForbiddenResponse,
 } from '@nestjs/swagger';
 
 import { Resource } from './schemas/resource.schema';
-import { NewResourceDto } from './dtos/create-resource.dto';
-import { UpdateResourceDto } from './dtos/update-resource.dto';
+import { CreateResourceRequestDto } from './dtos/create-resource.request.dto';
+import { UpdateResourceRequestDto } from './dtos/update-resource.request.dto';
 import { ResourceService } from './resource.service';
 import { ResourceResponseDto } from './dtos/resource.response.dto';
 
@@ -30,9 +30,14 @@ import { ObjectIdDto } from 'src/common/dtos/object-id.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { PoliciesGuard } from '../casl/policies.guard';
 import { CheckPolicies } from 'src/casl/policies.decorator';
-import { ActionEnum } from 'src/casl/action.enum';
-import { AppAbility } from 'src/casl/casl-ability.factory';
-import { DtoInterceptor } from '../common/dto-converter.interceptor';
+import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor';
+import { CrudBaseController } from 'src/crud-base/crud-base.controller';
+import {
+	CreatePolicyHandler,
+	DeletePolicyHandler,
+	ReadPolicyHandler,
+	UpdatePolicyHandler,
+} from 'src/casl/casl.handler';
 
 @ApiTags('resources')
 @Controller('resources')
@@ -41,70 +46,55 @@ import { DtoInterceptor } from '../common/dto-converter.interceptor';
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiForbiddenResponse()
-export class ResourceController {
-  constructor(private readonly resourceService: ResourceService) {}
+export class ResourceController extends CrudBaseController<Resource> {
+	logger = new Logger(ResourceController.name);
 
-  @Get()
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Read, Resource),
-  )
-  @ApiOkResponse({ type: [Resource] })
-  public async getAllResources(): Promise<Resource[]> {
-    return this.resourceService.findAll();
-  }
+	constructor(private readonly modelService: ResourceService) {
+		super(modelService);
+		super.setLogger(this.logger);
+	}
 
-  @Get(':id')
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Read, Resource),
-  )
-  @ApiOkResponse({ type: Resource })
-  public async getResourceById(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<Resource> {
-    return this.resourceService.findOne(objectIdDto.id);
-  }
+	@Get()
+	@CheckPolicies(new ReadPolicyHandler(Resource))
+	@ApiOkResponse({ type: [Resource] })
+	public async getAll(): Promise<Resource[]> {
+		return super.getAll.call(this);
+	}
 
-  @Post()
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Create, Resource),
-  )
-  @ApiOkResponse({ type: Resource })
-  @ApiBadRequestResponse()
-  public async createResource(
-    @Body() newResourceDto: NewResourceDto,
-  ): Promise<Resource> {
-    if (!newResourceDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.resourceService.create(newResourceDto);
-  }
+	@Get(':id')
+	@CheckPolicies(new ReadPolicyHandler(Resource))
+	@ApiOkResponse({ type: Resource })
+	public async get(@Param() objectIdDto: ObjectIdDto): Promise<Resource> {
+		return super.get.call(this, objectIdDto);
+	}
 
-  @Put(':id')
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Update, Resource),
-  )
-  @ApiOkResponse({ type: Resource })
-  @ApiBadRequestResponse()
-  @ApiInternalServerErrorResponse()
-  public async updateResource(
-    @Param() objectIdDto: ObjectIdDto,
-    @Body() updateResourceDto: UpdateResourceDto,
-  ): Promise<Resource> {
-    if (!updateResourceDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.resourceService.update(objectIdDto.id, updateResourceDto);
-  }
+	@Post()
+	@CheckPolicies(new CreatePolicyHandler(Resource))
+	@ApiOkResponse({ type: Resource })
+	@ApiBadRequestResponse()
+	public async create(
+		@Body() createDto: CreateResourceRequestDto,
+	): Promise<Resource> {
+		return super.create.call(this, createDto);
+	}
 
-  @Delete(':id')
-  @CheckPolicies((ability: AppAbility) =>
-    ability.can(ActionEnum.Delete, Resource),
-  )
-  @ApiOkResponse({ type: Resource })
-  @ApiInternalServerErrorResponse()
-  public async deleteResource(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<Resource> {
-    return this.resourceService.delete(objectIdDto.id);
-  }
+	@Put(':id')
+	@CheckPolicies(new UpdatePolicyHandler(Resource))
+	@ApiOkResponse({ type: Resource })
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
+	public async update(
+		@Param() objectIdDto: ObjectIdDto,
+		@Body() updateDto: UpdateResourceRequestDto,
+	): Promise<Resource> {
+		return super.update.call(this, objectIdDto, updateDto);
+	}
+
+	@Delete(':id')
+	@CheckPolicies(new DeletePolicyHandler(Resource))
+	@ApiOkResponse({ type: Resource })
+	@ApiInternalServerErrorResponse()
+	public async delete(@Param() objectIdDto: ObjectIdDto): Promise<Resource> {
+		return super.delete.call(this, objectIdDto);
+	}
 }

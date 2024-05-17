@@ -29,11 +29,11 @@ export class Recipe {
 
 	@Prop({ type: Types.ObjectId, ref: 'Resource', required: true })
 	@ApiProperty({ type: String })
-	resource: Resource;
+	resource: Resource | string;
 
 	@Prop({ type: Types.ObjectId, ref: 'Catalog', required: true })
 	@ApiProperty({ type: String })
-	catalog: Catalog;
+	catalog: Catalog | string;
 
 	constructor(recipe?: Partial<Recipe>) {
 		Object.assign(this, recipe);

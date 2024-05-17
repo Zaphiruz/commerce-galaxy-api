@@ -1,42 +1,16 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Contract } from './schemas/contract.schema';
-import { NewContractDto } from './dtos/create-contract.dto';
-import { UpdateContractDto } from './dtos/update-contract.dto';
+import { CrudBaseService } from 'src/crud-base/crud-base.service';
 
 @Injectable()
-export class ContractService {
-  constructor(
-    @InjectModel(Contract.name) private contractModel: Model<Contract>,
-  ) {}
+export class ContractService extends CrudBaseService<Contract> {
+	logger = new Logger(Contract.name);
 
-  async create(newContractDto: NewContractDto): Promise<Contract> {
-    const createdCat = new this.contractModel(newContractDto);
-    return createdCat.save();
-  }
-
-  async findAll(query = null): Promise<Contract[]> {
-    return this.contractModel.find(query).exec();
-  }
-
-  async findOne(id: string): Promise<Contract> {
-    return this.contractModel.findById(id).exec();
-  }
-
-  async update(
-    id: string,
-    updateContractDto: UpdateContractDto,
-  ): Promise<Contract> {
-    return this.contractModel.findByIdAndUpdate(
-      id,
-      { $set: updateContractDto },
-      { returnDocument: 'after' },
-    );
-  }
-
-  async delete(id: string): Promise<Contract> {
-    return this.contractModel.findByIdAndDelete(id);
-  }
+	constructor(@InjectModel(Contract.name) private model: Model<Contract>) {
+		super(model);
+		this.setLogger(this.logger);
+	}
 }
