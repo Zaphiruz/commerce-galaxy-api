@@ -13,7 +13,7 @@ import { Base } from '../bases/schemas/base.schema';
 import { Resource } from '../resources/schemas/resource.schema';
 import { Planet } from '../planets/schemas/planet.schema';
 import { Recipe } from '../recipes/schemas/recipe.schema';
-import { Building } from '../buildings/schemas/building.entity';
+import { Building } from '../buildings/schemas/building.schema';
 import { UserRolesEnum } from '../users/user-roles.enum';
 import { Note } from '../notes/schemas/note.schema';
 

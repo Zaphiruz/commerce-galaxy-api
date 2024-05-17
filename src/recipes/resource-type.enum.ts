@@ -1,7 +1,7 @@
 export enum ResourceTypeEnum {
-  Liquid = 'PRODUCING',
-  Gas = 'MANUFACTURING',
-  Ore = 'HOUSING',
-  Goods = 'STORING',
+  Liquid = 'LIQUID',
+  Gas = 'GAS',
+  Ore = 'ORE',
+  Goods = 'GOODS',
   Consumables = 'CONSUMABLES',
 }

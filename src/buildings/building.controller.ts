@@ -20,7 +20,7 @@ import {
   ApiForbiddenResponse,
 } from '@nestjs/swagger';
 
-import { Building } from './schemas/building.entity';
+import { Building } from './schemas/building.schema';
 import { CreateBuildingRequestDto } from './dtos/create-building.request.dto';
 import { UpdateBuildingRequestDto } from './dtos/update-building.request.dto';
 import { ObjectIdDto } from '../common/dtos/object-id.dto';

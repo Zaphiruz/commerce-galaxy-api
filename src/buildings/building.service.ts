@@ -2,7 +2,7 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Building } from './schemas/building.entity';
+import { Building } from './schemas/building.schema';
 import { CreateBuildingRequestDto } from './dtos/create-building.request.dto';
 import { UpdateBuildingRequestDto } from './dtos/update-building.request.dto';
 import { BaseService } from 'src/bases/base.service';
