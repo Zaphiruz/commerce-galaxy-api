@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Transform, Type } from 'class-transformer';
 import { Types } from 'mongoose';
 
-import { BuildingTypeEnum } from '../building-type.enum';
 import { BaseResponseDto } from 'src/bases/dtos/base.response.dto';
+import { CatalogResponseDto } from 'src/catalogs/dtos/catalog.response.dto';
 
 export class BuildingResponseDto {
   @Expose()
@@ -15,14 +15,8 @@ export class BuildingResponseDto {
   _id: Types.ObjectId;
 
   @Expose()
-  name: string;
-
-  @Expose()
-  size: number;
-
-  @Expose()
-  @Transform(({ value }) => value?.toString())
-  type: BuildingTypeEnum;
+  @Type(() => CatalogResponseDto)
+  catalog: CatalogResponseDto;
 
   @Expose()
   @Type(() => BaseResponseDto)

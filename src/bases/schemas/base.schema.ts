@@ -5,7 +5,7 @@ import { HydratedDocument, Types } from 'mongoose';
 
 import { Planet } from 'src/planets/schemas/planet.schema';
 import { User } from 'src/users/schemas/user.schema';
-import { Building } from 'src/buildings/schemas/building.entity';
+import { Building } from 'src/buildings/schemas/building.schema';
 
 export type BaseDocument = HydratedDocument<Base>;
 

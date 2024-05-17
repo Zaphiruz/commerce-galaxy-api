@@ -5,7 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Base, BaseDocument } from './schemas/base.schema';
 import { CreateBaseRequestDto } from './dtos/create-base.request';
 import { UpdateBaseRequest } from './dtos/update-base.request.dto';
-import { BuildingDocument } from 'src/buildings/schemas/building.entity';
+import { BuildingDocument } from 'src/buildings/schemas/building.schema';
 
 @Injectable()
 export class BaseService {

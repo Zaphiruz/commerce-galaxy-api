@@ -1,16 +1,8 @@
-import { IsEnum, IsMongoId, IsNotEmpty } from 'class-validator';
-
-import { BuildingTypeEnum } from '../building-type.enum';
+import { IsMongoId } from 'class-validator';
 
 export class CreateBuildingRequestDto {
-  @IsNotEmpty()
-  name: string;
-
-  @IsNotEmpty()
-  size: number;
-
-  @IsEnum(BuildingTypeEnum)
-  type: BuildingTypeEnum;
+  @IsMongoId()
+  catalog: string;
 
   @IsMongoId()
   base: string;

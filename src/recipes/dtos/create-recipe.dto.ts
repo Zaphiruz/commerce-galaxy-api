@@ -1,4 +1,5 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsEnum } from 'class-validator';
+import { ResourceTypeEnum } from '../resource-type.enum';
 
 export class NewRecipeDto {
   @IsNotEmpty()
@@ -6,4 +7,13 @@ export class NewRecipeDto {
 
   @IsNotEmpty()
   symbol: string;
+
+  @IsNotEmpty()
+  time: number;
+
+  @IsNotEmpty()
+  amount: number;
+
+  @IsEnum(ResourceTypeEnum)
+  type: ResourceTypeEnum;
 }

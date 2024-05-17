@@ -1,4 +1,5 @@
-import { IsOptional } from 'class-validator';
+import { IsEnum, IsOptional } from 'class-validator';
+import { ResourceTypeEnum } from '../resource-type.enum';
 
 export class UpdateRecipeDto {
   @IsOptional()
@@ -6,4 +7,13 @@ export class UpdateRecipeDto {
 
   @IsOptional()
   symbol?: string;
+
+  @IsOptional()
+  time?: number;
+
+  @IsOptional()
+  amount?: number;
+
+  @IsEnum(ResourceTypeEnum)
+  type?: ResourceTypeEnum;
 }

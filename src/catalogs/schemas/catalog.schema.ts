@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { BuildingTypeEnum } from 'src/buildings/building-type.enum';
+import { BuildingTypeEnum } from 'src/catalogs/building-type.enum';
 
 export type CatalogDocument = HydratedDocument<Catalog>;
 
