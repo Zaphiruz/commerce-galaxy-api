@@ -17,6 +17,7 @@ import { Building } from '../buildings/schemas/building.schema';
 import { UserRolesEnum } from '../users/user-roles.enum';
 import { Note } from '../notes/schemas/note.schema';
 import { System } from '../systems/schemas/system.schema';
+import { Ship } from 'src/ships/schemas/ship.schema';
 
 export type Subjects =
 	| InferSubjects<
@@ -28,6 +29,7 @@ export type Subjects =
 			| typeof Building
 			| typeof Note
 			| typeof System
+			| typeof Ship
 	  >
 	| 'all';
 
