@@ -1,19 +1,25 @@
-import { IsNotEmpty, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsEnum, IsMongoId } from 'class-validator';
 import { ResourceTypeEnum } from '../resource-type.enum';
 
 export class NewRecipeDto {
-  @IsNotEmpty()
-  name: string;
+	@IsNotEmpty()
+	name: string;
 
-  @IsNotEmpty()
-  symbol: string;
+	@IsNotEmpty()
+	symbol: string;
 
-  @IsNotEmpty()
-  time: number;
+	@IsNotEmpty()
+	time: number;
 
-  @IsNotEmpty()
-  amount: number;
+	@IsNotEmpty()
+	amount: number;
 
-  @IsEnum(ResourceTypeEnum)
-  type: ResourceTypeEnum;
+	@IsEnum(ResourceTypeEnum)
+	type: ResourceTypeEnum;
+
+	@IsMongoId()
+	resource: string;
+
+	@IsMongoId()
+	catalog: string;
 }
