@@ -1,38 +1,43 @@
 import {
-  BadRequestException,
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-  UseInterceptors,
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Logger,
+	Param,
+	Post,
+	Put,
+	UseGuards,
+	UseInterceptors,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOkResponse,
-  ApiBadRequestResponse,
-  ApiInternalServerErrorResponse,
-  ApiBearerAuth,
-  ApiUnauthorizedResponse,
-  ApiForbiddenResponse,
+	ApiTags,
+	ApiOkResponse,
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
+	ApiBearerAuth,
+	ApiUnauthorizedResponse,
+	ApiForbiddenResponse,
 } from '@nestjs/swagger';
 
 import { Market } from './schemas/market.schema';
-import { NewMarketDto } from './dtos/create-market.dto';
+import { CreateMarketRequestDto } from './dtos/create-market.request.dto';
+import { UpdateMarketRequestDto } from './dtos/update-market.request.dto';
 import { MarketService } from './market.service';
-import { UpdateMarketDto } from './dtos/update-market.dto';
 import { MarketResponseDto } from './dtos/market.response.dto';
 
 import { ObjectIdDto } from 'src/common/dtos/object-id.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { PoliciesGuard } from '../casl/policies.guard';
 import { CheckPolicies } from 'src/casl/policies.decorator';
-import { ActionEnum } from 'src/casl/action.enum';
-import { AppAbility } from 'src/casl/casl-ability.factory';
 import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor';
+import { CrudBaseController } from 'src/crud-base/crud-base.controller';
+import {
+	CreatePolicyHandler,
+	DeletePolicyHandler,
+	ReadPolicyHandler,
+	UpdatePolicyHandler,
+} from 'src/casl/casl.handler';
 
 @ApiTags('markets')
 @Controller('markets')
@@ -41,60 +46,55 @@ import { DtoInterceptor } from '../common/interceptors/dto-converter.interceptor
 @ApiBearerAuth()
 @ApiUnauthorizedResponse()
 @ApiForbiddenResponse()
-export class MarketController {
-  constructor(private readonly marketService: MarketService) {}
+export class MarketController extends CrudBaseController<Market> {
+	logger = new Logger(MarketController.name);
 
-  @Get()
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Market))
-  @ApiOkResponse({ type: [Market] })
-  public async getAllMarkets(): Promise<Market[]> {
-    return this.marketService.findAll();
-  }
+	constructor(private readonly modelService: MarketService) {
+		super(modelService);
+		super.setLogger(this.logger);
+	}
 
-  @Get(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Market))
-  @ApiOkResponse({ type: Market })
-  public async getMarketById(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<Market> {
-    return this.marketService.findOne(objectIdDto.id);
-  }
+	@Get()
+	@CheckPolicies(new ReadPolicyHandler(Market))
+	@ApiOkResponse({ type: [Market] })
+	public async getAll(): Promise<Market[]> {
+		return super.getAll.call(this);
+	}
 
-  @Post()
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Market))
-  @ApiOkResponse({ type: Market })
-  @ApiBadRequestResponse()
-  public async createMarket(
-    @Body() newMarketDto: NewMarketDto,
-  ): Promise<Market> {
-    if (!newMarketDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.marketService.create(newMarketDto);
-  }
+	@Get(':id')
+	@CheckPolicies(new ReadPolicyHandler(Market))
+	@ApiOkResponse({ type: Market })
+	public async get(@Param() objectIdDto: ObjectIdDto): Promise<Market> {
+		return super.get.call(this, objectIdDto);
+	}
 
-  @Put(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Market))
-  @ApiOkResponse({ type: Market })
-  @ApiBadRequestResponse()
-  @ApiInternalServerErrorResponse()
-  public async updateMarket(
-    @Param() objectIdDto: ObjectIdDto,
-    @Body() updateMarketDto: UpdateMarketDto,
-  ): Promise<Market> {
-    if (!updateMarketDto) {
-      throw new BadRequestException('request invalid');
-    }
-    return this.marketService.update(objectIdDto.id, updateMarketDto);
-  }
+	@Post()
+	@CheckPolicies(new CreatePolicyHandler(Market))
+	@ApiOkResponse({ type: Market })
+	@ApiBadRequestResponse()
+	public async create(
+		@Body() createDto: CreateMarketRequestDto,
+	): Promise<Market> {
+		return super.create.call(this, createDto);
+	}
 
-  @Delete(':id')
-  @CheckPolicies((ability: AppAbility) => ability.can(ActionEnum.Read, Market))
-  @ApiOkResponse({ type: Market })
-  @ApiInternalServerErrorResponse()
-  public async deleteMarket(
-    @Param() objectIdDto: ObjectIdDto,
-  ): Promise<Market> {
-    return this.marketService.delete(objectIdDto.id);
-  }
+	@Put(':id')
+	@CheckPolicies(new UpdatePolicyHandler(Market))
+	@ApiOkResponse({ type: Market })
+	@ApiBadRequestResponse()
+	@ApiInternalServerErrorResponse()
+	public async update(
+		@Param() objectIdDto: ObjectIdDto,
+		@Body() updateDto: UpdateMarketRequestDto,
+	): Promise<Market> {
+		return super.update.call(this, objectIdDto, updateDto);
+	}
+
+	@Delete(':id')
+	@CheckPolicies(new DeletePolicyHandler(Market))
+	@ApiOkResponse({ type: Market })
+	@ApiInternalServerErrorResponse()
+	public async delete(@Param() objectIdDto: ObjectIdDto): Promise<Market> {
+		return super.delete.call(this, objectIdDto);
+	}
 }

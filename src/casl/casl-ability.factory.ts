@@ -20,11 +20,13 @@ import { System } from '../systems/schemas/system.schema';
 import { Ship } from 'src/ships/schemas/ship.schema';
 import { Worker } from 'src/workers/schemas/worker.schema';
 import { Storage } from 'src/storages/schemas/storage.schema';
+import { Market } from 'src/markets/schemas/market.schema';
 
 export type Subjects =
 	| InferSubjects<
 			| typeof Base
 			| typeof Building
+			| typeof Market
 			| typeof Note
 			| typeof Planet
 			| typeof Recipe

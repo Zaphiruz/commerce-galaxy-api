@@ -1,37 +1,16 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Market } from './schemas/market.schema';
-import { NewMarketDto } from './dtos/create-market.dto';
-import { UpdateMarketDto } from './dtos/update-market.dto';
+import { CrudBaseService } from 'src/crud-base/crud-base.service';
 
 @Injectable()
-export class MarketService {
-  constructor(@InjectModel(Market.name) private marketModel: Model<Market>) {}
+export class MarketService extends CrudBaseService<Market> {
+	logger = new Logger(Market.name);
 
-  async create(newMarketDto: NewMarketDto): Promise<Market> {
-    const createdCat = new this.marketModel({ ...newMarketDto });
-    return createdCat.save();
-  }
-
-  async findAll(query = null): Promise<Market[]> {
-    return this.marketModel.find(query).exec();
-  }
-
-  async findOne(id: string): Promise<Market> {
-    return this.marketModel.findById(id).exec();
-  }
-
-  async update(id: string, updateMarketDto: UpdateMarketDto): Promise<Market> {
-    return this.marketModel.findByIdAndUpdate(
-      id,
-      { $set: updateMarketDto },
-      { returnDocument: 'after' },
-    );
-  }
-
-  async delete(id: string): Promise<Market> {
-    return this.marketModel.findByIdAndDelete(id);
-  }
+	constructor(@InjectModel(Market.name) private model: Model<Market>) {
+		super(model);
+		this.setLogger(this.logger);
+	}
 }
