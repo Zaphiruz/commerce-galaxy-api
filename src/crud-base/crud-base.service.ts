@@ -5,6 +5,7 @@ import { FilterQuery, HydratedDocument, Model } from 'mongoose';
 @Injectable()
 export class CrudBaseService<T> implements CrudServiceInterface<T> {
 	logger: Logger;
+	populateList: string[] = [];
 
 	constructor(private readonly basemodule: Model<T>) {}
 
@@ -12,18 +13,28 @@ export class CrudBaseService<T> implements CrudServiceInterface<T> {
 		this.logger = logger;
 	}
 
+	setPopulateList(...populateList: string[]) {
+		this.populateList = populateList;
+	}
+
 	async findAll(
 		query: FilterQuery<T> = null,
 	): Promise<HydratedDocument<T>[]> {
 		try {
-			return this.basemodule.find(query).exec();
+			return this.basemodule
+				.find(query)
+				.populate(this.populateList)
+				.exec();
 		} catch (error) {
 			throw new BadGatewayException(error);
 		}
 	}
 	async findOne(query: FilterQuery<T>): Promise<HydratedDocument<T>> {
 		try {
-			const record = await this.basemodule.findOne(query).exec();
+			const record = await this.basemodule
+				.findOne(query)
+				.populate(this.populateList)
+				.exec();
 			return record;
 		} catch (error) {
 			throw new BadGatewayException(error);
@@ -31,7 +42,10 @@ export class CrudBaseService<T> implements CrudServiceInterface<T> {
 	}
 	async get(id: string): Promise<HydratedDocument<T>> {
 		try {
-			const record = await this.basemodule.findById(id).exec();
+			const record = await this.basemodule
+				.findById(id)
+				.populate(this.populateList)
+				.exec();
 			return record;
 		} catch (error) {
 			throw new BadGatewayException(error);

@@ -1,6 +1,8 @@
-import { IsOptional } from 'class-validator';
+import { IsMongoId, IsOptional } from 'class-validator';
+import { Catalog } from 'src/catalogs/schemas/catalog.schema';
 
 export class UpdateBuildingRequestDto {
-  @IsOptional()
-  catalog: string;
+	@IsOptional()
+	@IsMongoId()
+	catalog?: string | Catalog;
 }
