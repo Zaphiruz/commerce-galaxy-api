@@ -21,10 +21,10 @@ import {
 } from '@nestjs/swagger';
 
 import { Note } from './schemas/note.schema';
-import { CreateNoteDto } from './dtos/create-note.dto';
-import { UpdateNoteDto } from './dtos/update-note.dto';
+import { CreateNoteRequestDto } from './dtos/create-note.request.dto';
+import { UpdateNoteRequestDto } from './dtos/update-note.request.dto';
 import { NoteService } from './note.service';
-import { NoteResponseDto } from './dtos/notes.response.dto';
+import { NoteResponseDto } from './dtos/note.response.dto';
 
 import { ObjectIdDto } from 'src/common/dtos/object-id.dto';
 import { AuthGuard } from '../auth/auth.guard';
@@ -72,7 +72,9 @@ export class NoteController extends CrudBaseController<Note> {
 	@CheckPolicies(new CreatePolicyHandler(Note))
 	@ApiOkResponse({ type: Note })
 	@ApiBadRequestResponse()
-	public async create(@Body() createDto: CreateNoteDto): Promise<Note> {
+	public async create(
+		@Body() createDto: CreateNoteRequestDto,
+	): Promise<Note> {
 		return super.create.call(this, createDto);
 	}
 
@@ -83,7 +85,7 @@ export class NoteController extends CrudBaseController<Note> {
 	@ApiInternalServerErrorResponse()
 	public async update(
 		@Param() objectIdDto: ObjectIdDto,
-		@Body() updateDto: UpdateNoteDto,
+		@Body() updateDto: UpdateNoteRequestDto,
 	): Promise<Note> {
 		return super.update.call(this, objectIdDto, updateDto);
 	}

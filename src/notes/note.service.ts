@@ -7,7 +7,7 @@ import { CrudBaseService } from 'src/crud-base/crud-base.service';
 
 @Injectable()
 export class NoteService extends CrudBaseService<Note> {
-	logger = new Logger(NoteService.name);
+	logger = new Logger(Note.name);
 
 	constructor(@InjectModel(Note.name) private model: Model<Note>) {
 		super(model);
