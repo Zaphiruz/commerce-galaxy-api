@@ -4,9 +4,11 @@ import {
 	Delete,
 	Get,
 	Logger,
+	NotFoundException,
 	Param,
 	Post,
 	Put,
+	Req,
 	UseGuards,
 	UseInterceptors,
 } from '@nestjs/common';
@@ -38,6 +40,7 @@ import {
 	ReadPolicyHandler,
 	UpdatePolicyHandler,
 } from 'src/casl/casl.handler';
+import { AuthRequest } from 'src/common/types/request.type';
 
 @ApiTags('users')
 @Controller('users')
@@ -59,6 +62,18 @@ export class UserController extends CrudBaseController<User> {
 	@ApiOkResponse({ type: [User] })
 	public async getAll(): Promise<User[]> {
 		return super.getAll.call(this);
+	}
+
+	@Get('me')
+	@CheckPolicies(new ReadPolicyHandler(User))
+	@ApiOkResponse({ type: User })
+	public async me(@Req() req: AuthRequest): Promise<User> {
+		const doc = this.modelService.get(req.user._id.toHexString());
+		if (!doc) {
+			throw new NotFoundException();
+		}
+
+		return doc;
 	}
 
 	@Get(':id')
