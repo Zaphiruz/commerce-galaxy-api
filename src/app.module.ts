@@ -12,39 +12,37 @@ import { WorkersModule } from './workers/worker.module';
 import { SystemsModule } from './systems/system.module';
 import { MarketsModule } from './markets/market.module';
 import { ContractsModule } from './contracts/contract.module';
-import { FabricatorsModule } from './fabricators/fabricator.module';
 import { ShipsModule } from './ships/ship.module';
 import { StoragesModule } from './storages/storage.module';
 import { NotesModule } from './notes/note.module';
 import { CatalogsModule } from './catalogs/catalog.module';
 
 @Module({
-  imports: [
-    MongooseModule.forRoot(
-      `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASS}@cluster0.pgvfszf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
-      {
-        dbName: process.env.DATABASE_NAME,
-      },
-    ),
-    AuthModule,
-    UsersModule,
-    PlanetsModule,
-    BasesModule,
-    ResourcesModule,
-    BuildingsModule,
-    WorkersModule,
-    SystemsModule,
-    MarketsModule,
-    ContractsModule,
-    FabricatorsModule,
-    ShipsModule,
-    StoragesModule,
-    NotesModule,
-    RecipeModule,
-    CatalogsModule,
-  ],
-  controllers: [],
-  providers: [],
-  exports: [],
+	imports: [
+		MongooseModule.forRoot(
+			`mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASS}@cluster0.pgvfszf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
+			{
+				dbName: process.env.DATABASE_NAME,
+			},
+		),
+		AuthModule,
+		UsersModule,
+		PlanetsModule,
+		BasesModule,
+		ResourcesModule,
+		BuildingsModule,
+		WorkersModule,
+		SystemsModule,
+		MarketsModule,
+		ContractsModule,
+		ShipsModule,
+		StoragesModule,
+		NotesModule,
+		RecipeModule,
+		CatalogsModule,
+	],
+	controllers: [],
+	providers: [],
+	exports: [],
 })
 export class AppModule {}

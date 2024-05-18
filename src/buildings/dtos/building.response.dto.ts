@@ -23,13 +23,16 @@ export class BuildingResponseDto {
 	@Type(() => BaseResponseDto)
 	base: BaseResponseDto;
 
+	@Expose()
 	@ApiProperty({ type: Date })
 	startTime: Date;
 
+	@Expose()
 	@ApiProperty({ type: String })
 	@Type(() => ResourceResponseDto)
 	producing: string;
 
+	@Expose()
 	@ApiProperty({ type: [String] })
 	@Type(() => ResourceResponseDto)
 	queue: string[];
