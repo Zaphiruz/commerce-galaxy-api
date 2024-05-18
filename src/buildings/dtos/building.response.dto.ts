@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 
 import { BaseResponseDto } from 'src/bases/dtos/base.response.dto';
 import { CatalogResponseDto } from 'src/catalogs/dtos/catalog.response.dto';
-import { ResourceResponseDto } from 'src/resources/dtos/resource.response.dto';
+import { RecipeResponseDto } from 'src/recipes/dtos/recipe.response.dto';
 
 export class BuildingResponseDto {
 	@Expose()
@@ -32,10 +32,10 @@ export class BuildingResponseDto {
 	startTime: Date;
 
 	@Expose()
-	@Type(() => ResourceResponseDto)
-	producing: ResourceResponseDto;
+	@Type(() => RecipeResponseDto)
+	producing: RecipeResponseDto;
 
 	@Expose()
-	@Type(() => ResourceResponseDto)
-	queue: ResourceResponseDto[];
+	@Type(() => RecipeResponseDto)
+	queue: RecipeResponseDto[];
 }

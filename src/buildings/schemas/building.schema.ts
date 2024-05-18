@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Base } from 'src/bases/schemas/base.schema';
 import { Catalog } from 'src/catalogs/schemas/catalog.schema';
-import { Resource } from 'src/resources/schemas/resource.schema';
+import { Recipe } from 'src/recipes/schemas/recipe.schema';
 
 export type BuildingDocument = HydratedDocument<Building>;
 
@@ -26,13 +26,13 @@ export class Building {
 	@Prop({ default: null })
 	startTime: Date | null;
 
-	@Prop({ type: Types.ObjectId, ref: 'Resource', default: null })
+	@Prop({ type: Types.ObjectId, ref: 'Recipe', default: null })
 	@ApiProperty({ type: String })
-	producing: Resource | string;
+	producing: Recipe | string;
 
-	@Prop([{ type: Types.ObjectId, ref: 'Resource', default: [] }])
+	@Prop([{ type: Types.ObjectId, ref: 'Recipe', default: [] }])
 	@ApiProperty({ type: [String] })
-	queue: (Resource | string)[];
+	queue: (Recipe | string)[];
 
 	constructor(building?: Partial<Building>) {
 		Object.assign(this, building);
