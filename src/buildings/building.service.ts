@@ -12,6 +12,6 @@ export class BuildingService extends CrudBaseService<Building> {
 	constructor(@InjectModel(Building.name) private model: Model<Building>) {
 		super(model);
 		this.setLogger(this.logger);
-		this.setPopulateList('base', 'catalog');
+		this.setPopulateList('base', 'catalog', 'producing', 'queue');
 	}
 }

@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Base } from 'src/bases/schemas/base.schema';
 import { Catalog } from 'src/catalogs/schemas/catalog.schema';
+import { Resource } from 'src/resources/schemas/resource.schema';
 
 export type BuildingDocument = HydratedDocument<Building>;
 
@@ -18,6 +19,17 @@ export class Building {
 	@Prop({ type: Types.ObjectId, ref: 'Base', required: true })
 	@ApiProperty({ type: String })
 	base: Base | string;
+
+	@Prop({ default: Date.now })
+	startTime: Date;
+
+	@Prop({ type: Types.ObjectId, ref: 'Resource', required: true })
+	@ApiProperty({ type: String })
+	producing: Resource | string;
+
+	@Prop([{ type: Types.ObjectId, ref: 'Resource' }])
+	@ApiProperty({ type: [String] })
+	queue: (Resource | string)[];
 
 	constructor(building?: Partial<Building>) {
 		Object.assign(this, building);
