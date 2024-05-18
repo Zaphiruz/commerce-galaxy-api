@@ -1,4 +1,4 @@
-import { IsMongoId, IsNotEmpty, IsArray } from 'class-validator';
+import { IsMongoId } from 'class-validator';
 
 export class CreateBuildingRequestDto {
 	@IsMongoId()
@@ -6,14 +6,4 @@ export class CreateBuildingRequestDto {
 
 	@IsMongoId()
 	base: string;
-
-	@IsNotEmpty()
-	startTime: Date;
-
-	@IsMongoId()
-	producing: string;
-
-	@IsArray()
-	@IsMongoId({ each: true })
-	queue: string[];
 }

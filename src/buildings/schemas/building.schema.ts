@@ -21,9 +21,12 @@ export class Building {
 	base: Base | string;
 
 	@Prop({ default: Date.now })
-	startTime: Date;
+	createdTime: Date;
 
-	@Prop({ type: Types.ObjectId, ref: 'Resource', required: true })
+	@Prop({ default: null })
+	startTime: Date | null;
+
+	@Prop({ type: Types.ObjectId, ref: 'Resource', default: null })
 	@ApiProperty({ type: String })
 	producing: Resource | string;
 

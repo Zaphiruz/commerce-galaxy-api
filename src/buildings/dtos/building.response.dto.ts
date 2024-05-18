@@ -25,6 +25,10 @@ export class BuildingResponseDto {
 
 	@Expose()
 	@ApiProperty({ type: Date })
+	createdTime: Date;
+
+	@Expose()
+	@ApiProperty({ type: Date })
 	startTime: Date;
 
 	@Expose()
