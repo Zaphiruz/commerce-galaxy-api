@@ -27,7 +27,7 @@ export class Building {
 	@ApiProperty({ type: String })
 	producing: Resource | string;
 
-	@Prop([{ type: Types.ObjectId, ref: 'Resource' }])
+	@Prop([{ type: Types.ObjectId, ref: 'Resource', default: [] }])
 	@ApiProperty({ type: [String] })
 	queue: (Resource | string)[];
 

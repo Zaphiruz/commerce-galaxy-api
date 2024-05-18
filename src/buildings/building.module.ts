@@ -5,19 +5,21 @@ import { BuildingService } from './building.service';
 import { Building, BuildingSchema } from './schemas/building.schema';
 import { CaslModule } from 'src/casl/casl.module';
 import { UsersModule } from 'src/users/user.module';
-import { BasesModule } from 'src/bases/base.module';
+// import { BasesModule } from 'src/bases/base.module';
+// import { ResourcesModule } from 'src/resources/resource.module';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: Building.name, schema: BuildingSchema },
-    ]),
-    CaslModule,
-    UsersModule,
-    BasesModule,
-  ],
-  controllers: [BuildingController],
-  providers: [BuildingService],
-  exports: [BuildingService],
+	imports: [
+		MongooseModule.forFeature([
+			{ name: Building.name, schema: BuildingSchema },
+		]),
+		CaslModule,
+		UsersModule,
+		// BasesModule,
+		// ResourcesModule,
+	],
+	controllers: [BuildingController],
+	providers: [BuildingService],
+	exports: [BuildingService],
 })
 export class BuildingsModule {}

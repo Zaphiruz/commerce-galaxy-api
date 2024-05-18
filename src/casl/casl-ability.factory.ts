@@ -21,7 +21,6 @@ import { Ship } from 'src/ships/schemas/ship.schema';
 import { Worker } from 'src/workers/schemas/worker.schema';
 import { Storage } from 'src/storages/schemas/storage.schema';
 import { Market } from 'src/markets/schemas/market.schema';
-import { Fabricator } from 'src/fabricators/schemas/fabricator.schema';
 import { Contract } from 'src/contracts/schemas/contract.schema';
 import { Catalog } from 'src/catalogs/schemas/catalog.schema';
 
@@ -31,7 +30,6 @@ export type Subjects =
 			| typeof Building
 			| typeof Catalog
 			| typeof Contract
-			| typeof Fabricator
 			| typeof Market
 			| typeof Note
 			| typeof Planet

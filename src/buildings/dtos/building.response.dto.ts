@@ -28,12 +28,10 @@ export class BuildingResponseDto {
 	startTime: Date;
 
 	@Expose()
-	@ApiProperty({ type: String })
 	@Type(() => ResourceResponseDto)
-	producing: string;
+	producing: ResourceResponseDto;
 
 	@Expose()
-	@ApiProperty({ type: [String] })
 	@Type(() => ResourceResponseDto)
-	queue: string[];
+	queue: ResourceResponseDto[];
 }
