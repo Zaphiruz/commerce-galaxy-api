@@ -6,15 +6,21 @@ export type StorageDocument = HydratedDocument<Storage>;
 
 @Schema()
 export class Storage {
-  @ApiProperty({ type: String })
-  _id: Types.ObjectId;
+	@ApiProperty({ type: String })
+	_id: Types.ObjectId;
 
-  @Prop()
-  name: string;
+	@Prop()
+	name: string;
 
-  constructor(storage?: Partial<Storage>) {
-    Object.assign(this, storage);
-  }
+	@Prop()
+	capacity: number;
+
+	@Prop()
+	location: string;
+
+	constructor(storage?: Partial<Storage>) {
+		Object.assign(this, storage);
+	}
 }
 
 export const StorageSchema = SchemaFactory.createForClass(Storage);
