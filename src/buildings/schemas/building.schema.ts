@@ -30,9 +30,9 @@ export class Building {
 	@ApiProperty({ type: String })
 	producing: Recipe | string;
 
-	@Prop([{ type: Types.ObjectId, ref: 'Recipe', default: [] }])
+	@Prop({ type: [Types.ObjectId], ref: 'Recipe', default: [] })
 	@ApiProperty({ type: [String] })
-	queue: (Recipe | string)[];
+	queue: Recipe[] | string[];
 
 	constructor(building?: Partial<Building>) {
 		Object.assign(this, building);
