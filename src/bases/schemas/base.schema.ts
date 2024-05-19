@@ -29,10 +29,6 @@ export class Base {
 	@ApiProperty({ type: String })
 	user: User | string;
 
-	@Prop({ type: Types.ObjectId, ref: 'Storage', required: true })
-	@ApiProperty({ type: String })
-	storage: Storage | string;
-
 	@Prop({ type: [Types.ObjectId], ref: Building.name, default: [] })
 	@ApiProperty({ type: [String] })
 	buildings: Building[] | string[];
