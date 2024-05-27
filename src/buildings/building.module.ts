@@ -5,6 +5,7 @@ import { BuildingService } from './building.service';
 import { Building, BuildingSchema } from './schemas/building.schema';
 import { CaslModule } from 'src/casl/casl.module';
 import { UsersModule } from 'src/users/user.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
 	imports: [
@@ -13,6 +14,7 @@ import { UsersModule } from 'src/users/user.module';
 		]),
 		CaslModule,
 		UsersModule,
+		HttpModule,
 	],
 	controllers: [BuildingController],
 	providers: [BuildingService],
